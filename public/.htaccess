@@ -1,0 +1,19 @@
+RewriteEngine On
+RewriteBase /
+
+# Block access to sensitive directories
+RewriteRule ^(config|app|database|logs|vendor)/ - [F,L]
+
+# Serve existing files/directories directly
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+# InfinityFree Fix: Prevent static assets from being sent to the router if !-f fails due to pathing
+RewriteCond %{REQUEST_URI} !\.(css|js|jpe?g|png|gif|svg|woff2?|ttf|eot|ico|webp)$ [NC]
+# Route everything else through front controller
+RewriteRule ^(.*)$ index.php [QSA,L]
+
+# Security Headers
+Header always set X-Frame-Options "SAMEORIGIN"
+Header always set X-XSS-Protection "1; mode=block"
+Header always set X-Content-Type-Options "nosniff"
+Header always set Referrer-Policy "strict-origin-when-cross-origin"

@@ -1,0 +1,36 @@
+name: CI/CD Deployment via FTP
+
+on:
+  push:
+    branches:
+      - main # Trigger deployment when code is pushed to the 'main' branch
+
+jobs:
+  web-deploy:
+    name: 🎉 Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - name: 🚚 Get latest code
+        uses: actions/checkout@v4
+      
+      - name: 📂 Sync files to InfinityFree via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          # Set the local directory you want to upload ('.' means the whole repository)
+          local-dir: ./
+          # Set the destination directory on the server (usually 'htdocs/' for InfinityFree)
+          server-dir: ./htdocs/
+          # Exclude files/folders you don't want to override on the server
+          exclude: |
+            **/.git*
+            **/.git*/**
+            **/node_modules/**
+            **/logs/**
+            **/public/uploads/**
+            database/**
+            README.md
+            seo_pages.sql
+            reset_password.php

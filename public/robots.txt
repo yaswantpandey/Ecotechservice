@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+Disallow: /admin/
+Disallow: /config/
+Disallow: /app/
+Disallow: /logs/
+
+Sitemap: http://ecotechservice.kesug.com/sitemap.xml
