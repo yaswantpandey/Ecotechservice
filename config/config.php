@@ -3,8 +3,17 @@
 // Ecotech Service — Core Configuration
 // ============================================================
 
+// ── Paths ────────────────────────────────────────────────────
+define('ROOT_PATH', dirname(__DIR__));
+
+// ── Load .env ────────────────────────────────────────────────
+$env = [];
+if (file_exists(ROOT_PATH . '/.env')) {
+    $env = parse_ini_file(ROOT_PATH . '/.env') ?: [];
+}
+
 // ── Environment ──────────────────────────────────────────────
-define('APP_ENV',  'development'); // 'production' on live server
+define('APP_ENV',  $env['APP_ENV'] ?? 'production'); // 'production' on live server
 define('APP_NAME', 'Ecotech Service');
 // Automatically detect protocol and host for safe deployment anywhere
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
@@ -14,10 +23,10 @@ define('APP_URL',  $protocol . $host . $base_dir);
 define('APP_VERSION', '1.0.0');
 
 // ── Database ─────────────────────────────────────────────────
-define('DB_HOST',    'localhost');
-define('DB_NAME',    'ecotech_service');
-define('DB_USER',    'root');
-define('DB_PASS',    '');
+define('DB_HOST',    $env['DB_HOST'] ?? 'localhost');
+define('DB_NAME',    $env['DB_NAME'] ?? 'ecotech_service');
+define('DB_USER',    $env['DB_USER'] ?? 'root');
+define('DB_PASS',    $env['DB_PASS'] ?? '');
 define('DB_CHARSET', 'utf8mb4');
 
 // ── Security ─────────────────────────────────────────────────
@@ -25,8 +34,6 @@ define('CSRF_SECRET', 'EcoTech@CSRF#2024$Secret!Key');
 define('SESSION_NAME', 'ecotech_session');
 define('BCRYPT_COST',  12);
 
-// ── Paths ────────────────────────────────────────────────────
-define('ROOT_PATH',    dirname(__DIR__));
 define('PUBLIC_PATH',  ROOT_PATH . '/public');
 define('UPLOAD_PATH',  PUBLIC_PATH . '/uploads');
 define('UPLOAD_URL',   APP_URL . '/uploads');
