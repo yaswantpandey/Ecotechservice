@@ -4,7 +4,7 @@
 // ============================================================
 
 // ── Environment ──────────────────────────────────────────────
-define('APP_ENV',  'production'); // 'production' on live server
+define('APP_ENV',  'development'); // 'production' on live server
 define('APP_NAME', 'Ecotech Service');
 // Automatically detect protocol and host for safe deployment anywhere
 $protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
