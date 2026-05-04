@@ -22,7 +22,7 @@ jobs:
           # Set the local directory you want to upload ('.' means the whole repository)
           local-dir: ./
           # Set the destination directory on the server (usually 'htdocs/' for InfinityFree)
-          server-dir: ./htdocs/
+          server-dir: ./ecotechservice.kesug.com/htdocs/
           # Exclude files/folders you don't want to override on the server
           exclude: |
             **/.git*
