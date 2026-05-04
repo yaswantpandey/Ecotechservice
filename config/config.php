@@ -30,7 +30,7 @@ define('DB_PASS',    $env['DB_PASS'] ?? '');
 define('DB_CHARSET', 'utf8mb4');
 
 // ── Security ─────────────────────────────────────────────────
-define('CSRF_SECRET', 'EcoTech@CSRF#2024$Secret!Key');
+define('CSRF_SECRET', $env['CSRF_SECRET'] ?? 'EcoTech@CSRF#2024$Secret!Key');
 define('SESSION_NAME', 'ecotech_session');
 define('BCRYPT_COST',  12);
 
@@ -39,15 +39,15 @@ define('UPLOAD_PATH',  PUBLIC_PATH . '/uploads');
 define('UPLOAD_URL',   APP_URL . '/uploads');
 
 // ── Email (SMTP) ─────────────────────────────────────────────
-define('SMTP_HOST',     'smtp.gmail.com');
-define('SMTP_PORT',     587);
-define('SMTP_USER',     'your_email@gmail.com');
-define('SMTP_PASS',     'your_app_password');
-define('SMTP_FROM',     'hello@ecotechservice.com');
-define('SMTP_FROM_NAME', 'Ecotech Service');
+define('SMTP_HOST',     $env['SMTP_HOST'] ?? 'smtp.gmail.com');
+define('SMTP_PORT',     $env['SMTP_PORT'] ?? 587);
+define('SMTP_USER',     $env['SMTP_USER'] ?? 'your_email@gmail.com');
+define('SMTP_PASS',     $env['SMTP_PASS'] ?? 'your_app_password');
+define('SMTP_FROM',     $env['SMTP_FROM'] ?? 'hello@ecotechservice.com');
+define('SMTP_FROM_NAME', $env['SMTP_FROM_NAME'] ?? 'Ecotech Service');
 
 // ── WhatsApp ─────────────────────────────────────────────────
-define('WHATSAPP_NUMBER', '18001234567');
+define('WHATSAPP_NUMBER', $env['WHATSAPP_NUMBER'] ?? '18001234567');
 
 // ── Upload Limits ─────────────────────────────────────────────
 define('MAX_FILE_SIZE',  5 * 1024 * 1024); // 5 MB
