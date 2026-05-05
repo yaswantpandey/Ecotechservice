@@ -66,13 +66,13 @@
   <link rel="stylesheet" href="<?= url('assets/css/style.css') ?>">
 
   <!-- Google tag (gtag.js) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4ZPQCKJ3EL"></script>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-YDLMY8N3C4"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
     function gtag(){dataLayer.push(arguments);}
     gtag('js', new Date());
 
-    gtag('config', 'G-4ZPQCKJ3EL');
+    gtag('config', 'G-YDLMY8N3C4');
   </script>
 
   <!-- Google Tag Manager -->
