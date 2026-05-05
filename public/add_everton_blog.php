@@ -1,6 +1,9 @@
 <?php
 require_once __DIR__ . '/../config/config.php';
 
+ini_set('display_errors', 1);
+error_reporting(E_ALL);
+
 try {
     $db = new PDO(
         "mysql:host=" . DB_HOST . ";dbname=" . DB_NAME . ";charset=utf8mb4",
@@ -35,14 +38,27 @@ $body = <<<HTML
 <p>As we prepare for <strong>Man City vs</strong> the Merseyside Blues, the entire football world is watching. Will <strong>Man City</strong> continue their march to the top of the <strong>Premier League table</strong>, or will <strong>Everton</strong> pull off a stunning upset? Stay tuned to our blog for more <strong>EPL results</strong> and updates on <strong>Man City games</strong>!</p>
 HTML;
 
-$user_id = 1;
+try {
+    // Dynamically get the first user to avoid foreign key constraints
+    $userStmt = $db->query("SELECT id FROM users LIMIT 1");
+    $user = $userStmt->fetch();
+    
+    if (!$user) {
+        die("Error: No users exist in the database. Cannot assign a blog author.");
+    }
+    
+    $user_id = $user['id'];
 
-$stmt = $db->prepare("INSERT INTO blog_posts (user_id, title, slug, excerpt, body, is_published, published_at) VALUES (?, ?, ?, ?, ?, 1, NOW()) ON DUPLICATE KEY UPDATE body=VALUES(body), excerpt=VALUES(excerpt)");
+    $stmt = $db->prepare("INSERT INTO blog_posts (user_id, title, slug, excerpt, body, is_published, published_at) VALUES (?, ?, ?, ?, ?, 1, NOW()) ON DUPLICATE KEY UPDATE body=VALUES(body), excerpt=VALUES(excerpt)");
 
-if ($stmt->execute([$user_id, $title, $slug, $excerpt, $body])) {
-    echo "<h3>Success! The 'Everton vs Man City' blog has been published.</h3>";
-    echo "<a href='" . APP_URL . "blog'>Go to Blog Page</a>";
-} else {
-    echo "Failed to publish blog.";
+    if ($stmt->execute([$user_id, $title, $slug, $excerpt, $body])) {
+        echo "<h3>Success! The 'Everton vs Man City' blog has been published.</h3>";
+        echo "<a href='" . APP_URL . "blog'>Go to Blog Page</a>";
+    } else {
+        echo "Failed to publish blog.";
+    }
+} catch (Exception $e) {
+    echo "<h3>Error Occurred:</h3>";
+    echo "<p>" . $e->getMessage() . "</p>";
 }
 ?>
