@@ -1,5 +1,5 @@
 <?php
-require_once 'config/config.php';
+require_once __DIR__ . '/../config/config.php';
 
 try {
     $db = new PDO(
@@ -46,8 +46,9 @@ foreach ($trends as $trend) {
         $excerpt,
         $trend['content']
     ]);
-    echo "Inserted: " . $trend['title'] . "\n";
+    echo "Inserted: " . $trend['title'] . "<br>\n";
 }
 
-echo "All trending topics injected successfully!\n";
+echo "<h3>All trending topics injected successfully!</h3>\n";
+echo "<a href='" . APP_URL . "blog'>Go to Blog</a>";
 ?>
