@@ -65,11 +65,15 @@
   <!-- Custom CSS -->
   <link rel="stylesheet" href="<?= url('assets/css/style.css') ?>">
 
-  <!-- Google Analytics -->
-  <?php if ($ga = setting('google_analytics_id')): ?>
-  <script async src="https://www.googletagmanager.com/gtag/js?id=<?= Security::e($ga) ?>"></script>
-  <script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','<?= Security::e($ga) ?>');</script>
-  <?php endif; ?>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-4ZPQCKJ3EL"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+
+    gtag('config', 'G-4ZPQCKJ3EL');
+  </script>
 
   <!-- Google Tag Manager -->
   <script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
