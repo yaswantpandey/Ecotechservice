@@ -30,10 +30,21 @@ class AuthController extends \BaseController {
             redirect(url('admin/login'));
         }
 
-        // Rate limiting (simple session-based)
+        // Rate limiting (simple session-based) with 5-minute timeout
+        $now = time();
+        $lastAttempt = $_SESSION['last_attempt_time'] ?? 0;
+        
+        // Reset attempts if 5 minutes (300 seconds) have passed since the last attempt
+        if ($now - $lastAttempt > 300) {
+            $_SESSION['login_attempts'] = 0;
+        }
+        
         $_SESSION['login_attempts'] = ($_SESSION['login_attempts'] ?? 0) + 1;
+        $_SESSION['last_attempt_time'] = $now;
+
         if ($_SESSION['login_attempts'] > 5) {
-            setFlash('error', 'Too many failed attempts. Please wait a moment.');
+            $remaining = ceil((300 - ($now - $lastAttempt)) / 60);
+            setFlash('error', "Too many failed attempts. Please wait {$remaining} minutes.");
             redirect(url('admin/login'));
         }
 
