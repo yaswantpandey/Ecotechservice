@@ -96,11 +96,8 @@
       <div class="flex items-center justify-between h-20">
 
         <!-- Logo -->
-        <a href="<?= url() ?>" class="flex items-center space-x-3 group">
-          <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-eco-400 to-eco-600 flex items-center justify-center shadow-lg shadow-eco-500/30 group-hover:shadow-eco-500/50 transition-shadow duration-300">
-            <i class="fas fa-leaf text-white text-lg"></i>
-          </div>
-          <span class="font-display font-bold text-xl text-white">Ecotech <span class="text-eco-400">Service</span></span>
+        <a href="<?= url() ?>" class="flex items-center group">
+          <img src="<?= url('assets/img/logo.png') ?>" alt="Ecotech Service Logo" class="h-12 w-auto object-contain group-hover:opacity-90 transition-opacity duration-300" loading="eager">
         </a>
 
         <!-- Desktop Menu -->
@@ -193,11 +190,8 @@
 
         <!-- Brand -->
         <div class="lg:col-span-2">
-          <div class="flex items-center space-x-3 mb-4">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-eco-400 to-eco-600 flex items-center justify-center">
-              <i class="fas fa-leaf text-white text-lg"></i>
-            </div>
-            <span class="font-display font-bold text-xl text-white">Ecotech <span class="text-eco-400">Service</span></span>
+          <div class="mb-4">
+            <img src="<?= url('assets/img/logo.png') ?>" alt="Ecotech Service Logo" class="h-14 w-auto object-contain" loading="lazy">
           </div>
           <p class="text-gray-400 text-sm leading-relaxed max-w-md mb-6">
             <?= Security::e(setting('site_tagline')) ?> — We build digital solutions that drive growth and sustainability for modern businesses.
