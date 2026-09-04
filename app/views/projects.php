@@ -107,11 +107,19 @@
             <?php endif; ?>
           </div>
 
-          <!-- Footer Link -->
-          <a href="<?= url('projects/view?slug=' . urlencode($p['slug'])) ?>"
-             class="portfolio-link">
-            View Details <i class="fas fa-arrow-right ml-1 text-xs transition-transform group-hover:translate-x-1"></i>
-          </a>
+          <!-- Footer Links -->
+          <div class="portfolio-footer-links">
+            <a href="<?= url('projects/view?slug=' . urlencode($p['slug'])) ?>"
+               class="portfolio-link">
+              View Details <i class="fas fa-arrow-right ml-1 text-xs"></i>
+            </a>
+            <?php if ($p['live_url']): ?>
+            <a href="<?= Security::e($p['live_url']) ?>" target="_blank" rel="noopener"
+               class="portfolio-link portfolio-link--external">
+              <i class="fas fa-external-link-alt mr-1 text-xs"></i>Visit Site
+            </a>
+            <?php endif; ?>
+          </div>
         </div>
       </article>
       <?php endforeach; ?>

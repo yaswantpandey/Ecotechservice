@@ -581,6 +581,14 @@ body { font-family: 'Inter', system-ui, sans-serif; }
 }
 
 /* ── Card Footer Link ────────────────────────────────────────── */
+.portfolio-footer-links {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  padding-top: 1rem;
+  gap: 0.5rem;
+}
 .portfolio-link {
   display: inline-flex;
   align-items: center;
@@ -588,11 +596,14 @@ body { font-family: 'Inter', system-ui, sans-serif; }
   font-weight: 600;
   color: var(--eco-400);
   text-decoration: none;
-  border-top: 1px solid rgba(255,255,255,0.06);
-  padding-top: 1rem;
   transition: color 0.2s;
 }
 .portfolio-link:hover { color: var(--eco-500); }
+.portfolio-link--external {
+  color: rgba(255,255,255,0.35);
+  font-weight: 500;
+}
+.portfolio-link--external:hover { color: rgba(255,255,255,0.7); }
 
 /* ── Empty State ─────────────────────────────────────────────── */
 .portfolio-empty {
