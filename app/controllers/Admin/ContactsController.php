@@ -15,7 +15,7 @@ class ContactsController extends \BaseController {
         ]);
     }
 
-    public function view(): void {
+    public function show(): void {
         requireAdmin();
         $id   = (int)($_GET['id'] ?? 0);
         $stmt = $this->db->prepare("SELECT * FROM contacts WHERE id = ?");

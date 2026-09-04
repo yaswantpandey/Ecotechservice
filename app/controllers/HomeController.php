@@ -25,13 +25,21 @@ class HomeController extends BaseController {
         $stmt->execute();
         $testimonials = $stmt->fetchAll();
 
+        // Featured templates preview
+        $stmt = $this->db->prepare(
+            "SELECT * FROM templates WHERE is_active = 1 ORDER BY created_at DESC LIMIT 3"
+        );
+        $stmt->execute();
+        $templates = $stmt->fetchAll();
+
         $this->view('home', [
             'featuredProjects' => $featuredProjects,
-            'services' => $services,
-            'testimonials' => $testimonials,
-            'pageTitle' => APP_NAME . ' | Web Development, Digital Marketing & Eco-Tech Solutions',
-            'metaDescription' => 'Ecotech Service builds websites, web apps, digital marketing campaigns, and eco-technology solutions that help modern businesses grow sustainably.',
-            'canonicalPath' => '',
+            'services'         => $services,
+            'testimonials'     => $testimonials,
+            'templates'        => $templates,
+            'pageTitle'        => APP_NAME . ' | Web Development, Digital Marketing & Eco-Tech Solutions',
+            'metaDescription'  => 'Ecotech Service builds websites, web apps, digital marketing campaigns, and eco-technology solutions that help modern businesses grow sustainably.',
+            'canonicalPath'    => '',
         ]);
     }
 }

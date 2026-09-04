@@ -1,5 +1,6 @@
 RewriteEngine On
-RewriteBase /
+# RewriteBase not needed and breaks subfolder deployments (e.g. /Ecotechservice/public/)
+
 
 # Block access to sensitive directories
 RewriteRule ^(config|app|database|logs|vendor)/ - [F,L]
