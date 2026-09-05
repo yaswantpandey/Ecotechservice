@@ -38,6 +38,7 @@
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined|Material+Icons" rel="stylesheet">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
@@ -196,472 +197,521 @@
   height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
   <!-- End Google Tag Manager (noscript) -->
 
-  <!-- ══ MOBILE TOP BAR (< md) ════════════════════════════════════════ -->
-  <header id="mobileAppHeader"
-          class="fixed top-0 left-0 right-0 z-50 md:hidden"
-          style="background:rgba(3,7,18,0.92);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);border-bottom:1px solid rgba(255,255,255,0.06);">
-    <div class="flex items-center justify-between h-[56px] px-4">
+  <!-- ══ ONE SIMPLE UNIFIED NAVBAR ════════════════════════════════════ -->
+  <header id="navbar" class="site-navbar fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
+      <div class="flex items-center justify-between h-[76px] md:h-[84px] lg:h-[88px]">
 
-      <!-- Brand -->
-      <a href="<?= url() ?>" style="display:flex;align-items:center;text-decoration:none;">
-        <img src="<?= url('assets/img/logo.png') ?>?v=<?= file_exists(PUBLIC_PATH . '/assets/img/logo.png') ? filemtime(PUBLIC_PATH . '/assets/img/logo.png') : '2' ?>"
-             alt="EcoTech Services" loading="eager"
-             style="height:46px;width:auto;object-fit:contain;mix-blend-mode:screen;filter:brightness(1.3) contrast(1.1);">
-      </a>
-
-      <!-- Right: WA + Hamburger -->
-      <div class="flex items-center gap-2">
-        <a href="https://wa.me/<?= setting('whatsapp_number') ?>?text=Hello%20Ecotech%20Team%2C%20I%20want%20to%20discuss%20a%20project."
-           target="_blank" aria-label="WhatsApp"
-           style="width:34px;height:34px;border-radius:8px;background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.22);display:flex;align-items:center;justify-content:center;color:#25D366;transition:.2s;">
-          <i class="fab fa-whatsapp" style="font-size:14px;"></i>
+        <!-- ── 1. Company Logo (Significantly Increased Size) ──────────── -->
+        <a href="<?= url() ?>" class="site-logo-link flex items-center shrink-0 py-1" aria-label="EcoTech Services Home">
+          <img src="<?= url('assets/img/logo.png') ?>?v=<?= file_exists(PUBLIC_PATH . '/assets/img/logo.png') ? filemtime(PUBLIC_PATH . '/assets/img/logo.png') : '3' ?>"
+               alt="EcoTech Services"
+               class="site-logo"
+               loading="eager">
         </a>
-        <button id="mobileDrawerOpen" type="button" aria-label="Open menu"
-                style="width:34px;height:34px;border-radius:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.08);display:flex;align-items:center;justify-content:center;color:#cbd5e1;transition:.2s;">
-          <i class="fas fa-bars" style="font-size:13px;"></i>
-        </button>
+
+        <!-- ── 2. Center Nav Links (Desktop — Clean Rectangular, Material UI Icons) ── -->
+        <nav class="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Main Navigation">
+          <?php
+          $current = trim(parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH), '/');
+          $base    = trim(parse_url(APP_URL, PHP_URL_PATH) ?? '', '/') . '/public/';
+          $page    = str_replace($base, '', $current);
+
+          $navItems = [
+            ''          => ['label' => 'Home',      'icon' => 'home'],
+            'about'     => ['label' => 'About',     'icon' => 'info'],
+            'services'  => ['label' => 'Services',  'icon' => 'miscellaneous_services', 'hasDropdown' => true],
+            'projects'  => ['label' => 'Portfolio', 'icon' => 'work_outline'],
+            'templates' => ['label' => 'Templates', 'icon' => 'dashboard_customize'],
+            'blog'      => ['label' => 'Blog',      'icon' => 'article'],
+            'contact'   => ['label' => 'Contact',   'icon' => 'mail_outline'],
+          ];
+
+          foreach ($navItems as $path => $item):
+            $isActive = ($page === $path);
+            $hasDropdown = !empty($item['hasDropdown']);
+          ?>
+
+          <?php if ($hasDropdown): ?>
+          <!-- Services Dropdown (Rectangular styling, No circular design) -->
+          <div class="nav-dropdown-wrapper relative group" id="servicesDropdown">
+            <a href="<?= url('services') ?>"
+               class="nav-link <?= $isActive ? 'nav-link-active' : '' ?>"
+               aria-expanded="false"
+               aria-haspopup="true">
+              <span class="material-icons-outlined nav-link-icon"><?= $item['icon'] ?></span>
+              <span class="nav-link-text"><?= $item['label'] ?></span>
+              <span class="material-icons-outlined nav-dropdown-arrow transition-transform duration-200 group-hover:rotate-180">expand_more</span>
+            </a>
+
+            <!-- Dropdown Panel (Sleek rectangular card, rounded-md) -->
+            <div class="nav-dropdown-menu absolute top-full left-1/2 -translate-x-1/2 pt-2 opacity-0 invisible pointer-events-none group-hover:opacity-100 group-hover:visible group-hover:pointer-events-auto transition-all duration-200 transform translate-y-1 group-hover:translate-y-0 z-50">
+              <div class="nav-dropdown-box w-[520px] p-4 bg-[#070d18]/95 backdrop-blur-xl border border-slate-800 shadow-2xl rounded-md">
+                <div class="flex items-center justify-between pb-3 mb-3 border-b border-slate-800/80 px-2">
+                  <span class="text-[11px] font-bold uppercase tracking-wider text-slate-400 flex items-center gap-1.5">
+                    <span class="material-icons-outlined text-sm text-eco-400">layers</span>
+                    Engineering &amp; IT Solutions
+                  </span>
+                  <span class="text-[11px] text-slate-500 font-medium">Enterprise Grade</span>
+                </div>
+
+                <div class="grid grid-cols-2 gap-2">
+                  <a href="<?= url('services#web') ?>" class="nav-dropdown-item group/item">
+                    <div class="nav-drop-icon bg-eco-500/10 border border-eco-500/20 text-eco-400 group-hover/item:bg-eco-500/20 group-hover/item:border-eco-500/40">
+                      <span class="material-icons-outlined text-base">code</span>
+                    </div>
+                    <div>
+                      <div class="text-xs font-semibold text-slate-200 group-hover/item:text-white">Web Development</div>
+                      <div class="text-[11px] text-slate-400 line-clamp-1">Enterprise apps &amp; portals</div>
+                    </div>
+                  </a>
+
+                  <a href="<?= url('services#mobile') ?>" class="nav-dropdown-item group/item">
+                    <div class="nav-drop-icon bg-blue-500/10 border border-blue-500/20 text-blue-400 group-hover/item:bg-blue-500/20 group-hover/item:border-blue-500/40">
+                      <span class="material-icons-outlined text-base">smartphone</span>
+                    </div>
+                    <div>
+                      <div class="text-xs font-semibold text-slate-200 group-hover/item:text-white">Mobile Apps</div>
+                      <div class="text-[11px] text-slate-400 line-clamp-1">iOS, Android &amp; Flutter</div>
+                    </div>
+                  </a>
+
+                  <a href="<?= url('services#cloud') ?>" class="nav-dropdown-item group/item">
+                    <div class="nav-drop-icon bg-purple-500/10 border border-purple-500/20 text-purple-400 group-hover/item:bg-purple-500/20 group-hover/item:border-purple-500/40">
+                      <span class="material-icons-outlined text-base">cloud</span>
+                    </div>
+                    <div>
+                      <div class="text-xs font-semibold text-slate-200 group-hover/item:text-white">Cloud &amp; DevOps</div>
+                      <div class="text-[11px] text-slate-400 line-clamp-1">AWS, GCP &amp; CI/CD</div>
+                    </div>
+                  </a>
+
+                  <a href="<?= url('services#security') ?>" class="nav-dropdown-item group/item">
+                    <div class="nav-drop-icon bg-amber-500/10 border border-amber-500/20 text-amber-400 group-hover/item:bg-amber-500/20 group-hover/item:border-amber-500/40">
+                      <span class="material-icons-outlined text-base">security</span>
+                    </div>
+                    <div>
+                      <div class="text-xs font-semibold text-slate-200 group-hover/item:text-white">Web Security &amp; VAPT</div>
+                      <div class="text-[11px] text-slate-400 line-clamp-1">OWASP audits &amp; pen-testing</div>
+                    </div>
+                  </a>
+
+                  <a href="<?= url('services#seo') ?>" class="nav-dropdown-item group/item">
+                    <div class="nav-drop-icon bg-rose-500/10 border border-rose-500/20 text-rose-400 group-hover/item:bg-rose-500/20 group-hover/item:border-rose-500/40">
+                      <span class="material-icons-outlined text-base">trending_up</span>
+                    </div>
+                    <div>
+                      <div class="text-xs font-semibold text-slate-200 group-hover/item:text-white">SEO &amp; Marketing</div>
+                      <div class="text-[11px] text-slate-400 line-clamp-1">Growth &amp; search rankings</div>
+                    </div>
+                  </a>
+
+                  <a href="<?= url('services#design') ?>" class="nav-dropdown-item group/item">
+                    <div class="nav-drop-icon bg-cyan-500/10 border border-cyan-500/20 text-cyan-400 group-hover/item:bg-cyan-500/20 group-hover/item:border-cyan-500/40">
+                      <span class="material-icons-outlined text-base">palette</span>
+                    </div>
+                    <div>
+                      <div class="text-xs font-semibold text-slate-200 group-hover/item:text-white">UI/UX Design</div>
+                      <div class="text-[11px] text-slate-400 line-clamp-1">Design systems &amp; prototypes</div>
+                    </div>
+                  </a>
+                </div>
+
+                <div class="mt-3 pt-3 border-t border-slate-800/80 flex items-center justify-between px-2">
+                  <a href="<?= url('services') ?>" class="text-xs font-semibold text-eco-400 hover:text-eco-300 flex items-center gap-1.5 transition-colors">
+                    <span>View All Services</span>
+                    <span class="material-icons-outlined text-sm">arrow_forward</span>
+                  </a>
+                  <a href="<?= url('contact') ?>" class="text-[11px] font-semibold text-slate-300 bg-slate-800/80 hover:bg-slate-700/80 border border-slate-700 px-2.5 py-1 rounded-sm flex items-center gap-1 transition-colors">
+                    <span class="material-icons-outlined text-xs text-amber-400">bolt</span>
+                    <span>Free Tech Consultation</span>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
+          <?php else: ?>
+          <a href="<?= url($path) ?>"
+             class="nav-link <?= $isActive ? 'nav-link-active' : '' ?>">
+            <span class="material-icons-outlined nav-link-icon"><?= $item['icon'] ?></span>
+            <span class="nav-link-text"><?= $item['label'] ?></span>
+          </a>
+          <?php endif; ?>
+          <?php endforeach; ?>
+        </nav>
+
+        <!-- ── 3. Right Action Buttons (Rectangular, Strictly No Circular Design) ── -->
+        <div class="flex items-center gap-2.5">
+          <!-- WhatsApp Button (Desktop - Clean Rectangular) -->
+          <a href="https://wa.me/<?= setting('whatsapp_number') ?>?text=Hello%20Ecotech%20Team%2C%20I%20want%20to%20discuss%20a%20project."
+             target="_blank"
+             class="hidden sm:inline-flex nav-btn-whatsapp"
+             aria-label="Chat on WhatsApp">
+            <span class="nav-status-square"></span>
+            <span class="material-icons-outlined text-base">chat</span>
+            <span>WhatsApp</span>
+          </a>
+
+          <!-- Primary CTA Button (Clean Rectangular) -->
+          <a href="<?= url('contact') ?>" class="hidden md:inline-flex nav-btn-primary">
+            <span>Get a Quote</span>
+            <span class="material-icons-outlined text-sm">arrow_forward</span>
+          </a>
+
+          <!-- Mobile WhatsApp Icon Button (Square, No circle) -->
+          <a href="https://wa.me/<?= setting('whatsapp_number') ?>?text=Hello%20Ecotech%20Team%2C%20I%20want%20to%20discuss%20a%20project."
+             target="_blank"
+             class="sm:hidden nav-icon-btn-whatsapp"
+             aria-label="WhatsApp">
+            <span class="material-icons-outlined text-lg">chat</span>
+          </a>
+
+          <!-- Mobile Hamburger Toggle Button (Clean Square, No circle) -->
+          <button id="mobileDrawerOpen" type="button" aria-label="Open Navigation Menu"
+                  class="lg:hidden nav-toggle-btn">
+            <span class="material-icons-outlined text-2xl text-slate-200">menu</span>
+          </button>
+        </div>
+
       </div>
     </div>
   </header>
 
-  <!-- ══ MOBILE DRAWER (< md) ══════════════════════════════════════════ -->
-  <div id="mobileDrawer" class="fixed inset-0 z-[60] md:hidden" style="visibility:hidden;">
-    <!-- Backdrop -->
-    <div id="mobileDrawerOverlay"
-         style="position:absolute;inset:0;background:rgba(0,0,0,0.7);backdrop-filter:blur(4px);-webkit-backdrop-filter:blur(4px);"></div>
+  <!-- ══ MOBILE DRAWER MENU (Responsive Slide Panel) ══════════════════ -->
+  <div id="mobileDrawer" class="fixed inset-0 z-[60] lg:hidden" style="visibility:hidden;">
+    <!-- Backdrop Overlay -->
+    <div id="mobileDrawerOverlay" class="absolute inset-0 bg-black/75 backdrop-blur-sm transition-opacity"></div>
 
-    <!-- Slide Panel -->
+    <!-- Slide Panel (Clean Rectangular, No circular design) -->
     <div id="mobileDrawerContent"
-         style="position:absolute;top:0;right:0;bottom:0;width:82%;max-width:300px;background:#050d0a;border-left:1px solid rgba(255,255,255,0.07);display:flex;flex-direction:column;overflow-y:auto;transform:translateX(100%);transition:transform .3s cubic-bezier(.4,0,.2,1);">
+         class="absolute top-0 right-0 bottom-0 w-[84%] max-w-[320px] bg-[#050a14] border-l border-slate-800 flex flex-col overflow-y-auto transform translate-x-full transition-transform duration-300 ease-out">
 
-      <!-- Panel Header -->
-      <div style="padding:18px 20px 16px;border-bottom:1px solid rgba(255,255,255,0.06);display:flex;align-items:center;justify-content:space-between;">
-        <a href="<?= url() ?>" style="display:flex;align-items:center;text-decoration:none;">
-          <img src="<?= url('assets/img/logo.png') ?>?v=<?= file_exists(PUBLIC_PATH . '/assets/img/logo.png') ? filemtime(PUBLIC_PATH . '/assets/img/logo.png') : '2' ?>"
+      <!-- Drawer Header (Enlarged Logo + Rectangular Close Button) -->
+      <div class="p-4 border-b border-slate-800/80 flex items-center justify-between bg-slate-950/50">
+        <a href="<?= url() ?>" class="flex items-center" aria-label="EcoTech Services">
+          <img src="<?= url('assets/img/logo.png') ?>?v=<?= file_exists(PUBLIC_PATH . '/assets/img/logo.png') ? filemtime(PUBLIC_PATH . '/assets/img/logo.png') : '3' ?>"
                alt="EcoTech Services"
-               style="height:46px;width:auto;object-fit:contain;mix-blend-mode:screen;filter:brightness(1.3) contrast(1.1);">
+               class="site-logo-mobile"
+               loading="eager">
         </a>
-        <button id="mobileDrawerClose" type="button" aria-label="Close"
-                style="width:32px;height:32px;border-radius:8px;background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.07);display:flex;align-items:center;justify-content:center;color:#64748b;cursor:pointer;">
-          <i class="fas fa-times" style="font-size:12px;"></i>
+        <button id="mobileDrawerClose" type="button" aria-label="Close menu"
+                class="w-9 h-9 rounded-md bg-slate-900 border border-slate-800 text-slate-400 hover:text-white hover:bg-slate-800 flex items-center justify-center transition-colors">
+          <span class="material-icons-outlined text-xl">close</span>
         </button>
       </div>
 
-      <!-- Nav Links -->
-      <nav style="padding:12px 12px;flex:1;">
+      <!-- Drawer Nav Links (With Material UI Icons, Rectangular Cards) -->
+      <nav class="p-3 flex-1 space-y-1">
         <?php
-        $current = trim(parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH), '/');
-        $base    = trim(parse_url(APP_URL, PHP_URL_PATH) ?? '', '/') . '/public/';
-        $page    = str_replace($base, '', $current);
-
-        $drawerItems = [
-          ['path' => '',          'label' => 'Home',         'icon' => 'fa-house',       'desc' => 'Back to home'],
-          ['path' => 'about',     'label' => 'About',        'icon' => 'fa-circle-info', 'desc' => 'Our story & team'],
-          ['path' => 'services',  'label' => 'Services',     'icon' => 'fa-cubes',       'desc' => 'What we build'],
-          ['path' => 'projects',  'label' => 'Portfolio',    'icon' => 'fa-briefcase',   'desc' => 'Client work'],
-          ['path' => 'templates', 'label' => 'Templates',    'icon' => 'fa-layer-group', 'desc' => 'Ready-made themes'],
-          ['path' => 'blog',      'label' => 'Blog',         'icon' => 'fa-newspaper',   'desc' => 'Tech insights'],
-          ['path' => 'contact',   'label' => 'Contact',      'icon' => 'fa-envelope',    'desc' => 'Get in touch'],
+        $mobileDrawerList = [
+          ['path' => '',          'label' => 'Home',         'icon' => 'home',                   'desc' => 'Main landing page'],
+          ['path' => 'about',     'label' => 'About Us',     'icon' => 'info',                   'desc' => 'Company & mission'],
+          ['path' => 'services',  'label' => 'Services',     'icon' => 'miscellaneous_services', 'desc' => 'IT & Engineering solutions'],
+          ['path' => 'projects',  'label' => 'Portfolio',    'icon' => 'work_outline',           'desc' => 'Client work & case studies'],
+          ['path' => 'templates', 'label' => 'Templates',    'icon' => 'dashboard_customize',   'desc' => 'Ready software systems'],
+          ['path' => 'blog',      'label' => 'Blog & News',  'icon' => 'article',                'desc' => 'Technical insights'],
+          ['path' => 'contact',   'label' => 'Contact Us',   'icon' => 'mail_outline',           'desc' => 'Reach our engineering team'],
         ];
-        foreach ($drawerItems as $dItem):
-          $isActive = ($page === $dItem['path']);
+
+        foreach ($mobileDrawerList as $mItem):
+          $isActive = ($page === $mItem['path']);
         ?>
-        <a href="<?= url($dItem['path']) ?>"
-           style="display:flex;align-items:center;gap:12px;padding:10px 12px;border-radius:10px;margin-bottom:2px;text-decoration:none;transition:.15s;<?= $isActive ? 'background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.18);' : 'border:1px solid transparent;' ?>">
-          <div style="width:34px;height:34px;border-radius:8px;<?= $isActive ? 'background:rgba(74,222,128,0.15);border:1px solid rgba(74,222,128,0.25);' : 'background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.07);' ?>display:flex;align-items:center;justify-content:center;flex-shrink:0;">
-            <i class="fas <?= $dItem['icon'] ?>" style="font-size:12px;<?= $isActive ? 'color:#4ade80;' : 'color:#64748b;' ?>"></i>
+        <a href="<?= url($mItem['path']) ?>"
+           class="flex items-center gap-3 p-2.5 rounded-md border transition-colors <?= $isActive ? 'bg-eco-500/10 border-eco-500/30 text-eco-400' : 'border-transparent text-slate-300 hover:bg-slate-900/80 hover:border-slate-800' ?>">
+          <div class="w-9 h-9 rounded-md flex items-center justify-center shrink-0 <?= $isActive ? 'bg-eco-500/20 text-eco-400 border border-eco-500/40' : 'bg-slate-900 border border-slate-800 text-slate-400' ?>">
+            <span class="material-icons-outlined text-lg"><?= $mItem['icon'] ?></span>
           </div>
-          <div style="flex:1;min-width:0;">
-            <div style="font-size:13px;font-weight:600;<?= $isActive ? 'color:#4ade80;' : 'color:#e2e8f0;' ?>"><?= $dItem['label'] ?></div>
-            <div style="font-size:10px;color:rgba(255,255,255,0.3);margin-top:1px;"><?= $dItem['desc'] ?></div>
+          <div class="flex-1 min-w-0">
+            <div class="text-sm font-semibold <?= $isActive ? 'text-eco-400' : 'text-slate-200' ?>"><?= $mItem['label'] ?></div>
+            <div class="text-[11px] text-slate-500 truncate"><?= $mItem['desc'] ?></div>
           </div>
-          <i class="fas fa-chevron-right" style="font-size:9px;color:rgba(255,255,255,0.18);"></i>
+          <span class="material-icons-outlined text-base text-slate-600">chevron_right</span>
         </a>
         <?php endforeach; ?>
       </nav>
 
-      <!-- Footer CTAs -->
-      <div style="padding:16px 16px 24px;border-top:1px solid rgba(255,255,255,0.06);display:flex;flex-direction:column;gap:8px;">
+      <!-- Drawer Bottom Actions (Clean Rectangular, No circles) -->
+      <div class="p-4 border-t border-slate-800/80 space-y-2.5 bg-slate-950/60">
         <a href="https://wa.me/<?= setting('whatsapp_number') ?>?text=Hello%20Ecotech%20Team%2C%20I%20want%20to%20discuss%20a%20project."
            target="_blank"
-           style="display:flex;align-items:center;justify-content:center;gap:8px;width:100%;padding:11px;background:#25D366;border-radius:10px;font-size:13px;font-weight:600;color:#fff;text-decoration:none;transition:.2s;">
-          <i class="fab fa-whatsapp" style="font-size:15px;"></i>
+           class="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-md bg-[#25D366] hover:bg-[#20ba59] text-white font-semibold text-xs tracking-wide shadow-md transition-colors">
+          <span class="material-icons-outlined text-base">chat</span>
           <span>Chat on WhatsApp</span>
         </a>
         <a href="<?= url('contact') ?>"
-           style="display:flex;align-items:center;justify-content:center;gap:6px;width:100%;padding:11px;background:rgba(74,222,128,0.1);border:1px solid rgba(74,222,128,0.25);border-radius:10px;font-size:13px;font-weight:600;color:#4ade80;text-decoration:none;transition:.2s;">
+           class="flex items-center justify-center gap-2 w-full py-2.5 px-4 rounded-md bg-eco-500/15 hover:bg-eco-500/25 border border-eco-500/30 text-eco-400 font-semibold text-xs tracking-wide transition-colors">
           <span>Request Free Quote</span>
-          <i class="fas fa-arrow-right" style="font-size:10px;"></i>
+          <span class="material-icons-outlined text-sm">arrow_forward</span>
         </a>
       </div>
     </div>
   </div>
 
-  <!-- ══ DESKTOP NAVBAR (≥ md) ═════════════════════════════════════════ -->
-  <nav id="navbar" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300"
-       style="background:transparent;">
-    <div class="max-w-7xl mx-auto px-6 lg:px-8">
-      <div class="hidden md:flex items-center justify-between" style="height:68px;">
-
-        <!-- ── Brand ─────────────────────────────────────────────────── -->
-        <a href="<?= url() ?>" style="display:flex;align-items:center;text-decoration:none;">
-          <img src="<?= url('assets/img/logo.png') ?>?v=<?= file_exists(PUBLIC_PATH . '/assets/img/logo.png') ? filemtime(PUBLIC_PATH . '/assets/img/logo.png') : '2' ?>"
-               alt="EcoTech Services"
-               style="height:52px;width:auto;object-fit:contain;mix-blend-mode:screen;filter:brightness(1.3) contrast(1.1);"
-               loading="eager">
-        </a>
-
-        <!-- ── Center Nav Links ───────────────────────────────────────── -->
-        <div class="navbar-center-links" id="navbarLinks">
-          <?php
-          $navLinks = [
-            ''          => 'Home',
-            'about'     => 'About',
-            'services'  => 'Services',
-            'projects'  => 'Portfolio',
-            'templates' => 'Templates',
-            'blog'      => 'Blog',
-            'contact'   => 'Contact',
-          ];
-          foreach ($navLinks as $path => $label):
-            $isActive = ($page === $path);
-          ?>
-            <?php if ($path === 'services'): ?>
-            <!-- Services Mega Dropdown -->
-            <div class="navbar-item navbar-dropdown-trigger" id="servicesDropdown">
-              <a href="<?= url('services') ?>" class="navbar-link <?= $isActive ? 'navbar-link--active' : '' ?>">
-                <?= $label ?>
-                <i class="fas fa-chevron-down navbar-chevron"></i>
-              </a>
-
-              <!-- Dropdown panel -->
-              <div class="navbar-dropdown-panel" id="servicesPanel">
-                <div class="navbar-dropdown-inner">
-                  <div class="navbar-dropdown-header">Our Services</div>
-                  <div class="navbar-dropdown-grid">
-                    <a href="<?= url('services#web') ?>" class="navbar-service-item">
-                      <div class="nsi-icon" style="--c:rgba(74,222,128,.15);--b:rgba(74,222,128,.25);--t:#4ade80;">
-                        <i class="fas fa-code"></i>
-                      </div>
-                      <div class="nsi-text">
-                        <span class="nsi-title">Web Development</span>
-                        <span class="nsi-sub">Enterprise apps & portals</span>
-                      </div>
-                    </a>
-                    <a href="<?= url('services#mobile') ?>" class="navbar-service-item">
-                      <div class="nsi-icon" style="--c:rgba(96,165,250,.12);--b:rgba(96,165,250,.22);--t:#60a5fa;">
-                        <i class="fas fa-mobile-screen-button"></i>
-                      </div>
-                      <div class="nsi-text">
-                        <span class="nsi-title">Mobile Apps</span>
-                        <span class="nsi-sub">iOS & Android, cross-platform</span>
-                      </div>
-                    </a>
-                    <a href="<?= url('services#cloud') ?>" class="navbar-service-item">
-                      <div class="nsi-icon" style="--c:rgba(167,139,250,.12);--b:rgba(167,139,250,.22);--t:#a78bfa;">
-                        <i class="fas fa-cloud"></i>
-                      </div>
-                      <div class="nsi-text">
-                        <span class="nsi-title">Cloud & DevOps</span>
-                        <span class="nsi-sub">AWS, GCP, CI/CD pipelines</span>
-                      </div>
-                    </a>
-                    <a href="<?= url('services#security') ?>" class="navbar-service-item">
-                      <div class="nsi-icon" style="--c:rgba(251,191,36,.1);--b:rgba(251,191,36,.2);--t:#fbbf24;">
-                        <i class="fas fa-shield-halved"></i>
-                      </div>
-                      <div class="nsi-text">
-                        <span class="nsi-title">Cybersecurity</span>
-                        <span class="nsi-sub">Pen-testing & OWASP audits</span>
-                      </div>
-                    </a>
-                    <a href="<?= url('services#seo') ?>" class="navbar-service-item">
-                      <div class="nsi-icon" style="--c:rgba(248,113,113,.1);--b:rgba(248,113,113,.2);--t:#f87171;">
-                        <i class="fas fa-chart-line"></i>
-                      </div>
-                      <div class="nsi-text">
-                        <span class="nsi-title">SEO & Marketing</span>
-                        <span class="nsi-sub">Growth & performance ads</span>
-                      </div>
-                    </a>
-                    <a href="<?= url('services#design') ?>" class="navbar-service-item">
-                      <div class="nsi-icon" style="--c:rgba(34,211,238,.1);--b:rgba(34,211,238,.2);--t:#22d3ee;">
-                        <i class="fas fa-pen-ruler"></i>
-                      </div>
-                      <div class="nsi-text">
-                        <span class="nsi-title">UI/UX Design</span>
-                        <span class="nsi-sub">Figma, prototyping & systems</span>
-                      </div>
-                    </a>
-                  </div>
-                  <div class="navbar-dropdown-footer">
-                    <a href="<?= url('services') ?>" class="navbar-dropdown-cta">
-                      <span>View all services</span>
-                      <i class="fas fa-arrow-right"></i>
-                    </a>
-                    <a href="<?= url('contact') ?>" class="navbar-dropdown-badge">
-                      <i class="fas fa-bolt"></i>
-                      <span>Free Consultation</span>
-                    </a>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <?php else: ?>
-            <div class="navbar-item">
-              <a href="<?= url($path) ?>" class="navbar-link <?= $isActive ? 'navbar-link--active' : '' ?>">
-                <?= $label ?>
-              </a>
-            </div>
-            <?php endif; ?>
-          <?php endforeach; ?>
-        </div>
-
-        <!-- ── Right Actions ─────────────────────────────────────────── -->
-        <div class="flex items-center gap-3">
-          <!-- WhatsApp pill -->
-          <a href="https://wa.me/<?= setting('whatsapp_number') ?>?text=Hello%20Ecotech%20Team%2C%20I%20want%20to%20discuss%20a%20project."
-             target="_blank" class="navbar-wa-pill hidden lg:inline-flex">
-            <span class="navbar-wa-dot"></span>
-            <i class="fab fa-whatsapp" style="color:#25D366;font-size:14px;"></i>
-            <span>WhatsApp</span>
-          </a>
-
-          <!-- Primary CTA -->
-          <a href="<?= url('contact') ?>" class="navbar-cta-btn">
-            Get Started
-            <i class="fas fa-arrow-right" style="font-size:10px;"></i>
-          </a>
-        </div>
-
-      </div><!-- /inner flex -->
-    </div><!-- /max-w -->
-  </nav>
-
-  <!-- ══ NAVBAR CSS ════════════════════════════════════════════════════ -->
+  <!-- ══ ONE SIMPLE NAVBAR CSS ═════════════════════════════════════════ -->
   <style>
-    /* ── Scrolled state ─────────────────────────────── */
-    #navbar.nav-scrolled {
-      background: rgba(3,7,18,0.88) !important;
-      backdrop-filter: blur(24px);
-      -webkit-backdrop-filter: blur(24px);
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      box-shadow: 0 4px 32px rgba(0,0,0,0.4);
+    /* ── One Simple Navbar Styling ───────────────────── */
+    .site-navbar {
+      background: rgba(3, 7, 18, 0.95);
+      backdrop-filter: blur(20px);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      box-shadow: 0 4px 24px rgba(0, 0, 0, 0.4);
+    }
+    .site-navbar.scrolled {
+      background: rgba(2, 6, 14, 0.98);
+      border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+      box-shadow: 0 6px 28px rgba(0, 0, 0, 0.6);
     }
 
-    /* ── Center pill container ──────────────────────── */
-    .navbar-center-links {
-      display: flex;
-      align-items: center;
-      gap: 2px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.07);
-      border-radius: 14px;
-      padding: 5px 6px;
-      backdrop-filter: blur(8px);
+    /* ── Company Logo Size (Significantly Enlarged) ─── */
+    .site-logo {
+      height: 78px;
+      max-height: 80px;
+      width: auto;
+      object-fit: contain;
+      mix-blend-mode: screen;
+      filter: brightness(1.35) contrast(1.18);
+      display: block;
+      transition: transform 0.2s ease;
+      transform: scale(1.16);
+      transform-origin: left center;
+    }
+    .site-logo:hover {
+      transform: scale(1.2);
+    }
+    .site-logo-mobile {
+      height: 62px;
+      max-height: 64px;
+      width: auto;
+      object-fit: contain;
+      mix-blend-mode: screen;
+      filter: brightness(1.35) contrast(1.18);
+      display: block;
+      transform: scale(1.12);
+      transform-origin: left center;
+    }
+    @media (max-width: 768px) {
+      .site-logo {
+        height: 62px;
+        max-height: 64px;
+        transform: scale(1.12);
+      }
     }
 
-    /* ── Nav item wrapper ───────────────────────────── */
-    .navbar-item {
-      position: relative;
-    }
-    .navbar-item.navbar-dropdown-trigger { position: relative; }
-
-    /* ── Individual link ────────────────────────────── */
-    .navbar-link {
+    /* ── Desktop Nav Links (No circular design) ──────── */
+    .nav-link {
       display: inline-flex;
       align-items: center;
-      gap: 5px;
-      padding: 7px 13px;
-      border-radius: 9px;
+      gap: 6px;
+      padding: 8px 12px;
+      border-radius: 6px; /* Rectangular subtle rounded */
+      border: 1px solid transparent;
+      color: #94a3b8;
       font-size: 13.5px;
       font-weight: 500;
-      color: rgba(255,255,255,0.6);
       text-decoration: none;
+      transition: all 0.18s ease;
       white-space: nowrap;
-      transition: color .18s, background .18s;
-      position: relative;
-      letter-spacing: -0.01em;
     }
-    .navbar-link:hover {
-      color: #fff;
-      background: rgba(255,255,255,0.07);
+    .nav-link:hover {
+      color: #ffffff;
+      background: rgba(255, 255, 255, 0.06);
+      border-color: rgba(255, 255, 255, 0.1);
     }
-    .navbar-link--active {
-      color: #fff;
-      background: rgba(255,255,255,0.09);
-      font-weight: 600;
+    .nav-link-active {
+      color: #4ade80 !important;
+      background: rgba(74, 222, 128, 0.08) !important;
+      border-color: rgba(74, 222, 128, 0.25) !important;
+      font-weight: 600 !important;
     }
-    .navbar-link--active::after {
-      content: '';
-      position: absolute;
-      bottom: 4px;
-      left: 50%;
-      transform: translateX(-50%);
-      width: 18px;
-      height: 2px;
-      border-radius: 2px;
-      background: #4ade80;
+    .nav-link-icon {
+      font-size: 18px !important;
+      line-height: 1 !important;
+      vertical-align: middle;
+      color: inherit;
     }
-    .navbar-chevron {
-      font-size: 9px;
-      opacity: .5;
-      transition: transform .2s;
-    }
-    .navbar-dropdown-trigger:hover .navbar-chevron,
-    .navbar-dropdown-trigger.open .navbar-chevron {
-      transform: rotate(180deg);
+    .nav-dropdown-arrow {
+      font-size: 16px !important;
+      line-height: 1 !important;
+      opacity: 0.7;
     }
 
-    /* ── Mega dropdown panel ────────────────────────── */
-    .navbar-dropdown-panel {
-      position: absolute;
-      top: calc(100% + 10px);
-      left: 50%;
-      transform: translateX(-50%);
-      width: 480px;
-      opacity: 0;
-      visibility: hidden;
-      pointer-events: none;
-      transition: opacity .2s ease, transform .2s ease, visibility .2s;
-      transform: translateX(-50%) translateY(6px);
-      z-index: 100;
-    }
-    .navbar-dropdown-trigger:hover .navbar-dropdown-panel,
-    .navbar-dropdown-trigger.open .navbar-dropdown-panel {
-      opacity: 1;
-      visibility: visible;
-      pointer-events: auto;
-      transform: translateX(-50%) translateY(0);
-    }
-    .navbar-dropdown-inner {
-      background: rgba(5,8,16,0.97);
-      border: 1px solid rgba(255,255,255,0.09);
-      border-radius: 18px;
-      padding: 16px;
-      box-shadow: 0 24px 64px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04) inset;
-    }
-    .navbar-dropdown-header {
-      font-size: 10px;
-      font-weight: 600;
-      letter-spacing: .1em;
-      text-transform: uppercase;
-      color: rgba(255,255,255,0.25);
-      padding: 0 4px 10px;
-      border-bottom: 1px solid rgba(255,255,255,0.06);
-      margin-bottom: 10px;
-    }
-    .navbar-dropdown-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4px;
-    }
-    .navbar-service-item {
+    /* ── Dropdown Item ───────────────────────────────── */
+    .nav-dropdown-item {
       display: flex;
       align-items: center;
       gap: 10px;
-      padding: 10px 10px;
-      border-radius: 10px;
-      text-decoration: none;
-      transition: background .15s;
+      padding: 8px 10px;
+      border-radius: 6px;
       border: 1px solid transparent;
+      text-decoration: none;
+      transition: all 0.15s ease;
     }
-    .navbar-service-item:hover {
-      background: rgba(255,255,255,0.05);
-      border-color: rgba(255,255,255,0.07);
+    .nav-dropdown-item:hover {
+      background: rgba(255, 255, 255, 0.05);
+      border-color: rgba(255, 255, 255, 0.08);
     }
-    .nsi-icon {
-      width: 32px; height: 32px;
-      border-radius: 8px;
-      background: var(--c);
-      border: 1px solid var(--b);
-      color: var(--t);
-      display: flex; align-items: center; justify-content: center;
+    .nav-drop-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 6px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       flex-shrink: 0;
-      font-size: 12px;
-      transition: background .15s;
+      transition: all 0.15s ease;
     }
-    .navbar-service-item:hover .nsi-icon { background: var(--b); }
-    .nsi-text { display: flex; flex-direction: column; gap: 2px; }
-    .nsi-title { font-size: 12.5px; font-weight: 600; color: #e2e8f0; line-height: 1; }
-    .nsi-sub   { font-size: 10.5px; color: rgba(255,255,255,0.32); line-height: 1.3; }
-    .navbar-service-item:hover .nsi-title { color: #fff; }
 
-    .navbar-dropdown-footer {
-      display: flex; align-items: center; justify-content: space-between;
-      margin-top: 10px;
-      padding-top: 10px;
-      border-top: 1px solid rgba(255,255,255,0.06);
-    }
-    .navbar-dropdown-cta {
-      display: inline-flex; align-items: center; gap: 5px;
-      font-size: 12px; font-weight: 600; color: #4ade80;
+    /* ── Action Buttons (No circular design) ─────────── */
+    .nav-btn-whatsapp {
+      display: inline-flex;
+      align-items: center;
+      gap: 7px;
+      padding: 8px 14px;
+      border-radius: 6px; /* NO circle */
+      background: rgba(37, 211, 102, 0.08);
+      border: 1px solid rgba(37, 211, 102, 0.28);
+      color: #25D366;
+      font-size: 13px;
+      font-weight: 600;
       text-decoration: none;
-      transition: gap .15s, color .15s;
+      transition: all 0.2s ease;
+      white-space: nowrap;
     }
-    .navbar-dropdown-cta:hover { color: #86efac; gap: 8px; }
-    .navbar-dropdown-badge {
-      display: inline-flex; align-items: center; gap: 5px;
-      font-size: 11px; font-weight: 600;
-      padding: 5px 10px;
-      border-radius: 20px;
-      background: rgba(74,222,128,0.1);
-      border: 1px solid rgba(74,222,128,0.22);
+    .nav-btn-whatsapp:hover {
+      background: rgba(37, 211, 102, 0.16);
+      border-color: rgba(37, 211, 102, 0.45);
       color: #4ade80;
-      text-decoration: none;
-      transition: background .15s;
     }
-    .navbar-dropdown-badge:hover { background: rgba(74,222,128,0.18); }
+    .nav-status-square {
+      width: 7px;
+      height: 7px;
+      border-radius: 2px; /* square status dot, strictly not circular */
+      background: #22c55e;
+      box-shadow: 0 0 6px #22c55e;
+    }
 
-    /* ── Right action buttons ───────────────────────── */
-    .navbar-wa-pill {
-      display: inline-flex; align-items: center; gap: 7px;
-      padding: 7px 13px;
-      border-radius: 9px;
-      background: rgba(255,255,255,0.04);
-      border: 1px solid rgba(255,255,255,0.08);
-      font-size: 13px; font-weight: 500; color: rgba(255,255,255,0.65);
+    .nav-btn-primary {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 8px 16px;
+      border-radius: 6px; /* NO circle */
+      background: linear-gradient(135deg, #16a34a 0%, #15803d 100%);
+      border: 1px solid rgba(74, 222, 128, 0.35);
+      color: #ffffff;
+      font-size: 13px;
+      font-weight: 600;
       text-decoration: none;
-      transition: background .18s, color .18s, border-color .18s;
+      box-shadow: 0 2px 10px rgba(22, 163, 74, 0.25);
+      transition: all 0.2s ease;
+      white-space: nowrap;
     }
-    .navbar-wa-pill:hover {
-      background: rgba(37,211,102,0.08);
-      border-color: rgba(37,211,102,0.2);
-      color: #fff;
-    }
-    .navbar-wa-dot {
-      width: 6px; height: 6px;
-      border-radius: 50%;
-      background: #4ade80;
-      animation: pulse 2s infinite;
-    }
-    .navbar-cta-btn {
-      display: inline-flex; align-items: center; gap: 7px;
-      padding: 8px 18px;
-      border-radius: 9px;
-      background: #16a34a;
+    .nav-btn-primary:hover {
       background: linear-gradient(135deg, #22c55e 0%, #16a34a 100%);
-      color: #fff;
-      font-size: 13px; font-weight: 600;
-      text-decoration: none;
-      letter-spacing: -0.01em;
-      box-shadow: 0 2px 12px rgba(34,197,94,.3);
-      transition: box-shadow .2s, transform .15s, background .2s;
-    }
-    .navbar-cta-btn:hover {
-      background: linear-gradient(135deg, #4ade80 0%, #22c55e 100%);
-      box-shadow: 0 4px 20px rgba(34,197,94,.45);
+      border-color: rgba(74, 222, 128, 0.6);
+      box-shadow: 0 4px 16px rgba(34, 197, 94, 0.4);
+      color: #ffffff;
       transform: translateY(-1px);
-      color: #fff;
     }
-    .navbar-cta-btn:active { transform: translateY(0); }
 
-    /* ── Mobile drawer open/close anim ─────────────── */
-    #mobileDrawerContent { transform: translateX(100%); transition: transform .28s cubic-bezier(.4,0,.2,1); }
-    #mobileDrawer.open #mobileDrawerContent { transform: translateX(0); }
-    #mobileDrawer.open { visibility: visible !important; }
+    .nav-icon-btn-whatsapp {
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      background: rgba(37, 211, 102, 0.1);
+      border: 1px solid rgba(37, 211, 102, 0.25);
+      color: #25D366;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: all 0.2s ease;
+    }
+
+    .nav-toggle-btn {
+      width: 38px;
+      height: 38px;
+      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.2s ease;
+    }
+    .nav-toggle-btn:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+    }
+
+    /* ── Responsive Display Rules (Strict Specificity) ── */
+    @media (max-width: 1023px) {
+      .site-navbar .nav-btn-whatsapp,
+      .site-navbar .nav-btn-primary {
+        display: none !important;
+      }
+      .site-navbar .nav-icon-btn-whatsapp,
+      .site-navbar .nav-toggle-btn {
+        display: flex !important;
+      }
+    }
+    @media (min-width: 1024px) {
+      .site-navbar .nav-btn-whatsapp,
+      .site-navbar .nav-btn-primary {
+        display: inline-flex !important;
+      }
+      .site-navbar .nav-icon-btn-whatsapp,
+      .site-navbar .nav-toggle-btn {
+        display: none !important;
+      }
+    }
+
+    /* Laptop screens: slightly more compact links to fit without scroll */
+    @media (min-width: 1024px) and (max-width: 1279px) {
+      .site-navbar .nav-link {
+        padding: 6px 8px;
+        font-size: 12.5px;
+        gap: 4px;
+      }
+      .site-navbar .nav-link-icon {
+        font-size: 16px !important;
+      }
+      .site-navbar .nav-btn-whatsapp {
+        padding: 6px 10px;
+        font-size: 12px;
+      }
+      .site-navbar .nav-btn-primary {
+        padding: 6px 12px;
+        font-size: 12px;
+      }
+    }
+
+    /* ── Mobile Drawer Open/Close Transitions ────────── */
+    #mobileDrawer.active {
+      visibility: visible !important;
+    }
+    #mobileDrawer.active #mobileDrawerContent {
+      transform: translateX(0);
+    }
+    #mobileDrawer.open {
+      visibility: visible !important;
+    }
+    #mobileDrawer.open #mobileDrawerContent {
+      transform: translateX(0);
+    }
+
+    /* Material icons inline baseline fix */
+    .material-icons,
+    .material-icons-outlined,
+    .material-symbols-outlined {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      vertical-align: middle;
+      line-height: 1;
+    }
   </style>
-</nav>
 
   <!-- ── Flash Messages ── -->
 
@@ -814,58 +864,15 @@
     </div>
   </footer>
 
-  <!-- WhatsApp Floating Action Button -->
+  <!-- WhatsApp Floating Action Button (Clean Rectangular, No circular design) -->
   <a href="https://wa.me/<?= setting('whatsapp_number') ?>?text=Hello%20Ecotech%2C%20I%20have%20a%20project%20inquiry." target="_blank" aria-label="Chat on WhatsApp"
-     class="fixed bottom-6 right-6 z-40 w-14 h-14 rounded-full bg-[#25D366] hover:bg-[#20bd5a] flex items-center justify-center shadow-xl shadow-green-500/30 hover:scale-110 transition-all duration-300 group">
-    <span class="absolute -top-1 -right-1 flex h-3 w-3">
-      <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75"></span>
-      <span class="relative inline-flex rounded-full h-3 w-3 bg-white"></span>
+     class="fixed bottom-6 right-6 z-40 w-12 h-12 rounded-lg bg-[#25D366] hover:bg-[#20bd5a] flex items-center justify-center shadow-xl shadow-green-500/25 hover:scale-105 transition-all duration-300 group">
+    <span class="absolute -top-1 -right-1 flex h-2.5 w-2.5">
+      <span class="animate-ping absolute inline-flex h-full w-full rounded-[2px] bg-white opacity-75"></span>
+      <span class="relative inline-flex rounded-[2px] h-2.5 w-2.5 bg-white"></span>
     </span>
-    <i class="fab fa-whatsapp text-white text-2xl group-hover:rotate-12 transition-transform"></i>
+    <span class="material-icons-outlined text-white text-2xl group-hover:scale-110 transition-transform">chat</span>
   </a>
-
-  <!-- ── Mobile App Bottom Navigation Bar (Mobile Only: <= 768px) ── -->
-  <?php
-  $currentPath = trim(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH), '/');
-  $baseDir    = trim(parse_url(APP_URL, PHP_URL_PATH) ?? '', '/') . '/public/';
-  $activeRoute = str_replace($baseDir, '', $currentPath);
-
-  $mobileNavItems = [
-      ['route' => '',          'label' => 'Home',     'icon' => 'home'],
-      ['route' => 'services',  'label' => 'Services', 'icon' => 'miscellaneous_services'],
-      ['route' => 'projects',  'label' => 'Projects', 'icon' => 'work'],
-      ['route' => 'about',     'label' => 'About',    'icon' => 'info'],
-      ['route' => 'contact',   'label' => 'Contact',  'icon' => 'contact_support'],
-  ];
-  ?>
-  <nav id="mobileBottomNav" aria-label="Mobile Navigation"
-       class="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-slate-950/95 backdrop-blur-xl border-t border-slate-800/80 px-2 py-2 shadow-2xl">
-    <div class="grid grid-cols-5 gap-1 max-w-md mx-auto">
-      <?php foreach ($mobileNavItems as $mItem):
-        $isActive = ($activeRoute === $mItem['route']);
-      ?>
-      <a href="<?= url($mItem['route']) ?>"
-         class="flex flex-col items-center justify-center py-1 px-1 rounded-xl transition-all duration-200 relative
-                <?= $isActive ? 'text-eco-400 font-semibold' : 'text-slate-400 hover:text-slate-200' ?>">
-        
-        <!-- Active Background Pill -->
-        <?php if ($isActive): ?>
-        <span class="absolute inset-0 bg-eco-500/10 border border-eco-500/30 rounded-xl shadow-sm"></span>
-        <?php endif; ?>
-
-        <!-- Material UI Icon -->
-        <span class="material-icons text-xl relative z-10 transition-transform duration-200 <?= $isActive ? 'scale-110 text-eco-400' : '' ?>">
-          <?= $mItem['icon'] ?>
-        </span>
-
-        <!-- Label -->
-        <span class="text-[10px] tracking-tight relative z-10 mt-0.5 <?= $isActive ? 'text-eco-300 font-bold' : 'text-slate-400' ?>">
-          <?= $mItem['label'] ?>
-        </span>
-      </a>
-      <?php endforeach; ?>
-    </div>
-  </nav>
 
   <!-- Main JS (with cache-busting timestamp) -->
   <script src="<?= url('assets/js/app.js') ?>?v=<?= file_exists(PUBLIC_PATH . '/assets/js/app.js') ? filemtime(PUBLIC_PATH . '/assets/js/app.js') : '2.0' ?>"></script>

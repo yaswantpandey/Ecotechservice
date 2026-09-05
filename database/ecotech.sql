@@ -46,7 +46,8 @@ INSERT INTO `services` (`title`,`slug`,`description`,`icon`,`sort_order`) VALUES
 ('Mobile App Development','mobile-app-development','Cross-platform iOS and Android applications built with React Native and Flutter.','fa-mobile-alt',3),
 ('UI/UX Design','ui-ux-design','User-centred design systems, wireframes, and interactive prototypes that delight and retain users.','fa-paint-brush',4),
 ('Cloud & DevOps','cloud-devops','AWS / GCP deployments, CI/CD pipelines, Docker orchestration, and 24×7 server monitoring.','fa-cloud',5),
-('EcoTech Solutions','ecotech-solutions','Green-tech consulting — energy dashboards, IoT integrations, and sustainability reporting tools.','fa-leaf',6);
+('EcoTech Solutions','ecotech-solutions','Green-tech consulting — energy dashboards, IoT integrations, and sustainability reporting tools.','fa-leaf',6),
+('Web Security & Penetration Testing','web-security-penetration-testing','Comprehensive security audits, vulnerability assessments, and ethical penetration testing for websites and applications. We identify OWASP Top 10 risks, SQL injection, XSS, broken auth, and provide detailed remediation reports with CVE scoring.','fa-shield-halved',7);
 
 -- -----------------------------------------------------------
 -- Table: projects

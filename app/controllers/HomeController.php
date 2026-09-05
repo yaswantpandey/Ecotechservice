@@ -4,35 +4,24 @@ require_once ROOT_PATH . '/app/controllers/BaseController.php';
 class HomeController extends BaseController {
 
     public function index(): void {
-        // ── Auto-sync project images to uploads & database ─────────────
-        $artifactDir = 'C:/Users/lucifer/.gemini/antigravity-ide/brain/0a6e346e-ec38-43b3-8db5-621b191be737';
-        $uploadsDir  = PUBLIC_PATH . '/uploads';
 
-        $imgMappings = [
-            'project_pandey_reality.jpg'   => $artifactDir . '/pandey_reality_ui_1788530587455.jpg',
-            'project_apna_cleaning.jpg'    => $artifactDir . '/apna_cleaning_ui_1788530616616.jpg',
-            'project_kranti_furniture.jpg' => $artifactDir . '/kranti_furniture_ui_1788530647804.jpg',
-        ];
-
-        foreach ($imgMappings as $dest => $src) {
-            if (file_exists($src) && !file_exists($uploadsDir . '/' . $dest)) {
-                @copy($src, $uploadsDir . '/' . $dest);
-            }
+        // ── One-time service seeder: Web Security & Penetration Testing ───
+        $check = $this->db->prepare("SELECT id FROM services WHERE slug = 'web-security-penetration-testing' LIMIT 1");
+        $check->execute();
+        if (!$check->fetch()) {
+            $ins = $this->db->prepare("
+                INSERT INTO services (title, slug, description, icon, sort_order, is_active)
+                VALUES (:title, :slug, :desc, :icon, :sort, 1)
+            ");
+            $ins->execute([
+                ':title' => 'Web Security & Penetration Testing',
+                ':slug'  => 'web-security-penetration-testing',
+                ':desc'  => 'Comprehensive security audits, vulnerability assessments, and ethical penetration testing for websites and applications. We identify OWASP Top 10 risks, SQL injection, XSS, broken auth, and provide detailed remediation reports with CVE scoring.',
+                ':icon'  => 'fa-shield-halved',
+                ':sort'  => 7,
+            ]);
         }
-
-        $dbThumbnails = [
-            'pandey-reality'      => 'project_pandey_reality.jpg',
-            'apna-cleaning'       => 'project_apna_cleaning.jpg',
-            'kranti-furniture'    => 'project_kranti_furniture.jpg',
-            'yaswant-portfolio'   => 'project_startup_landing.png',
-            'ecotech-ai'          => 'project_solarmetrics.png',
-            'ecotech-engineering' => 'project_greentrack.png',
-        ];
-
-        foreach ($dbThumbnails as $slug => $thumb) {
-            $up = $this->db->prepare("UPDATE projects SET thumbnail = :thumb WHERE slug = :slug AND (thumbnail IS NULL OR thumbnail = '' OR thumbnail NOT LIKE 'project_%')");
-            $up->execute([':thumb' => $thumb, ':slug' => $slug]);
-        }
+        // ─────────────────────────────────────────────────────────────────
 
         // Top Featured projects for home page marquee
         $stmt = $this->db->prepare(
@@ -43,7 +32,7 @@ class HomeController extends BaseController {
 
         // Services preview
         $stmt = $this->db->prepare(
-            "SELECT * FROM services WHERE is_active = 1 ORDER BY sort_order ASC LIMIT 6"
+            "SELECT * FROM services WHERE is_active = 1 ORDER BY sort_order ASC LIMIT 7"
         );
         $stmt->execute();
         $services = $stmt->fetchAll();

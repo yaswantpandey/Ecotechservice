@@ -20,6 +20,7 @@ function openMobileDrawer() {
   if (mobileDrawer) {
     mobileDrawer.style.visibility = 'visible';
     mobileDrawer.classList.add('active');
+    mobileDrawer.classList.add('open');
     document.body.style.overflow = 'hidden';
   }
 }
@@ -27,9 +28,10 @@ function openMobileDrawer() {
 function closeMobileDrawer() {
   if (mobileDrawer) {
     mobileDrawer.classList.remove('active');
+    mobileDrawer.classList.remove('open');
     document.body.style.overflow = '';
     setTimeout(() => {
-      if (!mobileDrawer.classList.contains('active')) {
+      if (!mobileDrawer.classList.contains('active') && !mobileDrawer.classList.contains('open')) {
         mobileDrawer.style.visibility = 'hidden';
       }
     }, 280);

@@ -1210,29 +1210,34 @@ body.cursor-hover #customCursor {
   }
 
   #mobileAppHeader {
-    display: flex !important;
+    display: none !important;
   }
 
   #mobileBottomNav {
+    display: none !important;
+  }
+
+  #navbar {
     display: block !important;
   }
 
   main {
-    padding-top: 3.5rem;
-    padding-bottom: calc(80px + env(safe-area-inset-bottom, 0px));
+    padding-top: 5rem;
+    padding-bottom: 0;
   }
 
-  /* Compact WhatsApp Button position on mobile */
+  /* Compact WhatsApp Button position on mobile (Clean Rectangular) */
   a[aria-label="Chat on WhatsApp"].fixed {
-    bottom: calc(85px + env(safe-area-inset-bottom, 0px)) !important;
+    bottom: 1.5rem !important;
     right: 1rem !important;
-    width: 3.25rem !important;
-    height: 3.25rem !important;
+    width: 3rem !important;
+    height: 3rem !important;
+    border-radius: 0.5rem !important;
   }
 
-  /* Full-width touch cards */
+  /* Touch cards */
   .glass-card, .service-card, .portfolio-card {
-    border-radius: 1rem;
+    border-radius: 0.75rem;
   }
 }
 
@@ -1246,16 +1251,18 @@ body.cursor-hover #customCursor {
     display: none !important;
   }
 
-  #mobileDrawer {
-    display: none !important;
-  }
-
   #navbar {
     display: block !important;
   }
 
   main {
     padding-bottom: 0;
+  }
+}
+
+@media (min-width: 1024px) {
+  #mobileDrawer {
+    display: none !important;
   }
 }
 
@@ -2131,6 +2138,265 @@ body.cursor-hover #customCursor {
 .project-marquee-body {
   padding: 1.15rem;
 }
+
+/* =============================================================
+   Templates Page — Premium Styles
+   ============================================================= */
+
+/* ── Hero ──────────────────────────────────────────────────── */
+.tmpl-hero {
+  position: relative;
+  overflow: hidden;
+  background: var(--bg-primary);
+  border-bottom: 1px solid rgba(255,255,255,0.06);
+}
+.tmpl-hero-bg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 90% 70% at 50% -10%, rgba(34,197,94,0.10) 0%, transparent 65%),
+    radial-gradient(ellipse 60% 40% at 80% 80%, rgba(59,130,246,0.05) 0%, transparent 60%);
+}
+.tmpl-hero-bg::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(34,197,94,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(34,197,94,0.04) 1px, transparent 1px);
+  background-size: 44px 44px;
+}
+
+/* ── Grid ──────────────────────────────────────────────────── */
+.tmpl-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2rem;
+}
+@media (min-width: 640px)  { .tmpl-grid { grid-template-columns: repeat(2, 1fr); } }
+@media (min-width: 1024px) { .tmpl-grid { grid-template-columns: repeat(3, 1fr); } }
+
+/* ── Card ──────────────────────────────────────────────────── */
+.tmpl-card {
+  background: #0e1420;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 1.25rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: border-color 0.35s, box-shadow 0.35s, transform 0.35s;
+  opacity: 0;
+  transform: translateY(28px);
+}
+.tmpl-card.revealed {
+  opacity: 1;
+  transform: translateY(0);
+  transition: opacity 0.55s ease, transform 0.55s ease,
+              border-color 0.35s, box-shadow 0.35s;
+}
+.tmpl-card:hover {
+  border-color: rgba(34,197,94,0.35);
+  box-shadow: 0 12px 50px rgba(34,197,94,0.12);
+  transform: translateY(-5px);
+}
+
+/* ── Thumbnail ─────────────────────────────────────────────── */
+.tmpl-thumb {
+  position: relative;
+  height: 230px;
+  overflow: hidden;
+  background: #111827;
+}
+.tmpl-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.55s ease;
+}
+.tmpl-card:hover .tmpl-img { transform: scale(1.05); }
+.tmpl-placeholder {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: linear-gradient(135deg, #0e1420 0%, #1f2937 100%);
+  color: #374151;
+}
+
+/* ── Badge Row ─────────────────────────────────────────────── */
+.tmpl-badge-row {
+  position: absolute;
+  top: 0.85rem;
+  left: 0.85rem;
+  display: flex;
+  gap: 0.4rem;
+}
+.tmpl-type-badge {
+  display: inline-flex;
+  align-items: center;
+  font-size: 0.67rem;
+  font-weight: 700;
+  letter-spacing: 0.07em;
+  text-transform: uppercase;
+  padding: 0.22rem 0.65rem;
+  border-radius: 9999px;
+  backdrop-filter: blur(8px);
+}
+.tmpl-type-badge--free {
+  background: rgba(34,197,94,0.15);
+  border: 1px solid rgba(34,197,94,0.3);
+  color: #4ade80;
+}
+.tmpl-type-badge--premium {
+  background: rgba(251,191,36,0.12);
+  border: 1px solid rgba(251,191,36,0.3);
+  color: #fbbf24;
+}
+
+/* ── Hover Overlay ─────────────────────────────────────────── */
+.tmpl-overlay {
+  position: absolute;
+  inset: 0;
+  background: rgba(3, 7, 18, 0.75);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  backdrop-filter: blur(2px);
+}
+.tmpl-card:hover .tmpl-overlay { opacity: 1; }
+.tmpl-overlay-actions { display: flex; flex-direction: column; gap: 0.7rem; align-items: center; }
+.tmpl-overlay-btn {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.6rem 1.4rem;
+  border-radius: 0.75rem;
+  font-size: 0.82rem;
+  font-weight: 600;
+  text-decoration: none;
+  transition: all 0.2s;
+  white-space: nowrap;
+}
+.tmpl-overlay-btn--primary {
+  background: var(--eco-500);
+  color: #fff;
+  box-shadow: 0 4px 20px rgba(34,197,94,0.35);
+}
+.tmpl-overlay-btn--primary:hover { background: var(--eco-400); transform: translateY(-1px); }
+.tmpl-overlay-btn--outline {
+  border: 1px solid rgba(255,255,255,0.2);
+  color: #e5e7eb;
+}
+.tmpl-overlay-btn--outline:hover { border-color: rgba(255,255,255,0.5); color: #fff; }
+
+/* ── Card Body ─────────────────────────────────────────────── */
+.tmpl-body {
+  padding: 1.35rem;
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+.tmpl-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #f9fafb;
+  line-height: 1.35;
+  transition: color 0.2s;
+}
+.tmpl-card:hover .tmpl-title { color: var(--eco-400); }
+.tmpl-desc {
+  color: #6b7280;
+  font-size: 0.83rem;
+  line-height: 1.65;
+  margin-top: 0.5rem;
+  margin-bottom: 1rem;
+  flex: 1;
+}
+.tmpl-price {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: #fbbf24;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+.tmpl-price--free {
+  color: var(--eco-400);
+  font-size: 0.8rem;
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.2);
+  padding: 0.15rem 0.55rem;
+  border-radius: 9999px;
+}
+
+/* ── Footer ────────────────────────────────────────────────── */
+.tmpl-footer {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding-top: 0.85rem;
+  border-top: 1px solid rgba(255,255,255,0.06);
+  margin-top: auto;
+}
+.tmpl-link {
+  font-size: 0.78rem;
+  color: #6b7280;
+  text-decoration: none;
+  display: inline-flex;
+  align-items: center;
+  transition: color 0.2s;
+}
+.tmpl-link:hover { color: var(--eco-400); }
+
+/* ── Feature Cards ─────────────────────────────────────────── */
+.tmpl-feature-card {
+  background: #0e1420;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 1rem;
+  padding: 1.75rem;
+  transition: border-color 0.3s, box-shadow 0.3s, transform 0.3s;
+}
+.tmpl-feature-card:hover {
+  border-color: rgba(34,197,94,0.3);
+  box-shadow: 0 0 30px rgba(34,197,94,0.08);
+  transform: translateY(-2px);
+}
+.tmpl-feature-icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  background: rgba(34,197,94,0.1);
+  border: 1px solid rgba(34,197,94,0.2);
+  border-radius: 0.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--eco-400);
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+/* ── CTA ───────────────────────────────────────────────────── */
+.tmpl-cta {
+  position: relative;
+  background: #0e1420;
+  border: 1px solid rgba(34,197,94,0.2);
+  border-radius: 1.5rem;
+  padding: 3.5rem 2rem;
+  overflow: hidden;
+  text-align: center;
+}
+.tmpl-cta-glow {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 70% 60% at 50% 100%, rgba(34,197,94,0.12) 0%, transparent 65%);
+  border-radius: inherit;
+}
+
+
 
 
 

@@ -44,25 +44,19 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <?php if ($projects): ?>
     <div class="portfolio-grid" id="portfolioGrid">
-      <?php 
-      $fallbackThumbnails = [
-          'pandey-reality'      => 'project_pandey_reality.jpg',
-          'apna-cleaning'       => 'project_apna_cleaning.jpg',
-          'kranti-furniture'    => 'project_kranti_furniture.jpg',
-          'yaswant-portfolio'   => 'project_startup_landing.png',
-          'ecotech-ai'          => 'project_solarmetrics.png',
-          'ecotech-engineering' => 'project_greentrack.png',
-      ];
-      ?>
-      <?php foreach ($projects as $i => $p): 
-        $thumbFile = !empty($p['thumbnail']) ? $p['thumbnail'] : ($fallbackThumbnails[$p['slug'] ?? ''] ?? 'project_startup_landing.png');
-      ?>
+      <?php foreach ($projects as $i => $p): ?>
       <article class="portfolio-card reveal-card" style="animation-delay: <?= $i * 0.08 ?>s">
 
-        <!-- Thumbnail -->
+        <!-- Thumbnail: use live website screenshot if live_url exists, else local upload -->
         <div class="portfolio-thumb">
-          <?php if (!empty($thumbFile) && file_exists(PUBLIC_PATH . '/uploads/' . $thumbFile)): ?>
-          <img src="<?= uploadUrl($thumbFile) ?>"
+          <?php if (!empty($p['live_url'])): ?>
+          <img src="//image.thum.io/get/width/800/crop/500/noanimate/<?= Security::e(rtrim($p['live_url'], '/')) ?>"
+               alt="<?= Security::e($p['title']) ?>"
+               class="portfolio-img"
+               loading="lazy"
+               onerror="this.src='<?= uploadUrl(!empty($p['thumbnail']) ? $p['thumbnail'] : 'project_startup_landing.png') ?>'">
+          <?php elseif (!empty($p['thumbnail']) && file_exists(PUBLIC_PATH . '/uploads/' . $p['thumbnail'])): ?>
+          <img src="<?= uploadUrl($p['thumbnail']) ?>"
                alt="<?= Security::e($p['title']) ?>"
                class="portfolio-img"
                loading="lazy">

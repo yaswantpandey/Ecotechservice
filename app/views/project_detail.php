@@ -20,19 +20,21 @@
       <?php endif; ?>
     </div>
   </div>
-  <?php 
-  $fallbackThumbnails = [
-      'pandey-reality'      => 'project_pandey_reality.jpg',
-      'apna-cleaning'       => 'project_apna_cleaning.jpg',
-      'kranti-furniture'    => 'project_kranti_furniture.jpg',
-      'yaswant-portfolio'   => 'project_startup_landing.png',
-      'ecotech-ai'          => 'project_solarmetrics.png',
-      'ecotech-engineering' => 'project_greentrack.png',
-  ];
-  $detailThumb = !empty($project['thumbnail']) ? $project['thumbnail'] : ($fallbackThumbnails[$project['slug'] ?? ''] ?? 'project_startup_landing.png');
-  ?>
+  <!-- Hero Screenshot: live website screenshot via thum.io, local upload as fallback -->
   <div class="rounded-2xl overflow-hidden border border-gray-700 mb-10 aspect-video shadow-2xl">
-    <img src="<?= uploadUrl($detailThumb) ?>" alt="<?= Security::e($project['title']) ?>" class="w-full h-full object-cover" loading="lazy">
+    <?php if (!empty($project['live_url'])): ?>
+    <img src="//image.thum.io/get/width/1200/crop/750/noanimate/<?= Security::e(rtrim($project['live_url'], '/')) ?>"
+         alt="<?= Security::e($project['title']) ?>"
+         class="w-full h-full object-cover"
+         loading="lazy"
+         onerror="this.src='<?= uploadUrl(!empty($project['thumbnail']) ? $project['thumbnail'] : 'project_startup_landing.png') ?>'">
+    <?php else: ?>
+    <?php $detailThumb = !empty($project['thumbnail']) ? $project['thumbnail'] : 'project_startup_landing.png'; ?>
+    <img src="<?= uploadUrl($detailThumb) ?>"
+         alt="<?= Security::e($project['title']) ?>"
+         class="w-full h-full object-cover"
+         loading="lazy">
+    <?php endif; ?>
   </div>
   <div class="mb-10">
     <h2 class="font-display text-2xl font-semibold text-white mb-4">About This Project</h2>

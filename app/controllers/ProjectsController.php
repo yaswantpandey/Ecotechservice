@@ -4,20 +4,6 @@ require_once ROOT_PATH . '/app/controllers/BaseController.php';
 class ProjectsController extends BaseController {
 
     public function index(): void {
-        $dbThumbnails = [
-            'pandey-reality'      => 'project_pandey_reality.jpg',
-            'apna-cleaning'       => 'project_apna_cleaning.jpg',
-            'kranti-furniture'    => 'project_kranti_furniture.jpg',
-            'yaswant-portfolio'   => 'project_startup_landing.png',
-            'ecotech-ai'          => 'project_solarmetrics.png',
-            'ecotech-engineering' => 'project_greentrack.png',
-        ];
-
-        foreach ($dbThumbnails as $slug => $thumb) {
-            $up = $this->db->prepare("UPDATE projects SET thumbnail = :thumb WHERE slug = :slug AND (thumbnail IS NULL OR thumbnail = '' OR thumbnail NOT LIKE 'project_%')");
-            $up->execute([':thumb' => $thumb, ':slug' => $slug]);
-        }
-
         $category = Security::sanitize($_GET['cat'] ?? '');
         $allowed  = ['website','marketing','template','mobile','other'];
 

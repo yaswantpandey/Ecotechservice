@@ -200,28 +200,22 @@ $faqs = [
           $marqueeList = array_merge($marqueeList, $marqueeList);
       }
 
-      $fallbackThumbnails = [
-          'pandey-reality'      => 'project_pandey_reality.jpg',
-          'apna-cleaning'       => 'project_apna_cleaning.jpg',
-          'kranti-furniture'    => 'project_kranti_furniture.jpg',
-          'yaswant-portfolio'   => 'project_startup_landing.png',
-          'ecotech-ai'          => 'project_solarmetrics.png',
-          'ecotech-engineering' => 'project_greentrack.png',
-          'healthcare-telehealth-platform' => 'project_startup_landing.png',
-          'fintech-payment-engine' => 'project_solarmetrics.png',
-          'logistics-management-system' => 'project_greentrack.png',
-          'smart-grid-platform' => 'project_solarmetrics.png',
-      ];
 
-      foreach ($marqueeList as $p): 
-        $thumbFile = !empty($p['thumbnail']) ? $p['thumbnail'] : ($fallbackThumbnails[$p['slug'] ?? ''] ?? 'project_startup_landing.png');
+      foreach ($marqueeList as $p):
+        // Use live_url for real screenshot, else local thumbnail
+        $hasLive = !empty($p['live_url']);
+        $localThumb = !empty($p['thumbnail']) ? $p['thumbnail'] : 'project_startup_landing.png';
       ?>
       <div class="project-marquee-card group">
         <div class="project-marquee-thumb">
-          <?php if (!empty($thumbFile) && file_exists(PUBLIC_PATH . '/uploads/' . $thumbFile)): ?>
-          <img src="<?= uploadUrl($thumbFile) ?>" alt="<?= Security::e($p['title']) ?>" class="project-marquee-img" loading="lazy">
+          <?php if ($hasLive): ?>
+          <img src="//image.thum.io/get/width/800/crop/500/noanimate/<?= Security::e(rtrim($p['live_url'], '/')) ?>"
+               alt="<?= Security::e($p['title']) ?>"
+               class="project-marquee-img"
+               loading="lazy"
+               onerror="this.src='<?= uploadUrl($localThumb) ?>'">
           <?php else: ?>
-          <img src="<?= uploadUrl('project_startup_landing.png') ?>" alt="<?= Security::e($p['title']) ?>" class="project-marquee-img" loading="lazy">
+          <img src="<?= uploadUrl($localThumb) ?>" alt="<?= Security::e($p['title']) ?>" class="project-marquee-img" loading="lazy">
           <?php endif; ?>
 
           <span class="project-marquee-badge"><?= Security::e(ucfirst($p['category'] ?? 'Project')) ?></span>
