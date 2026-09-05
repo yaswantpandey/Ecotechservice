@@ -44,20 +44,33 @@
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
     <?php if ($projects): ?>
     <div class="portfolio-grid" id="portfolioGrid">
-      <?php foreach ($projects as $i => $p): ?>
+      <?php 
+      $fallbackThumbnails = [
+          'pandey-reality'      => 'project_pandey_reality.jpg',
+          'apna-cleaning'       => 'project_apna_cleaning.jpg',
+          'kranti-furniture'    => 'project_kranti_furniture.jpg',
+          'yaswant-portfolio'   => 'project_startup_landing.png',
+          'ecotech-ai'          => 'project_solarmetrics.png',
+          'ecotech-engineering' => 'project_greentrack.png',
+      ];
+      ?>
+      <?php foreach ($projects as $i => $p): 
+        $thumbFile = !empty($p['thumbnail']) ? $p['thumbnail'] : ($fallbackThumbnails[$p['slug'] ?? ''] ?? 'project_startup_landing.png');
+      ?>
       <article class="portfolio-card reveal-card" style="animation-delay: <?= $i * 0.08 ?>s">
 
         <!-- Thumbnail -->
         <div class="portfolio-thumb">
-          <?php if ($p['thumbnail']): ?>
-          <img src="<?= uploadUrl($p['thumbnail']) ?>"
+          <?php if (!empty($thumbFile) && file_exists(PUBLIC_PATH . '/uploads/' . $thumbFile)): ?>
+          <img src="<?= uploadUrl($thumbFile) ?>"
                alt="<?= Security::e($p['title']) ?>"
                class="portfolio-img"
                loading="lazy">
           <?php else: ?>
-          <div class="portfolio-placeholder">
-            <i class="fas fa-code text-eco-400/20 text-6xl"></i>
-          </div>
+          <img src="<?= uploadUrl('project_startup_landing.png') ?>"
+               alt="<?= Security::e($p['title']) ?>"
+               class="portfolio-img"
+               loading="lazy">
           <?php endif; ?>
 
           <!-- Category ribbon -->

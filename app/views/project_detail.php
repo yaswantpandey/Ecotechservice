@@ -20,11 +20,20 @@
       <?php endif; ?>
     </div>
   </div>
-  <?php if ($project['thumbnail']): ?>
-  <div class="rounded-2xl overflow-hidden border border-gray-700 mb-10 aspect-video">
-    <img src="<?= uploadUrl($project['thumbnail']) ?>" alt="<?= Security::e($project['title']) ?>" class="w-full h-full object-cover" loading="lazy">
+  <?php 
+  $fallbackThumbnails = [
+      'pandey-reality'      => 'project_pandey_reality.jpg',
+      'apna-cleaning'       => 'project_apna_cleaning.jpg',
+      'kranti-furniture'    => 'project_kranti_furniture.jpg',
+      'yaswant-portfolio'   => 'project_startup_landing.png',
+      'ecotech-ai'          => 'project_solarmetrics.png',
+      'ecotech-engineering' => 'project_greentrack.png',
+  ];
+  $detailThumb = !empty($project['thumbnail']) ? $project['thumbnail'] : ($fallbackThumbnails[$project['slug'] ?? ''] ?? 'project_startup_landing.png');
+  ?>
+  <div class="rounded-2xl overflow-hidden border border-gray-700 mb-10 aspect-video shadow-2xl">
+    <img src="<?= uploadUrl($detailThumb) ?>" alt="<?= Security::e($project['title']) ?>" class="w-full h-full object-cover" loading="lazy">
   </div>
-  <?php endif; ?>
   <div class="mb-10">
     <h2 class="font-display text-2xl font-semibold text-white mb-4">About This Project</h2>
     <p class="text-gray-400 leading-relaxed"><?= nl2br(Security::e($project['description'])) ?></p>

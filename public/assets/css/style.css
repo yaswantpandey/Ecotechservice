@@ -45,6 +45,27 @@ body { font-family: 'Inter', system-ui, sans-serif; }
   background-clip: text;
 }
 
+[data-grid-theme] .text-gradient {
+  background: linear-gradient(135deg, var(--grid-accent-bright) 0%, #ffffff 45%, var(--grid-accent) 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  transition: all 0.4s ease;
+}
+
+[data-grid-theme] .section-tag {
+  color: var(--grid-accent-bright);
+  border-color: rgba(var(--grid-accent-rgb), 0.28);
+  background: rgba(var(--grid-accent-rgb), 0.08);
+  transition: all 0.3s ease;
+}
+
+[data-grid-theme] .glass-card:hover {
+  border-color: rgba(var(--grid-accent-rgb), 0.35);
+  box-shadow: 0 10px 30px -10px rgba(0, 0, 0, 0.7), 0 0 20px rgba(var(--grid-accent-rgb), 0.12);
+}
+
+
 /* ── Navbar scroll effect ────────────────────────────────────── */
 #navbar {
   background: rgba(3, 7, 18, 0.75);
@@ -1237,6 +1258,882 @@ body.cursor-hover #customCursor {
     padding-bottom: 0;
   }
 }
+
+/* =============================================================
+   ATTRACTIVE TECH BACKGROUND GRID THEMES SYSTEM
+   Multi-theme dynamic tech grid with spotlight & ambient lighting
+   ============================================================= */
+
+:root,
+[data-grid-theme="emerald"] {
+  --grid-line: rgba(34, 197, 94, 0.08);
+  --grid-line-bright: rgba(74, 222, 128, 0.28);
+  --grid-accent: #22c55e;
+  --grid-accent-bright: #4ade80;
+  --grid-accent-rgb: 34, 197, 94;
+  --grid-glow-1: rgba(34, 197, 94, 0.16);
+  --grid-glow-2: rgba(16, 185, 129, 0.12);
+  --grid-glow-3: rgba(56, 189, 248, 0.08);
+  --grid-dot: rgba(74, 222, 128, 0.35);
+  --grid-dock-bg: rgba(10, 20, 16, 0.88);
+  --grid-dock-border: rgba(34, 197, 94, 0.28);
+  --grid-pill-active: rgba(34, 197, 94, 0.22);
+  --grid-theme-name: "Emerald Matrix";
+}
+
+[data-grid-theme="cyber"] {
+  --grid-line: rgba(6, 182, 212, 0.08);
+  --grid-line-bright: rgba(56, 189, 248, 0.32);
+  --grid-accent: #06b6d4;
+  --grid-accent-bright: #38bdf8;
+  --grid-accent-rgb: 6, 182, 212;
+  --grid-glow-1: rgba(6, 182, 212, 0.18);
+  --grid-glow-2: rgba(2, 132, 199, 0.14);
+  --grid-glow-3: rgba(99, 102, 241, 0.09);
+  --grid-dot: rgba(56, 189, 248, 0.4);
+  --grid-dock-bg: rgba(8, 22, 36, 0.88);
+  --grid-dock-border: rgba(6, 182, 212, 0.3);
+  --grid-pill-active: rgba(6, 182, 212, 0.22);
+  --grid-theme-name: "Cyber Sky";
+}
+
+[data-grid-theme="violet"] {
+  --grid-line: rgba(168, 85, 247, 0.08);
+  --grid-line-bright: rgba(192, 132, 252, 0.32);
+  --grid-accent: #a855f7;
+  --grid-accent-bright: #c084fc;
+  --grid-accent-rgb: 168, 85, 247;
+  --grid-glow-1: rgba(168, 85, 247, 0.18);
+  --grid-glow-2: rgba(217, 70, 239, 0.13);
+  --grid-glow-3: rgba(99, 102, 241, 0.10);
+  --grid-dot: rgba(192, 132, 252, 0.4);
+  --grid-dock-bg: rgba(20, 14, 34, 0.88);
+  --grid-dock-border: rgba(168, 85, 247, 0.3);
+  --grid-pill-active: rgba(168, 85, 247, 0.22);
+  --grid-theme-name: "Neon Violet";
+}
+
+[data-grid-theme="solar"] {
+  --grid-line: rgba(245, 158, 11, 0.08);
+  --grid-line-bright: rgba(251, 191, 36, 0.32);
+  --grid-accent: #f59e0b;
+  --grid-accent-bright: #fbbf24;
+  --grid-accent-rgb: 245, 158, 11;
+  --grid-glow-1: rgba(245, 158, 11, 0.18);
+  --grid-glow-2: rgba(234, 88, 12, 0.14);
+  --grid-glow-3: rgba(239, 68, 68, 0.08);
+  --grid-dot: rgba(251, 191, 36, 0.4);
+  --grid-dock-bg: rgba(28, 18, 10, 0.88);
+  --grid-dock-border: rgba(245, 158, 11, 0.3);
+  --grid-pill-active: rgba(245, 158, 11, 0.22);
+  --grid-theme-name: "Solar Amber";
+}
+
+[data-grid-theme="obsidian"] {
+  --grid-line: rgba(226, 232, 240, 0.06);
+  --grid-line-bright: rgba(255, 255, 255, 0.24);
+  --grid-accent: #94a3b8;
+  --grid-accent-bright: #f8fafc;
+  --grid-accent-rgb: 148, 163, 184;
+  --grid-glow-1: rgba(148, 163, 184, 0.12);
+  --grid-glow-2: rgba(71, 85, 105, 0.16);
+  --grid-glow-3: rgba(255, 255, 255, 0.06);
+  --grid-dot: rgba(255, 255, 255, 0.35);
+  --grid-dock-bg: rgba(15, 23, 42, 0.88);
+  --grid-dock-border: rgba(148, 163, 184, 0.28);
+  --grid-pill-active: rgba(148, 163, 184, 0.2);
+  --grid-theme-name: "Obsidian Minimal";
+}
+
+/* ── Grid Container & Layering ─────────────────────────────── */
+.tech-grid-wrapper {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  overflow: hidden;
+  z-index: 0;
+  transition: all 0.4s ease;
+}
+
+/* Base Orthogonal Tech Grid */
+.tech-grid-pattern {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 46px 46px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 70% at 50% 36%, #000 25%, transparent 82%);
+  mask-image: radial-gradient(ellipse 80% 70% at 50% 36%, #000 25%, transparent 82%);
+  transition: background-image 0.4s ease;
+}
+
+/* Cursor-Following Grid Spotlight Effect */
+.tech-grid-spotlight {
+  position: absolute;
+  inset: 0;
+  background: radial-gradient(550px circle at var(--mouse-x, 50%) var(--mouse-y, 35%), var(--grid-glow-1) 0%, transparent 70%);
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+}
+
+.tech-grid-spotlight-lines {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid-line-bright) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line-bright) 1px, transparent 1px);
+  background-size: 46px 46px;
+  -webkit-mask-image: radial-gradient(280px circle at var(--mouse-x, 50%) var(--mouse-y, 35%), #000 10%, transparent 80%);
+  mask-image: radial-gradient(280px circle at var(--mouse-x, 50%) var(--mouse-y, 35%), #000 10%, transparent 80%);
+  pointer-events: none;
+}
+
+/* Floating Ambient Radiant Orbs */
+.tech-grid-orbs {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  filter: blur(80px);
+  opacity: 0.75;
+}
+
+.grid-orb {
+  position: absolute;
+  border-radius: 9999px;
+  pointer-events: none;
+  transition: background 0.6s ease;
+}
+
+.grid-orb-1 {
+  width: 460px;
+  height: 460px;
+  top: -100px;
+  left: 15%;
+  background: var(--grid-glow-1);
+  animation: orbFloat1 20s ease-in-out infinite alternate;
+}
+
+.grid-orb-2 {
+  width: 420px;
+  height: 420px;
+  top: 10%;
+  right: 12%;
+  background: var(--grid-glow-2);
+  animation: orbFloat2 26s ease-in-out infinite alternate;
+}
+
+.grid-orb-3 {
+  width: 380px;
+  height: 380px;
+  bottom: -60px;
+  left: 45%;
+  background: var(--grid-glow-3);
+  animation: orbFloat3 22s ease-in-out infinite alternate;
+}
+
+@keyframes orbFloat1 {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(60px, 40px) scale(1.12); }
+  100% { transform: translate(-30px, 70px) scale(0.95); }
+}
+
+@keyframes orbFloat2 {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(-50px, -30px) scale(1.08); }
+  100% { transform: translate(40px, 50px) scale(0.92); }
+}
+
+@keyframes orbFloat3 {
+  0%   { transform: translate(0, 0) scale(1); }
+  50%  { transform: translate(40px, -40px) scale(1.15); }
+  100% { transform: translate(-60px, -20px) scale(0.9); }
+}
+
+/* Cyber Scanning Light Beam */
+.tech-grid-beam {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent 0%, rgba(var(--grid-accent-rgb), 0.1) 15%, var(--grid-accent-bright) 50%, rgba(var(--grid-accent-rgb), 0.1) 85%, transparent 100%);
+  box-shadow: 0 0 16px var(--grid-accent), 0 0 32px var(--grid-accent);
+  opacity: 0.6;
+  pointer-events: none;
+  animation: gridBeamScan 10s ease-in-out infinite;
+}
+
+@keyframes gridBeamScan {
+  0%   { top: 5%; opacity: 0; }
+  15%  { opacity: 0.7; }
+  85%  { opacity: 0.7; }
+  100% { top: 92%; opacity: 0; }
+}
+
+/* Secondary Dot Matrix Grid Pattern */
+.tech-grid-dots {
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, var(--grid-dot) 1.25px, transparent 1.25px);
+  background-size: 32px 32px;
+  -webkit-mask-image: radial-gradient(ellipse 75% 65% at 50% 50%, #000 20%, transparent 85%);
+  mask-image: radial-gradient(ellipse 75% 65% at 50% 50%, #000 20%, transparent 85%);
+  pointer-events: none;
+  transition: background-image 0.4s ease;
+}
+
+/* Secondary Blueprint Architectural Dual Grid */
+.tech-grid-blueprint {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid-line-bright) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line-bright) 1px, transparent 1px),
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 92px 92px, 92px 92px, 23px 23px, 23px 23px;
+  -webkit-mask-image: radial-gradient(ellipse 85% 75% at 50% 50%, #000 25%, transparent 90%);
+  mask-image: radial-gradient(ellipse 85% 75% at 50% 50%, #000 25%, transparent 90%);
+  pointer-events: none;
+  transition: all 0.4s ease;
+}
+
+/* Micro Grid Isometric / Hex Overlay */
+.tech-grid-subtle {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(var(--grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+  background-size: 36px 36px;
+  -webkit-mask-image: linear-gradient(180deg, transparent 0%, #000 15%, #000 85%, transparent 100%);
+  mask-image: linear-gradient(180deg, transparent 0%, #000 15%, #000 85%, transparent 100%);
+  pointer-events: none;
+}
+
+/* Tech Crosshairs Intersection Markers */
+.tech-crosshair {
+  position: absolute;
+  width: 14px;
+  height: 14px;
+  pointer-events: none;
+  opacity: 0.65;
+  transition: opacity 0.3s ease;
+}
+.tech-crosshair::before,
+.tech-crosshair::after {
+  content: '';
+  position: absolute;
+  background: var(--grid-accent-bright);
+}
+.tech-crosshair::before {
+  top: 6px;
+  left: 0;
+  width: 14px;
+  height: 1.5px;
+}
+.tech-crosshair::after {
+  top: 0;
+  left: 6px;
+  width: 1.5px;
+  height: 14px;
+}
+
+/* Interactive Grid Theme Switcher Widget */
+.grid-theme-switcher {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--grid-dock-bg);
+  border: 1px solid var(--grid-dock-border);
+  padding: 4px 6px;
+  border-radius: 9999px;
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.5), 0 0 15px rgba(var(--grid-accent-rgb), 0.12);
+  transition: all 0.3s ease;
+  z-index: 20;
+}
+
+.grid-theme-switcher:hover {
+  border-color: var(--grid-accent-bright);
+  box-shadow: 0 12px 30px -5px rgba(0, 0, 0, 0.6), 0 0 20px rgba(var(--grid-accent-rgb), 0.2);
+}
+
+.grid-theme-label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: rgba(255, 255, 255, 0.7);
+  border-right: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+.grid-theme-label i {
+  color: var(--grid-accent-bright);
+  font-size: 10px;
+}
+
+.grid-theme-btn {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 5px 10px;
+  border-radius: 9999px;
+  border: 1px solid transparent;
+  background: transparent;
+  cursor: pointer;
+  font-size: 12px;
+  font-weight: 500;
+  color: rgba(255, 255, 255, 0.7);
+  transition: all 0.2s ease;
+  white-space: nowrap;
+}
+
+.grid-theme-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+}
+
+.grid-theme-btn.active {
+  color: #fff;
+  background: var(--grid-pill-active);
+  border-color: rgba(var(--grid-accent-rgb), 0.4);
+  box-shadow: 0 0 12px rgba(var(--grid-accent-rgb), 0.25);
+  font-weight: 600;
+}
+
+.grid-theme-dot {
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  display: inline-block;
+  box-shadow: 0 0 6px currentColor;
+}
+
+/* Floating Corner Dock for Home Page */
+.grid-dock-floating {
+  position: fixed;
+  bottom: 24px;
+  left: 24px;
+  z-index: 45;
+  transition: transform 0.3s cubic-bezier(0.16, 1, 0.3, 1), opacity 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .grid-dock-floating {
+    bottom: 84px;
+    left: 12px;
+    right: 12px;
+    display: flex;
+    justify-content: center;
+    transform: scale(0.92);
+    transform-origin: bottom center;
+  }
+  .grid-theme-btn span {
+    display: none;
+  }
+  .grid-theme-btn {
+    padding: 6px 8px;
+  }
+}
+
+/* =============================================================
+   BESPOKE ENGINEERING AGENCY UI SYSTEM
+   Mac-style Terminal, Bento Grid, Tech Marquee, Comparison Table
+   ============================================================= */
+
+/* ── Hero Split Layout ───────────────────────────────────────── */
+.hero-split-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+@media (min-width: 1024px) {
+  .hero-split-grid {
+    grid-template-columns: 1.15fr 1fr;
+    gap: 3.5rem;
+  }
+}
+
+/* Live Availability Radar Pill */
+.status-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(16, 185, 129, 0.08);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  padding: 5px 14px;
+  border-radius: 9999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: #4ade80;
+  letter-spacing: 0.02em;
+  box-shadow: 0 0 15px rgba(16, 185, 129, 0.12);
+}
+
+.radar-dot {
+  position: relative;
+  display: flex;
+  width: 8px;
+  height: 8px;
+}
+.radar-dot-ping {
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  background: #22c55e;
+  opacity: 0.75;
+  animation: ping 1.5s cubic-bezier(0, 0, 0.2, 1) infinite;
+}
+.radar-dot-core {
+  position: relative;
+  display: inline-flex;
+  border-radius: 9999px;
+  width: 8px;
+  height: 8px;
+  background: #22c55e;
+}
+@keyframes ping {
+  75%, 100% {
+    transform: scale(2.2);
+    opacity: 0;
+  }
+}
+
+/* Avatar Stack Social Proof */
+.avatar-stack {
+  display: flex;
+  align-items: center;
+}
+.avatar-stack-item {
+  width: 34px;
+  height: 34px;
+  border-radius: 9999px;
+  border: 2px solid #030712;
+  margin-left: -10px;
+  object-fit: cover;
+  background: #1e293b;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.4);
+}
+.avatar-stack-item:first-child { margin-left: 0; }
+
+/* ── Interactive Terminal Cockpit ────────────────────────────── */
+.terminal-window {
+  position: relative;
+  background: rgba(11, 17, 32, 0.94);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 1.25rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 40px rgba(16, 185, 129, 0.12);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  overflow: hidden;
+  transition: all 0.3s ease;
+}
+.terminal-window:hover {
+  border-color: rgba(74, 222, 128, 0.35);
+  box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.8), 0 0 50px rgba(16, 185, 129, 0.18);
+}
+
+.terminal-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 12px 18px;
+  background: rgba(15, 23, 42, 0.75);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+}
+
+.traffic-dots {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+}
+.traffic-dot {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+}
+.dot-red    { background: #ef4444; box-shadow: 0 0 6px rgba(239, 68, 68, 0.4); }
+.dot-yellow { background: #f59e0b; box-shadow: 0 0 6px rgba(245, 158, 11, 0.4); }
+.dot-green  { background: #10b981; box-shadow: 0 0 6px rgba(16, 185, 129, 0.4); }
+
+.terminal-tabs {
+  display: flex;
+  gap: 4px;
+}
+.terminal-tab-btn {
+  background: transparent;
+  border: 1px solid transparent;
+  padding: 4px 10px;
+  border-radius: 6px;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace, sans-serif;
+  font-size: 11px;
+  color: #94a3b8;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+.terminal-tab-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.06);
+}
+.terminal-tab-btn.active {
+  color: #4ade80;
+  background: rgba(34, 197, 94, 0.12);
+  border-color: rgba(34, 197, 94, 0.3);
+  font-weight: 600;
+}
+
+.terminal-body {
+  padding: 18px;
+  font-family: 'JetBrains Mono', 'Fira Code', 'Courier New', monospace;
+  font-size: 12px;
+  line-height: 1.7;
+  color: #e2e8f0;
+  min-height: 250px;
+  max-height: 320px;
+  overflow-y: auto;
+}
+
+.terminal-content-pane {
+  display: none;
+  animation: fadeIn 0.3s ease;
+}
+.terminal-content-pane.active {
+  display: block;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(4px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* Floating HUD Chips */
+.hud-chip {
+  position: absolute;
+  background: rgba(15, 23, 42, 0.88);
+  border: 1px solid rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  padding: 8px 14px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  box-shadow: 0 12px 24px -6px rgba(0, 0, 0, 0.6);
+  z-index: 20;
+  pointer-events: none;
+  animation: hudFloat 6s ease-in-out infinite alternate;
+}
+.hud-chip-top {
+  top: -18px;
+  right: -12px;
+  border-color: rgba(74, 222, 128, 0.4);
+}
+.hud-chip-bottom {
+  bottom: -18px;
+  left: -12px;
+  border-color: rgba(56, 189, 248, 0.4);
+  animation-delay: -3s;
+}
+
+@keyframes hudFloat {
+  0%   { transform: translateY(0); }
+  100% { transform: translateY(-8px); }
+}
+
+/* ── Infinite Tech Stack Marquee ─────────────────────────────── */
+.marquee-wrapper {
+  position: relative;
+  overflow: hidden;
+  padding: 24px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(3, 7, 18, 0.7);
+}
+.marquee-wrapper::before,
+.marquee-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 120px;
+  z-index: 2;
+  pointer-events: none;
+}
+.marquee-wrapper::before {
+  left: 0;
+  background: linear-gradient(90deg, #030712 0%, transparent 100%);
+}
+.marquee-wrapper::after {
+  right: 0;
+  background: linear-gradient(270deg, #030712 0%, transparent 100%);
+}
+
+.marquee-track {
+  display: flex;
+  align-items: center;
+  gap: 3rem;
+  width: max-content;
+  animation: marqueeScroll 28s linear infinite;
+}
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@keyframes marqueeScroll {
+  0%   { transform: translateX(0); }
+  100% { transform: translateX(-50%); }
+}
+
+.tech-pill {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 6px 14px;
+  border-radius: 9999px;
+  background: rgba(15, 23, 42, 0.6);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  color: #94a3b8;
+  font-size: 13px;
+  font-weight: 500;
+  white-space: nowrap;
+  transition: all 0.2s ease;
+}
+.tech-pill:hover {
+  color: #fff;
+  border-color: rgba(74, 222, 128, 0.4);
+  background: rgba(15, 23, 42, 0.9);
+  box-shadow: 0 0 15px rgba(34, 197, 94, 0.15);
+}
+
+/* ── Modern Bento Grid System ────────────────────────────────── */
+.bento-grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+}
+@media (min-width: 768px) {
+  .bento-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .bento-span-2 {
+    grid-column: span 2;
+  }
+}
+
+.bento-card {
+  position: relative;
+  background: rgba(15, 23, 42, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1.25rem;
+  padding: 1.75rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+}
+.bento-card:hover {
+  border-color: rgba(74, 222, 128, 0.35);
+  transform: translateY(-3px);
+  box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.7), 0 0 30px rgba(34, 197, 94, 0.1);
+}
+
+/* Embedded Mini-Mockups in Bento Cards */
+.mini-dashboard-mock {
+  background: rgba(3, 7, 18, 0.75);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  padding: 14px;
+  margin-top: 1.25rem;
+}
+
+.mini-chart-bars {
+  display: flex;
+  align-items: flex-end;
+  gap: 6px;
+  height: 48px;
+  padding-top: 8px;
+}
+.mini-bar {
+  flex: 1;
+  background: rgba(74, 222, 128, 0.2);
+  border-radius: 4px 4px 0 0;
+  transition: height 0.4s ease, background 0.2s;
+}
+.mini-bar:hover {
+  background: #4ade80;
+}
+
+/* Security Shield Pulse in Bento Card */
+.security-badge-radar {
+  position: relative;
+  width: 72px;
+  height: 72px;
+  border-radius: 50%;
+  background: rgba(16, 185, 129, 0.1);
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 1rem auto;
+}
+.security-badge-radar::before {
+  content: '';
+  position: absolute;
+  inset: -6px;
+  border-radius: 50%;
+  border: 1px dashed rgba(74, 222, 128, 0.3);
+  animation: spinSlow 12s linear infinite;
+}
+@keyframes spinSlow {
+  100% { transform: rotate(360deg); }
+}
+
+/* ── Comparison Matrix Table ─────────────────────────────────── */
+.comparison-card {
+  background: rgba(11, 17, 32, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.09);
+  border-radius: 1.5rem;
+  overflow: hidden;
+  box-shadow: 0 20px 50px -10px rgba(0, 0, 0, 0.5);
+}
+
+.comparison-table-row {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr;
+  padding: 16px 20px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+  align-items: center;
+  font-size: 14px;
+}
+.comparison-table-row:last-child {
+  border-bottom: none;
+}
+@media (max-width: 640px) {
+  .comparison-table-row {
+    grid-template-columns: 1.2fr 1fr 1fr;
+    padding: 12px 14px;
+    font-size: 12px;
+  }
+}
+
+.badge-winner {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #4ade80;
+  font-weight: 600;
+}
+.badge-loser {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: #94a3b8;
+  opacity: 0.7;
+}
+
+/* ── Interactive Project Scope Launcher ──────────────────────── */
+.scope-selector-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 10px 18px;
+  background: rgba(15, 23, 42, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 9999px;
+  color: #cbd5e1;
+  font-size: 13.5px;
+  font-weight: 500;
+  text-decoration: none;
+  cursor: pointer;
+  transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.scope-selector-pill:hover {
+  color: #fff;
+  border-color: #4ade80;
+  background: rgba(34, 197, 94, 0.15);
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.2);
+  transform: translateY(-2px);
+}
+
+/* ── Top Projects Marquee Showcase Styles ─────────────────────── */
+.project-marquee-wrapper {
+  position: relative;
+  overflow: hidden;
+  padding: 1.5rem 0;
+  width: 100%;
+}
+
+.project-marquee-card {
+  display: inline-block;
+  width: 330px;
+  background: rgba(15, 23, 42, 0.9);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 1rem;
+  overflow: hidden;
+  margin: 0 12px;
+  text-align: left;
+  vertical-align: top;
+  white-space: normal;
+  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.project-marquee-card:hover {
+  border-color: rgba(74, 222, 128, 0.45);
+  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.7), 0 0 25px rgba(34, 197, 94, 0.16);
+}
+
+.project-marquee-thumb {
+  height: 175px;
+  width: 100%;
+  background: #0f172a;
+  position: relative;
+  overflow: hidden;
+}
+
+.project-marquee-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.project-marquee-card:hover .project-marquee-img {
+  transform: scale(1.05);
+}
+
+.project-marquee-badge {
+  position: absolute;
+  top: 10px;
+  left: 10px;
+  background: rgba(3, 7, 18, 0.85);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  color: #4ade80;
+  font-size: 10px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  padding: 3px 9px;
+  border-radius: 9999px;
+  backdrop-filter: blur(8px);
+}
+
+.project-marquee-body {
+  padding: 1.15rem;
+}
+
+
+
 
 
 
