@@ -1214,7 +1214,7 @@ body.cursor-hover #customCursor {
   }
 
   #mobileBottomNav {
-    display: none !important;
+    display: block !important;
   }
 
   #navbar {
@@ -1223,12 +1223,12 @@ body.cursor-hover #customCursor {
 
   main {
     padding-top: 5rem;
-    padding-bottom: 0;
+    padding-bottom: calc(72px + env(safe-area-inset-bottom, 0px));
   }
 
-  /* Compact WhatsApp Button position on mobile (Clean Rectangular) */
+  /* Compact WhatsApp Button position on mobile (above bottom nav, clean rectangular) */
   a[aria-label="Chat on WhatsApp"].fixed {
-    bottom: 1.5rem !important;
+    bottom: calc(72px + env(safe-area-inset-bottom, 0px) + 0.85rem) !important;
     right: 1rem !important;
     width: 3rem !important;
     height: 3rem !important;

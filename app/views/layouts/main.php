@@ -198,6 +198,15 @@
   <!-- End Google Tag Manager (noscript) -->
 
   <!-- ══ ONE SIMPLE UNIFIED NAVBAR ════════════════════════════════════ -->
+  <?php
+  $rawPath = trim(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '', '/');
+  $appPath = trim(parse_url(APP_URL, PHP_URL_PATH) ?: '', '/');
+  if ($appPath && str_starts_with($rawPath, $appPath)) {
+      $currentRoute = trim(substr($rawPath, strlen($appPath)), '/');
+  } else {
+      $currentRoute = $rawPath;
+  }
+  ?>
   <header id="navbar" class="site-navbar fixed top-0 left-0 right-0 z-50 transition-all duration-300">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-full">
       <div class="flex items-center justify-between h-[76px] md:h-[84px] lg:h-[88px]">
@@ -213,10 +222,6 @@
         <!-- ── 2. Center Nav Links (Desktop — Clean Rectangular, Material UI Icons) ── -->
         <nav class="hidden lg:flex items-center gap-1 xl:gap-2" aria-label="Main Navigation">
           <?php
-          $current = trim(parse_url($_SERVER['REQUEST_URI'] ?? '', PHP_URL_PATH), '/');
-          $base    = trim(parse_url(APP_URL, PHP_URL_PATH) ?? '', '/') . '/public/';
-          $page    = str_replace($base, '', $current);
-
           $navItems = [
             ''          => ['label' => 'Home',      'icon' => 'home'],
             'about'     => ['label' => 'About',     'icon' => 'info'],
@@ -228,7 +233,7 @@
           ];
 
           foreach ($navItems as $path => $item):
-            $isActive = ($page === $path);
+            $isActive = ($currentRoute === $path || ($path !== '' && str_starts_with($currentRoute, $path)));
             $hasDropdown = !empty($item['hasDropdown']);
           ?>
 
@@ -414,7 +419,7 @@
         ];
 
         foreach ($mobileDrawerList as $mItem):
-          $isActive = ($page === $mItem['path']);
+          $isActive = ($currentRoute === $mItem['path'] || ($mItem['path'] !== '' && str_starts_with($currentRoute, $mItem['path'])));
         ?>
         <a href="<?= url($mItem['path']) ?>"
            class="flex items-center gap-3 p-2.5 rounded-md border transition-colors <?= $isActive ? 'bg-eco-500/10 border-eco-500/30 text-eco-400' : 'border-transparent text-slate-300 hover:bg-slate-900/80 hover:border-slate-800' ?>">
@@ -873,6 +878,39 @@
     </span>
     <span class="material-icons-outlined text-white text-2xl group-hover:scale-110 transition-transform">chat</span>
   </a>
+
+  <!-- ── Mobile App Bottom Navigation Bar (Mobile Only: < md) ── -->
+  <?php
+  $mobileNavItems = [
+      ['route' => '',          'label' => 'Home',      'icon' => 'home'],
+      ['route' => 'services',  'label' => 'Services',  'icon' => 'miscellaneous_services'],
+      ['route' => 'projects',  'label' => 'Portfolio', 'icon' => 'work_outline'],
+      ['route' => 'about',     'label' => 'About',     'icon' => 'info'],
+      ['route' => 'contact',   'label' => 'Contact',   'icon' => 'mail_outline'],
+  ];
+  ?>
+  <nav id="mobileBottomNav" aria-label="Mobile Bottom Navigation"
+       class="fixed bottom-0 left-0 right-0 z-50 md:hidden bg-[#040914]/95 backdrop-blur-xl border-t border-slate-800/80 px-2 py-1.5 shadow-2xl">
+    <div class="grid grid-cols-5 gap-1.5 max-w-md mx-auto">
+      <?php foreach ($mobileNavItems as $mItem):
+        $isActive = ($currentRoute === $mItem['route'] || ($mItem['route'] !== '' && str_starts_with($currentRoute, $mItem['route'])));
+      ?>
+      <a href="<?= url($mItem['route']) ?>"
+         class="flex flex-col items-center justify-center py-1.5 px-1 rounded-md transition-all duration-180 relative text-decoration-none <?= $isActive ? 'text-eco-400 font-semibold bg-eco-500/10 border border-eco-500/30' : 'text-slate-400 hover:text-slate-200 border border-transparent' ?>">
+        
+        <!-- Material UI Icon (Clean Rectangular, No circles) -->
+        <span class="material-icons-outlined text-[21px] relative z-10 transition-transform duration-180 <?= $isActive ? 'scale-105 text-eco-400' : 'text-slate-400' ?>">
+          <?= $mItem['icon'] ?>
+        </span>
+
+        <!-- Label -->
+        <span class="text-[10px] tracking-tight relative z-10 mt-0.5 leading-none <?= $isActive ? 'text-eco-300 font-bold' : 'text-slate-400' ?>">
+          <?= $mItem['label'] ?>
+        </span>
+      </a>
+      <?php endforeach; ?>
+    </div>
+  </nav>
 
   <!-- Main JS (with cache-busting timestamp) -->
   <script src="<?= url('assets/js/app.js') ?>?v=<?= file_exists(PUBLIC_PATH . '/assets/js/app.js') ? filemtime(PUBLIC_PATH . '/assets/js/app.js') : '2.0' ?>"></script>
