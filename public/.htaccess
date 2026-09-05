@@ -5,6 +5,9 @@ RewriteEngine On
 # Block access to sensitive directories
 RewriteRule ^(config|app|database|logs|vendor)/ - [F,L]
 
+# Dynamic SEO routes (always routed through controller)
+RewriteRule ^(sitemap\.xml|robots\.txt)$ index.php [QSA,L]
+
 # Serve existing files/directories directly
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

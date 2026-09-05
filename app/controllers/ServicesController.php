@@ -29,10 +29,11 @@ class ServicesController extends BaseController {
         $services = $stmt->fetchAll();
 
         $this->view('services', [
-            'services' => $services,
-            'pageTitle' => 'Services - ' . APP_NAME,
-            'metaDescription' => 'Explore Ecotech Service offerings including web development, app development, UI/UX design, digital marketing, and growth-focused technology consulting.',
-            'canonicalPath' => 'services',
+            'services'        => $services,
+            'pageTitle'       => 'Digital & Web Technology Services — ' . APP_NAME,
+            'metaDescription' => 'Discover our technology services: custom web applications, mobile apps, UI/UX design, digital marketing, cloud DevOps, and professional web security & penetration testing.',
+            'metaKeywords'    => 'web development services, penetration testing services, web security audit, mobile app development, UI UX design services, digital marketing company, cloud DevOps',
+            'canonicalPath'   => 'services',
         ]);
     }
 }

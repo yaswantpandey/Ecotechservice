@@ -17,6 +17,7 @@ class SeoController extends BaseController {
             'pageTitle'       => Security::e($page['meta_title']),
             'metaDescription' => Security::e($page['meta_description']),
             'metaKeywords'    => Security::e($page['target_keyword']),
+            'canonicalPath'   => $slug,
             'page'            => $page
         ]);
     }

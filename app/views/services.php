@@ -3,7 +3,7 @@
 <div class="relative overflow-hidden hero-mesh-bg pt-28 pb-16 border-b border-slate-800/80">
   <div class="absolute inset-0 hero-grid opacity-15 pointer-events-none"></div>
   <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center relative z-10 space-y-4">
-    <div class="inline-flex items-center space-x-2 bg-slate-900/90 border border-eco-500/30 px-4 py-1.5 rounded-full text-eco-300 text-xs font-semibold badge-glow">
+    <div class="inline-flex items-center space-x-2 bg-slate-900/90 border border-eco-500/30 px-4 py-1.5 rounded-md text-eco-300 text-xs font-semibold badge-glow">
       <span class="material-icons text-sm text-eco-400">miscellaneous_services</span>
       <span>Specialized Digital Engineering Capabilities</span>
     </div>

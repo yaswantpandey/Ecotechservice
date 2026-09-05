@@ -30,6 +30,8 @@ $routes = [
     'contact/send'      => ['ContactController',     'send'],
     'blog'              => ['BlogController',         'index'],
     'blog/post'         => ['BlogController',         'post'],
+    'sitemap.xml'       => ['SitemapController',      'index'],
+    'robots.txt'        => ['SitemapController',      'robots'],
     // Admin
     'admin'             => ['Admin\AuthController',  'login'],
     'admin/login'       => ['Admin\AuthController',  'login'],

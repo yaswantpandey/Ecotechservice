@@ -14,10 +14,11 @@ class BlogController extends BaseController {
         $posts = $stmt->fetchAll();
 
         $this->view('blog', [
-            'pageTitle' => 'Blog - ' . APP_NAME,
-            'metaDescription' => 'Read Ecotech Service insights on web development, digital marketing, eco-technology, business growth, and sustainable digital strategy.',
-            'canonicalPath' => 'blog',
-            'posts' => $posts,
+            'pageTitle'       => 'Tech Blog — Web Development, Cybersecurity & Innovation | ' . APP_NAME,
+            'metaDescription' => 'Read tech insights, cybersecurity guides, software design patterns, and digital marketing strategies from the engineering team at Ecotech Service.',
+            'metaKeywords'    => 'tech blog, web development articles, cybersecurity guides, software engineering insights, digital marketing strategies',
+            'canonicalPath'   => 'blog',
+            'posts'           => $posts,
         ]);
     }
 

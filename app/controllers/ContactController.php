@@ -9,9 +9,10 @@ class ContactController extends BaseController {
 
     public function index(): void {
         $this->view('contact', [
-            'pageTitle' => 'Contact Us - ' . APP_NAME,
-            'metaDescription' => 'Contact Ecotech Service to discuss web development, digital marketing, templates, or custom technology projects for your business.',
-            'canonicalPath' => 'contact',
+            'pageTitle'       => 'Contact Us — Start Your Digital Project | ' . APP_NAME,
+            'metaDescription' => 'Connect with Ecotech Service to discuss custom web engineering, cybersecurity audits, mobile apps, or digital marketing. Quick turnaround and dedicated support.',
+            'metaKeywords'    => 'contact ecotech service, hire web developers, cybersecurity audit quote, web development inquiry, contact software team lucknow',
+            'canonicalPath'   => 'contact',
         ]);
     }
 

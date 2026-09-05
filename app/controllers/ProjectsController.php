@@ -21,11 +21,12 @@ class ProjectsController extends BaseController {
         $projects = $stmt->fetchAll();
 
         $this->view('projects', [
-            'projects' => $projects,
-            'activeCategory' => $category,
-            'pageTitle' => 'Portfolio - ' . APP_NAME,
-            'metaDescription' => 'Browse Ecotech Service portfolio projects across websites, apps, templates, marketing campaigns, and sustainable digital products.',
-            'canonicalPath' => 'projects' . ($category ? '?cat=' . urlencode($category) : ''),
+            'projects'        => $projects,
+            'activeCategory'  => $category,
+            'pageTitle'       => 'Portfolio & Client Case Studies — ' . APP_NAME,
+            'metaDescription' => 'Explore our portfolio of web applications, e-commerce platforms, mobile apps, and digital campaigns built with modern tech stacks and responsive design.',
+            'metaKeywords'    => 'web development portfolio, custom software projects, ecommerce case studies, mobile application portfolio, client work',
+            'canonicalPath'   => 'projects' . ($category ? '?cat=' . urlencode($category) : ''),
         ]);
     }
 
@@ -54,12 +55,13 @@ class ProjectsController extends BaseController {
         $images = $imgStmt->fetchAll();
 
         $this->view('project_detail', [
-            'project' => $project,
-            'images' => $images,
-            'pageTitle' => $project['title'] . ' - ' . APP_NAME,
+            'project'         => $project,
+            'images'          => $images,
+            'pageTitle'       => $project['title'] . ' — Case Study | ' . APP_NAME,
             'metaDescription' => truncate(strip_tags($project['description']), 155, ''),
-            'canonicalPath' => 'projects/view?slug=' . urlencode($project['slug']),
-            'ogImage' => !empty($project['thumbnail']) ? uploadUrl($project['thumbnail']) : null,
+            'metaKeywords'    => $project['title'] . ', ' . $project['tech_stack'] . ', case study, web development, ' . APP_NAME,
+            'canonicalPath'   => 'projects/view?slug=' . urlencode($project['slug']),
+            'ogImage'         => !empty($project['thumbnail']) ? uploadUrl($project['thumbnail']) : null,
         ]);
     }
 }

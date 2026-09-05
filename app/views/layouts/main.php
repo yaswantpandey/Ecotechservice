@@ -3,30 +3,194 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <?php $resolvedCanonicalUrl = canonicalUrl($canonicalPath ?? null); ?>
-  <title><?= Security::e($pageTitle ?? APP_NAME) ?></title>
-  <meta name="description" content="<?= Security::e($metaDescription ?? setting('meta_description')) ?>">
-  <?php if (!empty($robotsMeta)): ?>
-  <meta name="robots" content="<?= Security::e($robotsMeta) ?>">
-  <?php endif; ?>
-  <?php if (!empty($metaKeywords)): ?>
-  <meta name="keywords" content="<?= Security::e($metaKeywords) ?>">
-  <?php endif; ?>
+  <?php 
+    $resolvedCanonicalUrl = canonicalUrl($canonicalPath ?? null);
+    $resolvedTitle = Security::e($pageTitle ?? APP_NAME);
+    $resolvedDesc = Security::e($metaDescription ?? setting('meta_description', 'Ecotech Service — Full-stack web development, digital marketing, cybersecurity, and eco-technology solutions.'));
+    $resolvedKeywords = !empty($metaKeywords) 
+      ? Security::e($metaKeywords) 
+      : 'web development, web security, penetration testing, mobile apps, UI UX design, digital marketing, software company, Lucknow, Ecotech Service';
+    $resolvedOgImage = !empty($ogImage) ? $ogImage : url('assets/img/logo.png');
+    $resolvedOgType = Security::e($ogType ?? 'website');
+  ?>
+  <title><?= $resolvedTitle ?></title>
+  <meta name="description" content="<?= $resolvedDesc ?>">
+  <meta name="keywords" content="<?= $resolvedKeywords ?>">
+  <meta name="author" content="Ecotech Service">
+  <meta name="robots" content="<?= !empty($robotsMeta) ? Security::e($robotsMeta) : 'index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1' ?>">
   <link rel="canonical" href="<?= Security::e($resolvedCanonicalUrl) ?>">
 
-  <!-- Open Graph -->
-  <meta property="og:title"       content="<?= Security::e($pageTitle ?? APP_NAME) ?>">
-  <meta property="og:description" content="<?= Security::e($metaDescription ?? setting('meta_description')) ?>">
-  <meta property="og:type"        content="<?= Security::e($ogType ?? 'website') ?>">
+  <!-- Browser UI & Mobile Meta -->
+  <meta name="theme-color" content="#030712">
+  <meta name="msapplication-TileColor" content="#030712">
+  <meta name="format-detection" content="telephone=no">
+
+  <!-- Local SEO & Geo Tags -->
+  <meta name="geo.region" content="IN-UP">
+  <meta name="geo.placename" content="Lucknow">
+  <meta name="geo.position" content="26.8467;80.9462">
+  <meta name="ICBM" content="26.8467, 80.9462">
+
+  <!-- Open Graph / Facebook / WhatsApp -->
+  <meta property="og:type"        content="<?= $resolvedOgType ?>">
   <meta property="og:url"         content="<?= Security::e($resolvedCanonicalUrl) ?>">
-  <meta property="og:site_name"   content="<?= Security::e(APP_NAME) ?>">
+  <meta property="og:title"       content="<?= $resolvedTitle ?>">
+  <meta property="og:description" content="<?= $resolvedDesc ?>">
+  <meta property="og:site_name"   content="<?= Security::e(setting('site_name', APP_NAME)) ?>">
   <meta property="og:locale"      content="en_US">
-  <?php if (!empty($ogImage)): ?>
-  <meta property="og:image"       content="<?= Security::e($ogImage) ?>">
-  <?php endif; ?>
-  <meta name="twitter:card" content="<?= !empty($ogImage) ? 'summary_large_image' : 'summary' ?>">
-  <meta name="twitter:title" content="<?= Security::e($pageTitle ?? APP_NAME) ?>">
-  <meta name="twitter:description" content="<?= Security::e($metaDescription ?? setting('meta_description')) ?>">
+  <meta property="og:image"       content="<?= Security::e($resolvedOgImage) ?>">
+  <meta property="og:image:alt"   content="<?= $resolvedTitle ?>">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+
+  <!-- Twitter Cards -->
+  <meta name="twitter:card"        content="summary_large_image">
+  <meta name="twitter:url"         content="<?= Security::e($resolvedCanonicalUrl) ?>">
+  <meta name="twitter:title"       content="<?= $resolvedTitle ?>">
+  <meta name="twitter:description" content="<?= $resolvedDesc ?>">
+  <meta name="twitter:image"       content="<?= Security::e($resolvedOgImage) ?>">
+  <meta name="twitter:site"        content="@ecotechservice">
+
+  <!-- ── Structured Data (Schema.org JSON-LD) ────────────────────── -->
+  <?php
+    $breadcrumbsSchema = [
+        [
+            "@type" => "ListItem",
+            "position" => 1,
+            "name" => "Home",
+            "item" => url()
+        ]
+    ];
+
+    $currPath = trim($canonicalPath ?? '', '/');
+    if (!empty($currPath)) {
+        $cleanPath = strtok($currPath, '?');
+        $segments = explode('/', $cleanPath);
+        $accumulated = '';
+        $pos = 2;
+        foreach ($segments as $seg) {
+            $accumulated .= ($accumulated ? '/' : '') . $seg;
+            $segName = ucwords(str_replace(['-', '_'], ' ', $seg));
+            if ($seg === 'projects') $segName = 'Portfolio';
+            elseif ($seg === 'view' && !empty($project['title'])) $segName = $project['title'];
+            elseif ($seg === 'post' && !empty($post['title'])) $segName = $post['title'];
+            elseif ($seg === 'services' && !empty($page['service_name'])) $segName = $page['service_name'];
+
+            $breadcrumbsSchema[] = [
+                "@type" => "ListItem",
+                "position" => $pos++,
+                "name" => $segName,
+                "item" => url($accumulated)
+            ];
+        }
+    }
+
+    $schemaGraph = [
+        [
+            "@type" => ["Organization", "ProfessionalService"],
+            "@id" => url('#organization'),
+            "name" => setting('site_name', APP_NAME),
+            "url" => url(),
+            "logo" => [
+                "@type" => "ImageObject",
+                "@id" => url('#logo'),
+                "url" => url('assets/img/logo.png'),
+                "caption" => setting('site_name', APP_NAME)
+            ],
+            "image" => url('assets/img/logo.png'),
+            "description" => setting('meta_description', 'Ecotech Service provides full-stack web development, digital marketing, cybersecurity, and eco-technology solutions.'),
+            "telephone" => setting('site_phone', '+917398301184'),
+            "email" => setting('site_email', 'ecotech.servic@gmail.com'),
+            "address" => [
+                "@type" => "PostalAddress",
+                "streetAddress" => setting('site_address', 'Lucknow uttar pradesh'),
+                "addressLocality" => "Lucknow",
+                "addressRegion" => "Uttar Pradesh",
+                "postalCode" => "226001",
+                "addressCountry" => "IN"
+            ],
+            "geo" => [
+                "@type" => "GeoCoordinates",
+                "latitude" => 26.8467,
+                "longitude" => 80.9462
+            ],
+            "priceRange" => "$$",
+            "openingHoursSpecification" => [
+                [
+                    "@type" => "OpeningHoursSpecification",
+                    "dayOfWeek" => ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
+                    "opens" => "09:00",
+                    "closes" => "19:00"
+                ]
+            ],
+            "sameAs" => array_values(array_filter([
+                setting('facebook_url', 'https://facebook.com/ecotechservice'),
+                setting('twitter_url', 'https://twitter.com/ecotechservice'),
+                setting('linkedin_url', 'https://linkedin.com/company/ecotechservice'),
+                setting('instagram_url', 'https://instagram.com/ecotech.service')
+            ]))
+        ],
+        [
+            "@type" => "WebSite",
+            "@id" => url('#website'),
+            "url" => url(),
+            "name" => setting('site_name', APP_NAME),
+            "publisher" => [
+                "@id" => url('#organization')
+            ],
+            "inLanguage" => "en-US"
+        ],
+        [
+            "@type" => "BreadcrumbList",
+            "@id" => $resolvedCanonicalUrl . "#breadcrumb",
+            "itemListElement" => $breadcrumbsSchema
+        ]
+    ];
+
+    if (!empty($post) && ($ogType ?? '') === 'article') {
+        $schemaGraph[] = [
+            "@type" => "BlogPosting",
+            "@id" => $resolvedCanonicalUrl . "#article",
+            "isPartOf" => [
+                "@id" => url('#website')
+            ],
+            "headline" => $pageTitle ?? $post['title'],
+            "description" => $metaDescription ?? '',
+            "inLanguage" => "en-US",
+            "mainEntityOfPage" => $resolvedCanonicalUrl,
+            "datePublished" => date('c', strtotime($post['published_at'] ?? $post['created_at'])),
+            "dateModified" => date('c', strtotime($post['updated_at'] ?? $post['published_at'] ?? $post['created_at'])),
+            "author" => [
+                "@type" => "Person",
+                "name" => $post['author_name'] ?? 'Ecotech Service Team'
+            ],
+            "publisher" => [
+                "@id" => url('#organization')
+            ],
+            "image" => !empty($post['thumbnail']) ? uploadUrl($post['thumbnail']) : url('assets/img/logo.png')
+        ];
+    }
+
+    if (!empty($page)) {
+        $schemaGraph[] = [
+            "@type" => "Service",
+            "@id" => $resolvedCanonicalUrl . "#service",
+            "name" => $page['service_name'] ?? 'IT Services',
+            "serviceType" => $page['service_name'] ?? 'Software & Web Development',
+            "provider" => [
+                "@id" => url('#organization')
+            ],
+            "areaServed" => [
+                "@type" => "AdministrativeArea",
+                "name" => $page['location'] ?? 'Lucknow'
+            ],
+            "description" => $page['meta_description'] ?? ''
+        ];
+    }
+  ?>
+  <script type="application/ld+json">
+  <?= json_encode(['@context' => 'https://schema.org', '@graph' => $schemaGraph], JSON_UNESCAPED_SLASHES | JSON_UNESCAPED_UNICODE | JSON_PRETTY_PRINT) ?>
+  </script>
 
   <!-- Favicon -->
   <link rel="icon" type="image/svg+xml" href="<?= url('assets/img/favicon.svg?v=2') ?>">
