@@ -47,6 +47,41 @@ $coreServices = [
     ],
 ];
 
+// Differentiators (left column of the advantage section)
+$advantages = [
+    [
+        'icon'  => 'fa-bolt',
+        'title' => 'Sub-Second Performance',
+        'desc'  => 'Optimized database queries and efficient architecture for fast response times.',
+    ],
+    [
+        'icon'  => 'fa-shield-halved',
+        'title' => 'Bank-Grade OWASP Security',
+        'desc'  => 'Protection against CSRF, SQL injection, XSS, and data leaks built in at every layer.',
+    ],
+    [
+        'icon'  => 'fa-headset',
+        'title' => 'Dedicated Engineering Support',
+        'desc'  => 'Work directly with senior software engineers with transparent progress reporting.',
+    ],
+];
+
+// Numbered proof points (right column of the advantage section)
+$principles = [
+    ['no'=>'01', 'title'=>'Clean Architecture',    'desc'=>'No bloated page builders or slow plugins. Clean hand-written code designed for agility and security.'],
+    ['no'=>'02', 'title'=>'Programmatic SEO',      'desc'=>'Built-in programmatic landing structures to capture targeted Google search traffic organically.'],
+    ['no'=>'03', 'title'=>'Scalable Modular Tech', 'desc'=>'Modular MVC architecture easily allows adding new features as your client base expands.'],
+    ['no'=>'04', 'title'=>'Full Source Ownership', 'desc'=>'100% full source code ownership and seamless deployment on your server environment.'],
+];
+
+// Delivery process
+$process = [
+    ['no'=>'01', 'title'=>'Strategy & Scope',       'desc'=>'We analyze your business goals, target audience, and functional scope to craft a precise technical blueprint.'],
+    ['no'=>'02', 'title'=>'UI/UX & Architecture',   'desc'=>'Designing clean, responsive user interfaces focused on conversion rates, accessibility, and modern aesthetics.'],
+    ['no'=>'03', 'title'=>'Agile Engineering',      'desc'=>'Developing your web application using clean code standards, secure database design, and fast API endpoints.'],
+    ['no'=>'04', 'title'=>'Deployment & Growth',    'desc'=>'Rigorous testing, cloud deployment, SEO setup, and continuous post-launch optimization to drive results.'],
+];
+
 // Frequently Asked Questions
 $faqs = [
     [
@@ -66,69 +101,281 @@ $faqs = [
         'a' => 'Yes. We provide 24/7 technical support, infrastructure monitoring, security patch management, and continuous feature scaling.'
     ],
 ];
+
+$waNumber = rawurlencode(setting('whatsapp_number'));
+$waText   = rawurlencode('Hi EcoTech! I want to discuss a project.');
+$waLink   = 'https://wa.me/' . $waNumber . '?text=' . $waText;
 ?>
+
+<style>
+/* ==========================================================
+   Home page refinement layer (scoped to #homePageRoot)
+   Calmer surfaces, stronger type hierarchy, hairline rules.
+   ========================================================== */
+#homePageRoot {
+  --hp-accent:   #22c55e;
+  --hp-accent-2: #4ade80;
+  --hp-line:     rgba(148, 163, 184, 0.14);
+  --hp-line-str: rgba(148, 163, 184, 0.26);
+  --hp-surface:  rgba(15, 23, 42, 0.55);
+}
+
+/* ── Rhythm ───────────────────────────────────────────────── */
+#homePageRoot .hp-section { padding: 5.5rem 0; position: relative; }
+#homePageRoot .hp-section--tight { padding: 4rem 0; }
+#homePageRoot .hp-rule { border-top: 1px solid var(--hp-line); }
+#homePageRoot .hp-shell { max-width: 80rem; margin: 0 auto; padding: 0 1rem; }
+@media (min-width: 640px) { #homePageRoot .hp-shell { padding: 0 1.5rem; } }
+@media (min-width: 1024px) { #homePageRoot .hp-shell { padding: 0 2rem; } }
+
+/* ── Section headers ──────────────────────────────────────── */
+#homePageRoot .hp-eyebrow {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.14em;
+  text-transform: uppercase; color: #94a3b8;
+}
+#homePageRoot .hp-eyebrow::before {
+  content: ''; width: 1.5rem; height: 1px; background: var(--hp-accent);
+}
+#homePageRoot .hp-h2 {
+  font-family: 'Space Grotesk', Inter, sans-serif;
+  font-weight: 700; color: #fff; letter-spacing: -0.02em;
+  font-size: clamp(1.75rem, 3.4vw, 2.5rem); line-height: 1.15;
+  margin: 0.875rem 0 0;
+}
+#homePageRoot .hp-lead {
+  color: #94a3b8; font-size: 0.9375rem; line-height: 1.7;
+  margin: 0.875rem 0 0; max-width: 34rem;
+}
+#homePageRoot .hp-head-center { text-align: center; }
+#homePageRoot .hp-head-center .hp-lead { margin-left: auto; margin-right: auto; }
+
+/* ── Hero ─────────────────────────────────────────────────── */
+#homePageRoot .hp-hero-title {
+  font-family: 'Space Grotesk', Inter, sans-serif;
+  font-weight: 800; color: #fff; letter-spacing: -0.035em;
+  font-size: clamp(2.25rem, 6vw, 4.25rem); line-height: 1.04;
+}
+#homePageRoot .hp-hero-accent {
+  width: 4.5rem; height: 3px; border-radius: 2px;
+  background: linear-gradient(90deg, var(--hp-accent), rgba(34,197,94,0));
+}
+#homePageRoot .hp-hero-sub {
+  color: #cbd5e1; font-size: 1.0625rem; line-height: 1.75; max-width: 38rem;
+}
+#homePageRoot .hp-status {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.75rem; font-weight: 600; color: #cbd5e1;
+  padding: 0.375rem 0.875rem; border-radius: 999px;
+  background: rgba(2, 6, 23, 0.6); border: 1px solid var(--hp-line);
+  backdrop-filter: blur(8px);
+}
+#homePageRoot .hp-status i { color: var(--hp-accent-2); font-size: 0.6875rem; }
+
+/* Inline stat strip with hairline separators */
+#homePageRoot .hp-stats {
+  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr));
+  border-top: 1px solid var(--hp-line);
+}
+@media (min-width: 768px) { #homePageRoot .hp-stats { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+#homePageRoot .hp-stat { padding: 1.5rem 1.25rem 0; }
+#homePageRoot .hp-stat + .hp-stat { border-left: 1px solid var(--hp-line); }
+@media (max-width: 767px) {
+  #homePageRoot .hp-stat:nth-child(odd) { border-left: 0; }
+  #homePageRoot .hp-stat:nth-child(n+3) { border-top: 1px solid var(--hp-line); padding-top: 1.25rem; margin-top: 1.25rem; }
+}
+#homePageRoot .hp-stat-num {
+  font-family: 'Space Grotesk', Inter, sans-serif;
+  font-size: 1.875rem; font-weight: 700; color: #fff; letter-spacing: -0.02em;
+}
+#homePageRoot .hp-stat-label {
+  font-size: 0.75rem; color: #94a3b8; margin-top: 0.25rem; line-height: 1.5;
+}
+
+/* ── Hairline card grid (services) ────────────────────────── */
+#homePageRoot .hp-grid {
+  display: grid; gap: 1px; background: var(--hp-line);
+  border: 1px solid var(--hp-line); border-radius: 0.875rem; overflow: hidden;
+}
+@media (min-width: 640px) { #homePageRoot .hp-grid-2 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { #homePageRoot .hp-grid-3 { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
+@media (min-width: 640px) { #homePageRoot .hp-grid-4 { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { #homePageRoot .hp-grid-4 { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+
+#homePageRoot .hp-cell {
+  background: #020617; padding: 2rem 1.75rem;
+  display: flex; flex-direction: column;
+  transition: background-color .25s ease;
+}
+#homePageRoot .hp-cell:hover { background: rgba(15, 23, 42, 0.75); }
+#homePageRoot .hp-cell-icon {
+  width: 2.75rem; height: 2.75rem; border-radius: 0.75rem;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--hp-accent-2); background: rgba(34, 197, 94, 0.08);
+  border: 1px solid rgba(34, 197, 94, 0.2);
+  transition: background-color .25s ease, color .25s ease;
+}
+#homePageRoot .hp-cell:hover .hp-cell-icon { background: var(--hp-accent); color: #04140a; }
+#homePageRoot .hp-cell-title {
+  font-family: 'Space Grotesk', Inter, sans-serif;
+  font-size: 1.0625rem; font-weight: 700; color: #f1f5f9;
+  margin: 1.25rem 0 0.625rem; letter-spacing: -0.01em;
+}
+#homePageRoot .hp-cell-desc { color: #94a3b8; font-size: 0.875rem; line-height: 1.7; }
+#homePageRoot .hp-cell-meta {
+  margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid var(--hp-line);
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 0.75rem; font-weight: 600;
+}
+#homePageRoot .hp-cell-link { color: #cbd5e1; display: inline-flex; align-items: center; gap: 0.375rem; transition: color .2s; }
+#homePageRoot .hp-cell:hover .hp-cell-link { color: var(--hp-accent-2); }
+#homePageRoot .hp-num {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.8125rem; font-weight: 700; color: var(--hp-accent-2);
+  letter-spacing: 0.08em;
+}
+
+/* ── Advantage list ───────────────────────────────────────── */
+#homePageRoot .hp-adv { display: flex; gap: 1rem; padding: 1.5rem 0; border-top: 1px solid var(--hp-line); }
+#homePageRoot .hp-adv-icon {
+  width: 2.25rem; height: 2.25rem; border-radius: 0.625rem; flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: var(--hp-accent-2); background: rgba(34, 197, 94, 0.1);
+  border: 1px solid rgba(34, 197, 94, 0.22); font-size: 0.8125rem;
+}
+#homePageRoot .hp-adv-title {
+  font-family: 'Space Grotesk', Inter, sans-serif;
+  font-size: 0.9375rem; font-weight: 600; color: #f1f5f9;
+}
+#homePageRoot .hp-adv-desc { color: #94a3b8; font-size: 0.8125rem; line-height: 1.65; margin-top: 0.25rem; }
+
+/* ── Panels (templates / testimonials) ────────────────────── */
+#homePageRoot .hp-panel {
+  background: var(--hp-surface); border: 1px solid var(--hp-line);
+  border-radius: 0.875rem; padding: 1.5rem;
+  display: flex; flex-direction: column;
+  transition: border-color .25s ease, transform .25s ease;
+}
+#homePageRoot .hp-panel:hover { border-color: var(--hp-line-str); transform: translateY(-2px); }
+#homePageRoot .hp-thumb {
+  height: 11rem; border-radius: 0.625rem; overflow: hidden; position: relative;
+  background: #020617; border: 1px solid var(--hp-line);
+}
+#homePageRoot .hp-thumb img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s ease; }
+#homePageRoot .hp-panel:hover .hp-thumb img { transform: scale(1.04); }
+#homePageRoot .hp-price {
+  position: absolute; top: 0.625rem; right: 0.625rem;
+  font-size: 0.6875rem; font-weight: 700; color: #04140a;
+  background: var(--hp-accent); padding: 0.25rem 0.5rem; border-radius: 0.375rem;
+}
+#homePageRoot .hp-quote { color: #e2e8f0; font-size: 0.9375rem; line-height: 1.75; }
+#homePageRoot .hp-avatar {
+  width: 2.5rem; height: 2.5rem; border-radius: 999px; flex-shrink: 0;
+  display: inline-flex; align-items: center; justify-content: center;
+  font-weight: 700; font-size: 0.8125rem; color: #04140a;
+  background: linear-gradient(135deg, var(--hp-accent-2), #0ea5e9);
+}
+
+/* ── CTA ──────────────────────────────────────────────────── */
+#homePageRoot .hp-cta {
+  border: 1px solid rgba(34, 197, 94, 0.28); border-radius: 1.125rem;
+  background:
+    radial-gradient(120% 140% at 50% 0%, rgba(34, 197, 94, 0.12), transparent 62%),
+    rgba(2, 6, 23, 0.72);
+  padding: 3.5rem 1.5rem; text-align: center; position: relative; overflow: hidden;
+}
+@media (min-width: 640px) { #homePageRoot .hp-cta { padding: 4.5rem 3.5rem; } }
+#homePageRoot .hp-cta-title {
+  font-family: 'Space Grotesk', Inter, sans-serif;
+  font-weight: 800; color: #fff; letter-spacing: -0.03em;
+  font-size: clamp(1.875rem, 4.2vw, 3rem); line-height: 1.1;
+}
+
+/* ── WhatsApp link (demoted from a solid button) ──────────── */
+#homePageRoot .hp-wa {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  font-size: 0.875rem; font-weight: 600; color: #94a3b8;
+  transition: color .2s ease;
+}
+#homePageRoot .hp-wa:hover { color: #25D366; }
+#homePageRoot .hp-wa i { color: #25D366; font-size: 1.0625rem; }
+
+/* ── Slider header controls ───────────────────────────────── */
+#homePageRoot .hp-ctrl {
+  width: 2.5rem; height: 2.5rem; border-radius: 0.5rem;
+  display: inline-flex; align-items: center; justify-content: center;
+  color: #cbd5e1; background: rgba(2, 6, 23, 0.7);
+  border: 1px solid var(--hp-line); cursor: pointer;
+  transition: border-color .2s ease, color .2s ease, background-color .2s ease;
+}
+#homePageRoot .hp-ctrl:hover { color: #fff; border-color: rgba(34,197,94,0.45); background: rgba(15,23,42,0.9); }
+#homePageRoot .hp-ctrl:active { transform: scale(0.95); }
+#homePageRoot .hp-counter {
+  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+  font-size: 0.75rem; font-weight: 600; letter-spacing: 0.1em;
+  color: var(--hp-accent-2); padding: 0.5rem 0.75rem; border-radius: 0.5rem;
+  background: rgba(34, 197, 94, 0.08); border: 1px solid rgba(34, 197, 94, 0.22);
+}
+
+/* ── FAQ refinement (keeps .faq-* JS hooks intact) ────────── */
+#homePageRoot .faq-item { border-radius: 0.75rem; }
+
+@media (prefers-reduced-motion: reduce) {
+  #homePageRoot * { transition: none !important; animation: none !important; }
+}
+</style>
 
 <div id="homePageRoot" class="relative overflow-hidden" data-grid-theme="emerald">
 
-<!-- ═══════════════════════════════════════════════════════════
-     1. MINIMAL CORPORATE HERO SECTION
-     ═══════════════════════════════════════════════════════════ -->
-<section id="heroSection" class="relative min-h-[84vh] flex items-center overflow-hidden pt-28 pb-16 bg-slate-950 border-b border-slate-800/80">
-  <!-- Subtle Background Grid System -->
+<!-- ==========================================================
+     1. HERO
+     ========================================================== -->
+<section id="heroSection" class="relative flex items-center overflow-hidden pt-28 pb-20 bg-slate-950 hp-rule" style="min-height:82vh">
+  <!-- Single restrained grid texture + mouse spotlight -->
   <div class="tech-grid-wrapper" id="heroGridWrapper">
-    <div class="tech-grid-orbs">
-      <div class="grid-orb grid-orb-1"></div>
-      <div class="grid-orb grid-orb-2"></div>
-      <div class="grid-orb grid-orb-3"></div>
-    </div>
     <div class="tech-grid-pattern"></div>
     <div class="tech-grid-spotlight" id="heroGridSpotlight"></div>
-    <div class="tech-grid-spotlight-lines" id="heroGridSpotlightLines"></div>
-    <div class="tech-grid-beam"></div>
   </div>
 
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full z-10">
-    <div class="max-w-4xl mx-auto text-center space-y-6">
-      
-      <!-- Minimalist Corporate Badge -->
-      <div class="inline-flex items-center space-x-2 bg-slate-900/90 border border-slate-800 px-4 py-1.5 rounded-full text-slate-300 text-xs font-semibold tracking-wide backdrop-blur-md">
-        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-        <span>Enterprise Software Engineering &amp; IT Digital Solutions</span>
+  <div class="hp-shell relative z-10 w-full">
+    <div class="max-w-4xl">
+
+      <div class="hp-status">
+        <i class="fas fa-circle"></i>
+        <span>Enterprise Software Engineering &amp; IT Solutions</span>
       </div>
 
-      <!-- Main Clean Corporate Headline -->
-      <h1 class="font-display text-4xl sm:text-6xl lg:text-7xl font-extrabold text-white leading-tight tracking-tight">
-        Building High-Performance <br>
-        <span class="text-gradient">Digital Infrastructure &amp; Software</span>
+      <h1 class="hp-hero-title mt-7">
+        Web engineering &amp;<br>
+        security, <span class="text-gradient">delivered.</span>
       </h1>
 
-      <!-- Supporting Corporate Text -->
-      <p class="text-lg sm:text-xl text-slate-300 leading-relaxed max-w-3xl mx-auto font-normal">
-        EcoTech Services partners with startups, growing businesses, and enterprises to engineer secure, fast, and scalable digital platforms built for long-term reliability and sustainable growth.
+      <div class="hp-hero-accent mt-7"></div>
+
+      <p class="hp-hero-sub mt-6">
+        EcoTech Services engineers secure, fast, and scalable digital platforms for startups,
+        growing businesses, and enterprises &mdash; built for long-term reliability.
       </p>
 
-      <!-- Clean Action Buttons -->
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-        <a href="<?= url('services') ?>" class="btn-primary py-3.5 px-8 text-base justify-center w-full sm:w-auto font-semibold">
-          <span>Explore Services</span>
+      <div class="flex flex-col sm:flex-row sm:items-center gap-4 mt-9">
+        <a href="<?= url('contact') ?>" class="btn-primary py-3.5 px-8 text-base justify-center font-semibold">
+          <span>Start a project</span>
           <i class="fas fa-arrow-right ml-2 text-sm"></i>
         </a>
-        <a href="<?= url('contact') ?>" class="btn-outline py-3.5 px-8 text-base justify-center w-full sm:w-auto font-semibold border-slate-800 text-slate-200 hover:bg-slate-900">
-          <span>Schedule Consultation</span>
+        <a href="<?= url('projects') ?>" class="btn-outline py-3.5 px-7 text-base justify-center font-semibold border-slate-800 text-slate-200 hover:bg-slate-900">
+          <span>See our work</span>
         </a>
-        <a href="https://wa.me/<?= setting('whatsapp_number') ?>?text=Hi+EcoTech!+I+want+to+discuss+a+project." target="_blank"
-           class="inline-flex items-center justify-center space-x-2 px-6 py-3.5 bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold rounded-xl transition-all duration-200 w-full sm:w-auto text-sm shadow">
-          <i class="fab fa-whatsapp text-lg"></i>
-          <span>WhatsApp Direct</span>
+        <a href="<?= Security::e($waLink) ?>" target="_blank" rel="noopener noreferrer" class="hp-wa sm:ml-2 justify-center sm:justify-start">
+          <i class="fab fa-whatsapp"></i>
+          <span>or message us on WhatsApp</span>
         </a>
       </div>
 
-      <!-- Trust Metrics Bar -->
-      <div class="pt-10 border-t border-slate-900 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-3xl mx-auto text-center">
+      <div class="hp-stats mt-14">
         <?php foreach ($stats as $s): ?>
-        <div class="p-3">
-          <div class="font-display text-2xl sm:text-3xl font-extrabold text-white tracking-tight" data-counter="<?= $s['num'] ?>"><?= $s['num'] ?></div>
-          <div class="text-xs text-slate-400 font-medium mt-1"><?= $s['label'] ?></div>
+        <div class="hp-stat">
+          <div class="hp-stat-num" data-counter="<?= Security::e($s['num']) ?>"><?= Security::e($s['num']) ?></div>
+          <div class="hp-stat-label"><?= Security::e($s['label']) ?></div>
         </div>
         <?php endforeach; ?>
       </div>
@@ -137,94 +384,80 @@ $faqs = [
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════
-     2. TOP FEATURED PROJECTS (ONE-BY-ONE INTERACTIVE SLIDER)
-     ═══════════════════════════════════════════════════════════ -->
-<section class="py-16 bg-slate-950 border-b border-slate-900/80 relative overflow-hidden" id="featured-projects-section">
-  <!-- Subtle Micro Grid Background -->
-  <div class="tech-grid-wrapper"><div class="tech-grid-subtle"></div></div>
+<!-- ==========================================================
+     2. FEATURED PROJECTS (one-by-one slider)
+     ========================================================== -->
+<section class="hp-section hp-section--tight bg-slate-950 hp-rule relative overflow-hidden" id="featured-projects-section">
+  <div class="hp-shell relative z-10">
 
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 mb-8">
-    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-10">
       <div>
-        <span class="section-tag"><i class="fas fa-layer-group text-xs mr-1"></i> Featured Portfolio</span>
-        <h2 class="section-title text-left mt-2">Top Featured <span class="text-gradient">Client Projects</span></h2>
-        <p class="section-desc text-left max-w-xl mt-1">Explore verified live websites, digital platforms, and custom software delivered by EcoTech Services.</p>
+        <span class="hp-eyebrow">Featured Portfolio</span>
+        <h2 class="hp-h2">Selected <span class="text-gradient">client work</span></h2>
+        <p class="hp-lead">Verified live websites, digital platforms, and custom software delivered by EcoTech Services.</p>
       </div>
 
-      <!-- Slider Controls Header (Non-Circular, Sleek Rectangular) -->
-      <div class="flex items-center space-x-3 self-start md:self-end">
-        <!-- Live Slide Counter Badge -->
-        <div id="projectSlideCounter" class="text-xs font-mono font-semibold text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-3.5 py-2 rounded-lg tracking-wider">
+      <div class="flex items-center gap-3 shrink-0">
+        <div id="projectSlideCounter" class="hp-counter">
           01 / <?= str_pad((string)count($featuredProjects), 2, '0', STR_PAD_LEFT) ?>
         </div>
-
-        <!-- Navigation Buttons -->
-        <button id="projPrevBtn" class="w-10 h-10 bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 hover:border-emerald-500/50 rounded-lg transition-all shadow-sm active:scale-95 flex items-center justify-center cursor-pointer" aria-label="Previous project">
+        <button id="projPrevBtn" type="button" class="hp-ctrl" aria-label="Previous project">
           <span class="material-symbols-outlined text-xl">arrow_back</span>
         </button>
-        <button id="projNextBtn" class="w-10 h-10 bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 hover:border-emerald-500/50 rounded-lg transition-all shadow-sm active:scale-95 flex items-center justify-center cursor-pointer" aria-label="Next project">
+        <button id="projNextBtn" type="button" class="hp-ctrl" aria-label="Next project">
           <span class="material-symbols-outlined text-xl">arrow_forward</span>
         </button>
-
-        <a href="<?= url('projects') ?>" class="btn-outline text-xs py-2.5 px-4 rounded-lg hidden sm:inline-flex items-center space-x-1.5 border-slate-800 hover:border-slate-700">
-          <span>All Projects</span>
-          <i class="fas fa-arrow-right text-[10px]"></i>
+        <a href="<?= url('projects') ?>" class="hidden sm:inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white transition-colors ml-1">
+          <span>All projects</span>
+          <i class="fas fa-arrow-right text-[10px] text-eco-400"></i>
         </a>
       </div>
     </div>
-  </div>
 
-  <!-- One-by-One Project Slider Track Container -->
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
     <div class="project-slider-viewport" id="projectSliderViewport">
       <div class="project-slider-track gap-6" id="projectSliderTrack">
-        <?php foreach ($featuredProjects as $p): 
-          $hasLive = !empty($p['live_url']);
-          $localThumb = !empty($p['thumbnail']) ? $p['thumbnail'] : 'project_startup_landing.png';
-          $thumbUrl = uploadUrl($localThumb);
+        <?php foreach ($featuredProjects as $p):
+          $hasLive       = !empty($p['live_url']);
+          $localThumb    = !empty($p['thumbnail']) ? $p['thumbnail'] : 'project_startup_landing.png';
+          $thumbUrl      = uploadUrl($localThumb);
           $categoryLabel = ucfirst($p['category'] ?? 'Website');
         ?>
         <div class="project-slide-card group flex-shrink-0">
           <div class="project-slide-inner">
-            <!-- Thumbnail Viewport -->
             <div class="project-slide-thumb relative">
               <?php if ($hasLive): ?>
               <img src="//image.thum.io/get/width/800/crop/500/noanimate/<?= Security::e(rtrim($p['live_url'], '/')) ?>"
                    alt="<?= Security::e($p['title']) ?>"
                    class="project-slide-img"
                    loading="lazy"
-                   onerror="this.onerror=null; this.src='<?= $thumbUrl ?>'">
+                   onerror="this.onerror=null; this.src='<?= Security::e($thumbUrl) ?>'">
               <?php else: ?>
-              <img src="<?= $thumbUrl ?>"
+              <img src="<?= Security::e($thumbUrl) ?>"
                    alt="<?= Security::e($p['title']) ?>"
                    class="project-slide-img"
                    loading="lazy">
               <?php endif; ?>
 
-              <!-- Clean Rectangular Category Badge (Non-circular) -->
-              <span class="absolute top-3 left-3 bg-slate-950/85 backdrop-blur-md border border-slate-700/60 text-emerald-400 text-[10px] font-mono font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md">
+              <span class="absolute top-3 left-3 bg-slate-950/85 backdrop-blur-md border border-slate-700/60 text-eco-400 text-[10px] font-mono font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md">
                 <?= Security::e($categoryLabel) ?>
               </span>
 
               <?php if (!empty($p['is_featured'])): ?>
-              <span class="absolute top-3 right-3 bg-amber-500/20 backdrop-blur-md border border-amber-500/40 text-amber-300 text-[10px] font-semibold px-2 py-0.5 rounded-md flex items-center gap-1">
+              <span class="absolute top-3 right-3 bg-slate-950/85 backdrop-blur-md border border-amber-500/40 text-amber-300 text-[10px] font-semibold px-2 py-1 rounded-md inline-flex items-center gap-1">
                 <i class="fas fa-star text-[9px] text-amber-400"></i> Featured
               </span>
               <?php endif; ?>
             </div>
 
-            <!-- Card Body -->
             <div class="p-5 flex flex-col flex-grow justify-between">
               <div>
-                <h3 class="font-display font-bold text-white text-lg mb-2 group-hover:text-emerald-300 transition-colors line-clamp-1">
+                <h3 class="font-display font-bold text-white text-lg mb-2 group-hover:text-eco-300 transition-colors line-clamp-1">
                   <?= Security::e($p['title']) ?>
                 </h3>
-                <p class="text-slate-400 text-xs sm:text-sm leading-relaxed mb-4 line-clamp-2">
+                <p class="text-slate-400 text-sm leading-relaxed mb-4 line-clamp-2">
                   <?= Security::e(truncate($p['description'] ?? '', 110)) ?>
                 </p>
 
-                <!-- Tech Stack Tags -->
                 <?php if (!empty($p['tech_stack'])): ?>
                 <div class="flex flex-wrap gap-1.5 mb-4">
                   <?php foreach (array_slice(explode(',', $p['tech_stack']), 0, 3) as $tech): ?>
@@ -236,15 +469,14 @@ $faqs = [
                 <?php endif; ?>
               </div>
 
-              <!-- Card Action Bar -->
               <div class="pt-3.5 border-t border-slate-800/80 flex items-center justify-between text-xs mt-auto">
-                <a href="<?= url('projects/view?slug=' . urlencode($p['slug'])) ?>" class="text-emerald-400 font-semibold hover:text-emerald-300 flex items-center space-x-1 transition-colors">
-                  <span>View Case Study</span>
+                <a href="<?= url('projects/view?slug=' . urlencode($p['slug'])) ?>" class="text-eco-400 font-semibold hover:text-eco-300 flex items-center gap-1 transition-colors">
+                  <span>View case study</span>
                   <span class="material-symbols-outlined text-sm">arrow_forward</span>
                 </a>
                 <?php if ($hasLive): ?>
-                <a href="<?= Security::e($p['live_url']) ?>" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white flex items-center space-x-1 text-[11px] transition-colors">
-                  <span>Live Site</span>
+                <a href="<?= Security::e($p['live_url']) ?>" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white flex items-center gap-1 text-[11px] transition-colors">
+                  <span>Live site</span>
                   <span class="material-symbols-outlined text-xs">open_in_new</span>
                 </a>
                 <?php endif; ?>
@@ -256,15 +488,15 @@ $faqs = [
       </div>
     </div>
 
-    <!-- Bottom Indicator Pills (Non-Circular Bars) -->
     <div class="flex items-center justify-center gap-2 mt-8" id="projectSliderIndicators">
       <!-- Generated via JS -->
     </div>
+
   </div>
 </section>
 
 <script>
-// ── Top Featured Projects One-by-One Interactive Slider ──────
+// ── Featured projects: one-by-one infinite slider ────────────
 (function initProjectSlider() {
   const container = document.getElementById('projectSliderViewport');
   const track = document.getElementById('projectSliderTrack');
@@ -272,14 +504,14 @@ $faqs = [
   const nextBtn = document.getElementById('projNextBtn');
   const counter = document.getElementById('projectSlideCounter');
   const indicatorsContainer = document.getElementById('projectSliderIndicators');
-  
+
   if (!container || !track) return;
 
   const originalCards = Array.from(track.children);
   const totalOriginal = originalCards.length;
   if (totalOriginal === 0) return;
 
-  // Clone original cards once for seamless infinite loop
+  // Clone original cards once for a seamless infinite loop
   originalCards.forEach(card => {
     const clone = card.cloneNode(true);
     clone.setAttribute('aria-hidden', 'true');
@@ -289,7 +521,8 @@ $faqs = [
   let currentIndex = 0;
   let isTransitioning = false;
   let autoplayTimer = null;
-  const autoplayDelay = 3500; // 3.5s per card
+  const autoplayDelay = 4500;
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   function getVisibleCount() {
     if (window.innerWidth >= 1024) return 3;
@@ -306,8 +539,7 @@ $faqs = [
 
   function updateLayout() {
     const cardWidth = getCardWidth();
-    const allCards = Array.from(track.children);
-    allCards.forEach(card => {
+    Array.from(track.children).forEach(card => {
       card.style.width = `${cardWidth}px`;
       card.style.flexShrink = '0';
     });
@@ -319,9 +551,9 @@ $faqs = [
     const cardWidth = getCardWidth();
     const gap = 24;
     const offset = index * (cardWidth + gap);
-    
-    if (animate) {
-      track.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
+
+    if (animate && !prefersReducedMotion) {
+      track.style.transition = 'transform 0.55s cubic-bezier(0.22, 1, 0.36, 1)';
       isTransitioning = true;
     } else {
       track.style.transition = 'none';
@@ -339,15 +571,10 @@ $faqs = [
       counter.textContent = `${displayNum} / ${totalNum}`;
     }
     if (indicatorsContainer) {
-      const dots = indicatorsContainer.querySelectorAll('.slider-indicator-pill');
-      dots.forEach((dot, idx) => {
-        if (idx === activeIndex) {
-          dot.classList.add('bg-emerald-400', 'w-8');
-          dot.classList.remove('bg-slate-800', 'w-3');
-        } else {
-          dot.classList.remove('bg-emerald-400', 'w-8');
-          dot.classList.add('bg-slate-800', 'w-3');
-        }
+      indicatorsContainer.querySelectorAll('.slider-indicator-pill').forEach((dot, idx) => {
+        const active = idx === activeIndex;
+        dot.style.width = active ? '2rem' : '0.75rem';
+        dot.style.background = active ? '#4ade80' : 'rgba(148,163,184,0.28)';
       });
     }
   }
@@ -361,7 +588,7 @@ $faqs = [
     if (isTransitioning) return;
     if (currentIndex <= 0) {
       moveTo(totalOriginal, false);
-      track.offsetHeight; // Force reflow
+      void track.offsetHeight; // force reflow
       moveTo(totalOriginal - 1, true);
     } else {
       moveTo(currentIndex - 1, true);
@@ -371,21 +598,15 @@ $faqs = [
   track.addEventListener('transitionend', () => {
     isTransitioning = false;
     if (currentIndex >= totalOriginal) {
-      const target = currentIndex - totalOriginal;
-      moveTo(target, false);
+      moveTo(currentIndex - totalOriginal, false);
     }
   });
 
-  if (nextBtn) nextBtn.addEventListener('click', () => {
-    nextSlide();
-    resetAutoplay();
-  });
-  if (prevBtn) prevBtn.addEventListener('click', () => {
-    prevSlide();
-    resetAutoplay();
-  });
+  if (nextBtn) nextBtn.addEventListener('click', () => { nextSlide(); resetAutoplay(); });
+  if (prevBtn) prevBtn.addEventListener('click', () => { prevSlide(); resetAutoplay(); });
 
   function startAutoplay() {
+    if (prefersReducedMotion) return;
     stopAutoplay();
     autoplayTimer = setInterval(nextSlide, autoplayDelay);
   }
@@ -399,6 +620,7 @@ $faqs = [
 
   container.addEventListener('mouseenter', stopAutoplay);
   container.addEventListener('mouseleave', startAutoplay);
+  container.addEventListener('focusin', stopAutoplay);
 
   // Touch / swipe gestures
   let touchStartX = 0;
@@ -416,18 +638,12 @@ $faqs = [
 
   container.addEventListener('touchend', () => {
     if (Math.abs(touchDeltaX) > 40) {
-      if (touchDeltaX < 0) {
-        nextSlide();
-      } else {
-        prevSlide();
-      }
+      touchDeltaX < 0 ? nextSlide() : prevSlide();
     }
     startAutoplay();
   });
 
-  window.addEventListener('resize', () => {
-    updateLayout();
-  });
+  window.addEventListener('resize', updateLayout);
 
   // Build indicators
   if (indicatorsContainer) {
@@ -435,12 +651,11 @@ $faqs = [
     for (let i = 0; i < totalOriginal; i++) {
       const btn = document.createElement('button');
       btn.type = 'button';
-      btn.className = `slider-indicator-pill h-1.5 transition-all duration-300 rounded-md ${i === 0 ? 'bg-emerald-400 w-8' : 'bg-slate-800 w-3 hover:bg-slate-700'}`;
+      btn.className = 'slider-indicator-pill';
+      btn.style.cssText = 'height:0.375rem;border-radius:999px;border:0;padding:0;cursor:pointer;transition:width .3s ease,background-color .3s ease;' +
+                          (i === 0 ? 'width:2rem;background:#4ade80;' : 'width:0.75rem;background:rgba(148,163,184,0.28);');
       btn.setAttribute('aria-label', `Go to project ${i + 1}`);
-      btn.addEventListener('click', () => {
-        moveTo(i, true);
-        resetAutoplay();
-      });
+      btn.addEventListener('click', () => { moveTo(i, true); resetAutoplay(); });
       indicatorsContainer.appendChild(btn);
     }
   }
@@ -450,45 +665,36 @@ $faqs = [
 })();
 </script>
 
-<!-- ═══════════════════════════════════════════════════════════
-     3. CORE SERVICES & CAPABILITIES (MINIMAL CORPORATE GRID)
-     ═══════════════════════════════════════════════════════════ -->
-<section class="section-padding bg-slate-950 relative overflow-hidden">
-  <!-- Dot Matrix Grid Overlay -->
-  <div class="tech-grid-wrapper"><div class="tech-grid-dots"></div></div>
+<!-- ==========================================================
+     3. CORE CAPABILITIES
+     ========================================================== -->
+<section class="hp-section bg-slate-950 relative overflow-hidden">
+  <div class="hp-shell relative z-10">
 
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-    <div class="text-center mb-16">
-      <span class="section-tag"><i class="fas fa-layer-group text-xs mr-1"></i> Core Capabilities</span>
-      <h2 class="section-title">Specialized <span class="text-gradient">Technology Services</span></h2>
-      <p class="section-desc max-w-xl mx-auto">High-performance digital engineering solutions designed to meet complex corporate standards.</p>
+    <div class="hp-head-center mb-14">
+      <span class="hp-eyebrow">Core Capabilities</span>
+      <h2 class="hp-h2">Specialized <span class="text-gradient">technology services</span></h2>
+      <p class="hp-lead">High-performance digital engineering built to meet complex corporate standards.</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+    <div class="hp-grid hp-grid-2 hp-grid-3">
       <?php foreach ($coreServices as $sv): ?>
-      <div class="glass-card p-8 flex flex-col justify-between group hover:border-emerald-500/40 transition-all duration-300">
-        <div>
-          <!-- Icon & Header Badge -->
-          <div class="flex items-center justify-between mb-6">
-            <div class="w-12 h-12 rounded-xl bg-slate-900 border border-slate-800 flex items-center justify-center text-emerald-400 group-hover:bg-emerald-500 group-hover:text-white transition-all duration-300">
-              <i class="fas <?= Security::e($sv['icon']) ?> text-xl"></i>
-            </div>
-            <span class="text-[11px] font-semibold uppercase tracking-wider px-2.5 py-1 rounded-full bg-slate-900 text-slate-300 border border-slate-800">
-              <?= Security::e($sv['badge']) ?>
-            </span>
-          </div>
-
-          <!-- Title & Description -->
-          <h3 class="font-display font-bold text-white text-xl mb-3 group-hover:text-emerald-300 transition-colors"><?= Security::e($sv['title']) ?></h3>
-          <p class="text-slate-400 text-sm leading-relaxed mb-6"><?= Security::e($sv['desc']) ?></p>
+      <div class="hp-cell group">
+        <div class="flex items-start justify-between gap-4">
+          <span class="hp-cell-icon">
+            <i class="fas <?= Security::e($sv['icon']) ?> text-lg"></i>
+          </span>
+          <span class="text-[10px] font-semibold uppercase tracking-wider text-slate-500 pt-1"><?= Security::e($sv['badge']) ?></span>
         </div>
 
-        <!-- Card Footer -->
-        <div class="pt-4 border-t border-slate-900 flex items-center justify-between text-xs font-semibold">
-          <span class="text-emerald-400"><i class="fas fa-check-circle mr-1.5"></i>Production Ready</span>
-          <a href="<?= url('services') ?>" class="text-slate-300 group-hover:text-white flex items-center hover:underline">
-            <span>Learn More</span>
-            <i class="fas fa-chevron-right ml-1 text-[10px] text-emerald-400"></i>
+        <h3 class="hp-cell-title"><?= Security::e($sv['title']) ?></h3>
+        <p class="hp-cell-desc flex-grow"><?= Security::e($sv['desc']) ?></p>
+
+        <div class="hp-cell-meta">
+          <span class="text-slate-500"><i class="fas fa-circle-check mr-1.5 text-eco-500/70"></i>Production ready</span>
+          <a href="<?= url('services') ?>" class="hp-cell-link">
+            <span>Learn more</span>
+            <i class="fas fa-chevron-right text-[9px]"></i>
           </a>
         </div>
       </div>
@@ -497,87 +703,50 @@ $faqs = [
 
     <div class="text-center mt-12">
       <a href="<?= url('services') ?>" class="btn-outline border-slate-800">
-        View All Services &amp; Packages <i class="fas fa-arrow-right ml-2 text-xs"></i>
+        View all services &amp; packages <i class="fas fa-arrow-right ml-2 text-xs"></i>
       </a>
     </div>
+
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════
-     4. CORPORATE ADVANTAGE (WHY PARTNER WITH ECOTECH)
-     ═══════════════════════════════════════════════════════════ -->
-<section class="section-padding bg-slate-900/40 relative overflow-hidden">
-  <!-- Blueprint Grid Overlay -->
-  <div class="tech-grid-wrapper"><div class="tech-grid-blueprint"></div></div>
+<!-- ==========================================================
+     4. WHY ECOTECH
+     ========================================================== -->
+<section class="hp-section hp-rule relative overflow-hidden">
+  <div class="hp-shell relative z-10">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-14 lg:gap-16 items-start">
 
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-      
-      <!-- Left Column: Content -->
-      <div class="lg:col-span-5 space-y-6">
-        <span class="section-tag"><i class="fas fa-shield-heart text-xs mr-1"></i> Corporate Advantage</span>
-        <h2 class="section-title text-3xl sm:text-4xl">Engineering Digital Solutions <span class="text-gradient">With Precision</span></h2>
-        <p class="text-slate-300 text-base leading-relaxed">
-          We eliminate technical bloat. Our team builds clean, optimized, and secure web platforms engineered to deliver maximum speed, enterprise security, and business reliability.
+      <div class="lg:col-span-5">
+        <span class="hp-eyebrow">Why EcoTech</span>
+        <h2 class="hp-h2">Engineering digital systems <span class="text-gradient">with precision</span></h2>
+        <p class="hp-lead">
+          We eliminate technical bloat. Clean, optimized, secure web platforms engineered for
+          maximum speed, enterprise security, and business reliability.
         </p>
 
-        <div class="space-y-4 pt-2">
-          <div class="flex items-start space-x-3.5">
-            <div class="w-8 h-8 rounded-lg bg-emerald-500/20 border border-emerald-500/40 flex items-center justify-center text-emerald-400 shrink-0 mt-0.5">
-              <i class="fas fa-bolt text-sm"></i>
-            </div>
+        <div class="mt-10">
+          <?php foreach ($advantages as $a): ?>
+          <div class="hp-adv">
+            <span class="hp-adv-icon"><i class="fas <?= Security::e($a['icon']) ?>"></i></span>
             <div>
-              <h4 class="font-display font-semibold text-white text-base">Sub-Second Performance</h4>
-              <p class="text-slate-400 text-xs sm:text-sm mt-0.5">Optimized database queries and efficient architecture for fast response times.</p>
+              <h4 class="hp-adv-title"><?= Security::e($a['title']) ?></h4>
+              <p class="hp-adv-desc"><?= Security::e($a['desc']) ?></p>
             </div>
           </div>
-
-          <div class="flex items-start space-x-3.5">
-            <div class="w-8 h-8 rounded-lg bg-sky-500/20 border border-sky-500/40 flex items-center justify-center text-sky-400 shrink-0 mt-0.5">
-              <i class="fas fa-shield-halved text-sm"></i>
-            </div>
-            <div>
-              <h4 class="font-display font-semibold text-white text-base">Bank-Grade OWASP Security</h4>
-              <p class="text-slate-400 text-xs sm:text-sm mt-0.5">Protection against CSRF, SQL Injection, XSS, and data leaks built in at every layer.</p>
-            </div>
-          </div>
-
-          <div class="flex items-start space-x-3.5">
-            <div class="w-8 h-8 rounded-lg bg-purple-500/20 border border-purple-500/40 flex items-center justify-center text-purple-400 shrink-0 mt-0.5">
-              <i class="fas fa-headset text-sm"></i>
-            </div>
-            <div>
-              <h4 class="font-display font-semibold text-white text-base">Dedicated Engineering Support</h4>
-              <p class="text-slate-400 text-xs sm:text-sm mt-0.5">Work directly with senior software engineers with transparent progress reporting.</p>
-            </div>
-          </div>
+          <?php endforeach; ?>
         </div>
       </div>
 
-      <!-- Right Column: 4 Minimal Grid Cards -->
-      <div class="lg:col-span-7 grid grid-cols-1 sm:grid-cols-2 gap-6">
-        <div class="glass-card p-6 border-slate-800 space-y-3">
-          <div class="text-emerald-400 font-mono text-xl font-bold">01.</div>
-          <h3 class="font-display font-bold text-white text-lg">Clean Architecture</h3>
-          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">No bloated page builders or slow plugins. Clean hand-written code designed for agility and security.</p>
-        </div>
-
-        <div class="glass-card p-6 border-slate-800 space-y-3">
-          <div class="text-sky-400 font-mono text-xl font-bold">02.</div>
-          <h3 class="font-display font-bold text-white text-lg">Programmatic SEO</h3>
-          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">Built-in programmatic landing structures to capture targeted Google search traffic organically.</p>
-        </div>
-
-        <div class="glass-card p-6 border-slate-800 space-y-3">
-          <div class="text-purple-400 font-mono text-xl font-bold">03.</div>
-          <h3 class="font-display font-bold text-white text-lg">Scalable Modular Tech</h3>
-          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">Modular MVC architecture easily allows adding new features as your client base expands.</p>
-        </div>
-
-        <div class="glass-card p-6 border-slate-800 space-y-3">
-          <div class="text-teal-400 font-mono text-xl font-bold">04.</div>
-          <h3 class="font-display font-bold text-white text-lg">Full Source Ownership</h3>
-          <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">100% full source code ownership and seamless deployment on your server environment.</p>
+      <div class="lg:col-span-7">
+        <div class="hp-grid hp-grid-2">
+          <?php foreach ($principles as $pr): ?>
+          <div class="hp-cell">
+            <span class="hp-num"><?= Security::e($pr['no']) ?></span>
+            <h3 class="hp-cell-title"><?= Security::e($pr['title']) ?></h3>
+            <p class="hp-cell-desc"><?= Security::e($pr['desc']) ?></p>
+          </div>
+          <?php endforeach; ?>
         </div>
       </div>
 
@@ -585,146 +754,133 @@ $faqs = [
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════
-     5. READY-TO-LAUNCH TEMPLATES (IF AVAILABLE)
-     ═══════════════════════════════════════════════════════════ -->
+<!-- ==========================================================
+     5. READY-TO-LAUNCH TEMPLATES
+     ========================================================== -->
 <?php if (!empty($templates)): ?>
-<section class="section-padding bg-slate-900/40 relative overflow-hidden">
-  <div class="tech-grid-wrapper"><div class="tech-grid-dots"></div></div>
+<section class="hp-section hp-rule bg-slate-950 relative overflow-hidden">
+  <div class="hp-shell relative z-10">
 
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-    <div class="text-center mb-16">
-      <span class="section-tag"><i class="fas fa-cubes text-xs mr-1"></i> Instant Launch</span>
-      <h2 class="section-title">Ready-to-Launch <span class="text-gradient">Website Templates</span></h2>
-      <p class="section-desc max-w-xl mx-auto">Get your business online in under 48 hours with our pre-built, high-converting website themes.</p>
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-6 mb-12">
+      <div>
+        <span class="hp-eyebrow">Instant Launch</span>
+        <h2 class="hp-h2">Ready-to-launch <span class="text-gradient">website templates</span></h2>
+        <p class="hp-lead">Get your business online in under 48 hours with pre-built, high-converting themes.</p>
+      </div>
+      <a href="<?= url('templates') ?>" class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white transition-colors shrink-0">
+        <span>Browse all templates</span>
+        <i class="fas fa-arrow-right text-[10px] text-eco-400"></i>
+      </a>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
       <?php foreach ($templates as $tmpl): ?>
-      <div class="glass-card p-6 flex flex-col justify-between group">
-        <div>
-          <div class="h-44 rounded-xl bg-slate-900 border border-slate-800 overflow-hidden mb-5 relative">
-            <?php if (!empty($tmpl['thumbnail'])): ?>
-            <img src="<?= uploadUrl($tmpl['thumbnail']) ?>" alt="<?= Security::e($tmpl['title']) ?>" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500">
-            <?php else: ?>
-            <div class="w-full h-full flex items-center justify-center text-slate-600">
-              <i class="fas fa-laptop-code text-3xl"></i>
-            </div>
-            <?php endif; ?>
-            <span class="absolute top-3 right-3 bg-emerald-500 text-white font-bold text-xs px-2.5 py-1 rounded-full shadow">
-              ₹<?= number_format($tmpl['price'] ?? 0) ?>
-            </span>
+      <div class="hp-panel">
+        <div class="hp-thumb">
+          <?php if (!empty($tmpl['thumbnail'])): ?>
+          <img src="<?= Security::e(uploadUrl($tmpl['thumbnail'])) ?>" alt="<?= Security::e($tmpl['title']) ?>" loading="lazy">
+          <?php else: ?>
+          <div class="w-full h-full flex items-center justify-center text-slate-700">
+            <i class="fas fa-laptop-code text-3xl"></i>
           </div>
-
-          <h3 class="font-display font-bold text-white text-lg mb-2 group-hover:text-emerald-300 transition-colors"><?= Security::e($tmpl['title']) ?></h3>
-          <p class="text-slate-400 text-xs leading-relaxed mb-4"><?= Security::e(truncate($tmpl['description'] ?? '', 100)) ?></p>
+          <?php endif; ?>
+          <span class="hp-price">&#8377;<?= number_format((float)($tmpl['price'] ?? 0)) ?></span>
         </div>
 
-        <div class="pt-4 border-t border-slate-800 flex items-center justify-between">
-          <a href="<?= url('templates') ?>" class="text-xs text-emerald-400 font-semibold hover:underline">View Demo &rarr;</a>
-          <a href="<?= url('contact') ?>" class="btn-primary text-xs py-2 px-4">Buy Now</a>
+        <h3 class="hp-cell-title"><?= Security::e($tmpl['title']) ?></h3>
+        <p class="hp-cell-desc flex-grow"><?= Security::e(truncate($tmpl['description'] ?? '', 100)) ?></p>
+
+        <div class="hp-cell-meta">
+          <a href="<?= url('templates') ?>" class="text-eco-400 hover:text-eco-300 transition-colors">View demo &rarr;</a>
+          <a href="<?= url('contact') ?>" class="btn-primary text-xs py-2 px-4">Buy now</a>
         </div>
       </div>
       <?php endforeach; ?>
     </div>
+
   </div>
 </section>
 <?php endif; ?>
 
-<!-- ═══════════════════════════════════════════════════════════
-     6. AGILE 4-STEP PROCESS ROADMAP
-     ═══════════════════════════════════════════════════════════ -->
-<section class="section-padding relative overflow-hidden">
-  <div class="tech-grid-wrapper"><div class="tech-grid-pattern opacity-40"></div></div>
+<!-- ==========================================================
+     6. DELIVERY PROCESS
+     ========================================================== -->
+<section class="hp-section hp-rule relative overflow-hidden">
+  <div class="hp-shell relative z-10">
 
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-    <div class="text-center mb-16">
-      <span class="section-tag"><i class="fas fa-diagram-project text-xs mr-1"></i> How We Work</span>
-      <h2 class="section-title">Our Streamlined <span class="text-gradient">4-Step Development Process</span></h2>
-      <p class="section-desc max-w-xl mx-auto">From initial roadmap to live deployment, we follow an agile development lifecycle.</p>
+    <div class="hp-head-center mb-14">
+      <span class="hp-eyebrow">How We Work</span>
+      <h2 class="hp-h2">A streamlined <span class="text-gradient">four-step process</span></h2>
+      <p class="hp-lead">From initial roadmap to live deployment, we follow an agile development lifecycle.</p>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="glass-card p-6 border-slate-800 relative">
-        <div class="font-mono font-bold text-2xl text-emerald-400 mb-2">01</div>
-        <h3 class="font-display font-bold text-white text-lg mb-2">Strategy &amp; Scope</h3>
-        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">We analyze your business goals, target audience, and functional scope to craft a precise technical blueprint.</p>
+    <div class="hp-grid hp-grid-4">
+      <?php foreach ($process as $st): ?>
+      <div class="hp-cell">
+        <span class="hp-num"><?= Security::e($st['no']) ?></span>
+        <h3 class="hp-cell-title"><?= Security::e($st['title']) ?></h3>
+        <p class="hp-cell-desc"><?= Security::e($st['desc']) ?></p>
       </div>
-
-      <div class="glass-card p-6 border-slate-800 relative">
-        <div class="font-mono font-bold text-2xl text-emerald-400 mb-2">02</div>
-        <h3 class="font-display font-bold text-white text-lg mb-2">UI/UX &amp; Architecture</h3>
-        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">Designing clean, responsive user interfaces focused on conversion rates, accessibility, and modern aesthetics.</p>
-      </div>
-
-      <div class="glass-card p-6 border-slate-800 relative">
-        <div class="font-mono font-bold text-2xl text-emerald-400 mb-2">03</div>
-        <h3 class="font-display font-bold text-white text-lg mb-2">Agile Engineering</h3>
-        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">Developing your web application using clean code standards, secure database design, and fast API endpoints.</p>
-      </div>
-
-      <div class="glass-card p-6 border-slate-800 relative">
-        <div class="font-mono font-bold text-2xl text-emerald-400 mb-2">04</div>
-        <h3 class="font-display font-bold text-white text-lg mb-2">Deployment &amp; Growth</h3>
-        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">Rigorous testing, cloud deployment, SEO setup, and continuous post-launch optimization to drive results.</p>
-      </div>
+      <?php endforeach; ?>
     </div>
+
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════
+<!-- ==========================================================
      7. CLIENT TESTIMONIALS
-     ═══════════════════════════════════════════════════════════ -->
+     ========================================================== -->
 <?php if (!empty($testimonials)): ?>
-<section class="section-padding bg-slate-900/40 relative overflow-hidden">
-  <div class="tech-grid-wrapper"><div class="tech-grid-dots opacity-60"></div></div>
+<section class="hp-section hp-rule bg-slate-950 relative overflow-hidden">
+  <div class="hp-shell relative z-10">
 
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-    <div class="text-center mb-16">
-      <span class="section-tag"><i class="fas fa-quote-left text-xs mr-1"></i> Client Feedback</span>
-      <h2 class="section-title">Trusted By <span class="text-gradient">Founders &amp; Businesses</span></h2>
+    <div class="hp-head-center mb-14">
+      <span class="hp-eyebrow">Client Feedback</span>
+      <h2 class="hp-h2">Trusted by <span class="text-gradient">founders &amp; businesses</span></h2>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
-      <?php foreach ($testimonials as $t): ?>
-      <div class="glass-card p-7 flex flex-col justify-between">
-        <div>
-          <div class="flex items-center space-x-1 mb-4">
-            <?= stars((int)$t['rating']) ?>
-          </div>
-          <p class="text-slate-200 text-sm sm:text-base leading-relaxed italic mb-6">"<?= Security::e($t['message']) ?>"</p>
+      <?php foreach ($testimonials as $t):
+        $role = trim((string)($t['position'] ?? ''));
+        $org  = trim((string)($t['company'] ?? ''));
+        $meta = $org ? ($role ? $role . ', ' . $org : $org) : $role;
+      ?>
+      <div class="hp-panel p-7">
+        <div class="flex items-center gap-1 mb-4">
+          <?= stars((int)$t['rating']) ?>
         </div>
+        <p class="hp-quote flex-grow">&ldquo;<?= Security::e($t['message']) ?>&rdquo;</p>
 
-        <div class="flex items-center space-x-3.5 pt-4 border-t border-slate-800">
-          <div class="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-sky-500 flex items-center justify-center text-white font-bold text-sm shadow">
-            <?= strtoupper(substr($t['name'], 0, 1)) ?>
-          </div>
+        <div class="flex items-center gap-3.5 mt-6 pt-5 border-t border-slate-800/80">
+          <span class="hp-avatar"><?= Security::e(strtoupper(substr((string)$t['name'], 0, 1))) ?></span>
           <div>
             <div class="font-display font-semibold text-white text-sm"><?= Security::e($t['name']) ?></div>
-            <div class="text-slate-400 text-xs"><?= Security::e($t['position'] . ($t['company'] ? ', ' . $t['company'] : '')) ?></div>
+            <?php if ($meta): ?>
+            <div class="text-slate-400 text-xs mt-0.5"><?= Security::e($meta) ?></div>
+            <?php endif; ?>
           </div>
         </div>
       </div>
       <?php endforeach; ?>
     </div>
+
   </div>
 </section>
 <?php endif; ?>
 
-<!-- ═══════════════════════════════════════════════════════════
-     8. FREQUENTLY ASKED QUESTIONS
-     ═══════════════════════════════════════════════════════════ -->
-<section class="section-padding relative overflow-hidden">
-  <div class="tech-grid-wrapper"><div class="tech-grid-subtle"></div></div>
+<!-- ==========================================================
+     8. FAQ
+     ========================================================== -->
+<section class="hp-section hp-rule relative overflow-hidden">
+  <div class="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
 
-  <div class="relative max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-    <div class="text-center mb-14">
-      <span class="section-tag"><i class="fas fa-circle-question text-xs mr-1"></i> Got Questions?</span>
-      <h2 class="section-title">Frequently Asked <span class="text-gradient">Questions</span></h2>
-      <p class="section-desc">Clear answers regarding our development and cybersecurity processes.</p>
+    <div class="hp-head-center mb-12">
+      <span class="hp-eyebrow">Common Questions</span>
+      <h2 class="hp-h2">Frequently asked <span class="text-gradient">questions</span></h2>
+      <p class="hp-lead">Clear answers about our development and cybersecurity processes.</p>
     </div>
 
-    <div class="space-y-4">
+    <div class="space-y-3">
       <?php foreach ($faqs as $idx => $f): ?>
       <div class="faq-item <?= $idx === 0 ? 'active' : '' ?>">
         <button type="button" class="faq-button">
@@ -737,41 +893,38 @@ $faqs = [
       </div>
       <?php endforeach; ?>
     </div>
+
   </div>
 </section>
 
-<!-- ═══════════════════════════════════════════════════════════
-     9. CORPORATE CALL TO ACTION BANNER
-     ═══════════════════════════════════════════════════════════ -->
-<section class="section-padding relative overflow-hidden">
-  <div class="tech-grid-wrapper"><div class="tech-grid-blueprint opacity-35"></div></div>
+<!-- ==========================================================
+     9. CALL TO ACTION
+     ========================================================== -->
+<section class="hp-section relative overflow-hidden">
+  <div class="relative z-10 max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="hp-cta">
+      <span class="hp-status">
+        <i class="fas fa-circle"></i>
+        <span>Partner with EcoTech Services</span>
+      </span>
 
-  <div class="relative max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 z-10">
-    <div class="glass-card cta-card relative p-8 sm:p-14 text-center overflow-hidden border border-emerald-500/30">
-      <div class="relative z-10 space-y-6">
-        <span class="inline-flex items-center space-x-2 bg-slate-900 border border-slate-800 px-3.5 py-1.5 rounded-full text-emerald-300 text-xs font-semibold">
-          <span>✦ Partner With EcoTech Services</span>
-        </span>
+      <h2 class="hp-cta-title mt-7">
+        Ready to build your next<br class="hidden sm:inline">
+        <span class="text-gradient">digital platform?</span>
+      </h2>
 
-        <h2 class="font-display text-3xl sm:text-5xl font-extrabold text-white leading-tight">
-          Ready to Build Your Next <br class="hidden sm:inline">
-          <span class="text-gradient">Digital Technology Platform?</span>
-        </h2>
+      <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto mt-6 leading-relaxed">
+        Get a transparent, non-binding technical proposal within 24 hours.
+      </p>
 
-        <p class="text-slate-300 text-base sm:text-lg max-w-2xl mx-auto font-normal">
-          Get in touch with EcoTech Services today for a transparent, non-binding technical proposal within 24 hours.
-        </p>
-
-        <div class="flex flex-col sm:flex-row items-center justify-center gap-4 pt-4">
-          <a href="<?= url('contact') ?>" class="btn-primary text-base py-3.5 px-8 w-full sm:w-auto">
-            Get Started <i class="fas fa-arrow-right ml-2 text-sm"></i>
-          </a>
-          <a href="https://wa.me/<?= setting('whatsapp_number') ?>?text=Hi+EcoTech!+I+want+to+discuss+a+project." target="_blank"
-             class="flex items-center justify-center space-x-2 px-7 py-3.5 bg-[#25D366] hover:bg-[#20bd5a] text-white font-semibold rounded-xl shadow-lg transition-all duration-200 w-full sm:w-auto text-base">
-            <i class="fab fa-whatsapp text-xl"></i>
-            <span>Chat on WhatsApp</span>
-          </a>
-        </div>
+      <div class="flex flex-col sm:flex-row items-center justify-center gap-5 mt-10">
+        <a href="<?= url('contact') ?>" class="btn-primary text-base py-3.5 px-8 w-full sm:w-auto justify-center">
+          Get started <i class="fas fa-arrow-right ml-2 text-sm"></i>
+        </a>
+        <a href="<?= Security::e($waLink) ?>" target="_blank" rel="noopener noreferrer" class="hp-wa">
+          <i class="fab fa-whatsapp"></i>
+          <span>Chat on WhatsApp</span>
+        </a>
       </div>
     </div>
   </div>
@@ -779,37 +932,34 @@ $faqs = [
 
 </div><!-- /#homePageRoot -->
 
-<!-- ═══════════════════════════════════════════════════════════
-     10. INTERACTIVE MOUSE SPOTLIGHT ON HERO GRID
-     ═══════════════════════════════════════════════════════════ -->
+<!-- ==========================================================
+     10. HERO MOUSE SPOTLIGHT
+     ========================================================== -->
 <script>
-(function() {
+(function initHeroSpotlight() {
   const hero = document.getElementById('heroSection');
   const spotlight = document.getElementById('heroGridSpotlight');
+  if (!hero || !spotlight) return;
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  // Dynamic mouse-following spotlight torch on hero grid
-  if (hero && spotlight) {
-    let ticking = false;
+  let ticking = false;
 
-    hero.addEventListener('mousemove', function(e) {
-      if (!ticking) {
-        window.requestAnimationFrame(function() {
-          const rect = hero.getBoundingClientRect();
-          const x = ((e.clientX - rect.left) / rect.width) * 100;
-          const y = ((e.clientY - rect.top) / rect.height) * 100;
-
-          hero.style.setProperty('--mouse-x', x.toFixed(2) + '%');
-          hero.style.setProperty('--mouse-y', y.toFixed(2) + '%');
-          ticking = false;
-        });
-        ticking = true;
-      }
+  hero.addEventListener('mousemove', function (e) {
+    if (ticking) return;
+    ticking = true;
+    window.requestAnimationFrame(function () {
+      const rect = hero.getBoundingClientRect();
+      const x = ((e.clientX - rect.left) / rect.width) * 100;
+      const y = ((e.clientY - rect.top) / rect.height) * 100;
+      hero.style.setProperty('--mouse-x', x.toFixed(2) + '%');
+      hero.style.setProperty('--mouse-y', y.toFixed(2) + '%');
+      ticking = false;
     });
+  });
 
-    hero.addEventListener('mouseleave', function() {
-      hero.style.setProperty('--mouse-x', '50%');
-      hero.style.setProperty('--mouse-y', '35%');
-    });
-  }
+  hero.addEventListener('mouseleave', function () {
+    hero.style.setProperty('--mouse-x', '50%');
+    hero.style.setProperty('--mouse-y', '35%');
+  });
 })();
 </script>
