@@ -128,7 +128,67 @@
                 setting('twitter_url', 'https://twitter.com/ecotechservice'),
                 setting('linkedin_url', 'https://linkedin.com/company/ecotechservice'),
                 setting('instagram_url', 'https://instagram.com/ecotech.service')
-            ]))
+            ])),
+            "hasOfferCatalog" => [
+                "@type" => "OfferCatalog",
+                "name" => "Core Technology Services",
+                "itemListElement" => [
+                    [
+                        "@type" => "Offer",
+                        "itemOffered" => [
+                            "@type" => "Service",
+                            "name" => "Web Development",
+                            "url" => url('services#web-development'),
+                            "description" => "Full-stack scalable website development, API architecture, and enterprise software."
+                        ]
+                    ],
+                    [
+                        "@type" => "Offer",
+                        "itemOffered" => [
+                            "@type" => "Service",
+                            "name" => "Web Security & Penetration Testing",
+                            "url" => url('services#web-security-penetration-testing'),
+                            "description" => "Ethical penetration testing, CVE vulnerability assessments, and OWASP security audits."
+                        ]
+                    ],
+                    [
+                        "@type" => "Offer",
+                        "itemOffered" => [
+                            "@type" => "Service",
+                            "name" => "Mobile App Development",
+                            "url" => url('services#mobile-app-development'),
+                            "description" => "Cross-platform iOS and Android apps built with React Native and Flutter."
+                        ]
+                    ],
+                    [
+                        "@type" => "Offer",
+                        "itemOffered" => [
+                            "@type" => "Service",
+                            "name" => "Cloud & DevOps",
+                            "url" => url('services#cloud-devops'),
+                            "description" => "AWS, GCP, CI/CD pipeline automation, Docker orchestration, and 24x7 monitoring."
+                        ]
+                    ],
+                    [
+                        "@type" => "Offer",
+                        "itemOffered" => [
+                            "@type" => "Service",
+                            "name" => "UI/UX Design Systems",
+                            "url" => url('services#ui-ux-design'),
+                            "description" => "Interactive prototypes, design systems, and user-centric wireframes."
+                        ]
+                    ],
+                    [
+                        "@type" => "Offer",
+                        "itemOffered" => [
+                            "@type" => "Service",
+                            "name" => "Digital Marketing & SEO",
+                            "url" => url('services#digital-marketing'),
+                            "description" => "Data-driven SEO, PPC campaigns, and conversion optimization."
+                        ]
+                    ]
+                ]
+            ]
         ],
         [
             "@type" => "WebSite",
@@ -138,7 +198,71 @@
             "publisher" => [
                 "@id" => url('#organization')
             ],
-            "inLanguage" => "en-US"
+            "inLanguage" => "en-US",
+            "potentialAction" => [
+                "@type" => "SearchAction",
+                "target" => [
+                    "@type" => "EntryPoint",
+                    "urlTemplate" => url('search') . '?q={search_term_string}'
+                ],
+                "query-input" => "required name=search_term_string"
+            ]
+        ],
+        [
+            "@type" => "ItemList",
+            "@id" => url('#sitenav'),
+            "name" => "Top Pages & Core Services",
+            "itemListElement" => [
+                [
+                    "@type" => "SiteNavigationElement",
+                    "position" => 1,
+                    "name" => "Technology Services",
+                    "description" => "Explore custom web development, mobile apps, DevOps, and cybersecurity solutions.",
+                    "url" => url('services')
+                ],
+                [
+                    "@type" => "SiteNavigationElement",
+                    "position" => 2,
+                    "name" => "Web Security & Penetration Testing",
+                    "description" => "Ethical security audits, vulnerability assessments, and OWASP compliance testing.",
+                    "url" => url('services#web-security-penetration-testing')
+                ],
+                [
+                    "@type" => "SiteNavigationElement",
+                    "position" => 3,
+                    "name" => "Web Development",
+                    "description" => "Scalable websites, custom software, and enterprise web applications.",
+                    "url" => url('services#web-development')
+                ],
+                [
+                    "@type" => "SiteNavigationElement",
+                    "position" => 4,
+                    "name" => "Portfolio & Projects",
+                    "description" => "Browse verified live client websites, mobile apps, and case studies.",
+                    "url" => url('projects')
+                ],
+                [
+                    "@type" => "SiteNavigationElement",
+                    "position" => 5,
+                    "name" => "Website Templates",
+                    "description" => "Modern responsive HTML5, CSS3, and PHP business website templates.",
+                    "url" => url('templates')
+                ],
+                [
+                    "@type" => "SiteNavigationElement",
+                    "position" => 6,
+                    "name" => "About Us",
+                    "description" => "Learn about our company mission, software engineers, and culture.",
+                    "url" => url('about')
+                ],
+                [
+                    "@type" => "SiteNavigationElement",
+                    "position" => 7,
+                    "name" => "Contact Us",
+                    "description" => "Get in touch for custom development quotes and consultations.",
+                    "url" => url('contact')
+                ]
+            ]
         ],
         [
             "@type" => "BreadcrumbList",
@@ -510,7 +634,15 @@
         </nav>
 
         <!-- ── 3. Right Action Buttons (Rectangular, Strictly No Circular Design) ── -->
-        <div class="flex items-center gap-2.5">
+        <div class="flex items-center gap-2 sm:gap-2.5">
+          <!-- Search Button (Google Sitelinks Search Access) -->
+          <a href="<?= url('search') ?>"
+             class="p-2 sm:p-2.5 text-slate-300 hover:text-white bg-slate-900/90 hover:bg-slate-800 border border-slate-800 hover:border-emerald-500/40 rounded-md transition-all flex items-center justify-center cursor-pointer shadow-sm"
+             aria-label="Search EcoTech Service"
+             title="Search services, projects and pages">
+            <span class="material-symbols-outlined text-lg sm:text-xl">search</span>
+          </a>
+
           <!-- WhatsApp Button (Desktop - Clean Rectangular) -->
           <a href="https://wa.me/<?= setting('whatsapp_number') ?>?text=Hello%20Ecotech%20Team%2C%20I%20want%20to%20discuss%20a%20project."
              target="_blank"
@@ -580,6 +712,7 @@
           ['path' => 'templates', 'label' => 'Templates',    'icon' => 'dashboard_customize',   'desc' => 'Ready software systems'],
           ['path' => 'blog',      'label' => 'Blog & News',  'icon' => 'article',                'desc' => 'Technical insights'],
           ['path' => 'contact',   'label' => 'Contact Us',   'icon' => 'mail_outline',           'desc' => 'Reach our engineering team'],
+          ['path' => 'search',    'label' => 'Search',       'icon' => 'search',                 'desc' => 'Find services & projects'],
         ];
 
         foreach ($mobileDrawerList as $mItem):

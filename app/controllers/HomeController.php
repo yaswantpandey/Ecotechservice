@@ -23,9 +23,9 @@ class HomeController extends BaseController {
         }
         // ─────────────────────────────────────────────────────────────────
 
-        // Top Featured projects for home page marquee
+        // Real active projects for home page slider (matching portfolio order)
         $stmt = $this->db->prepare(
-            "SELECT * FROM projects WHERE is_active = 1 ORDER BY is_featured DESC, sort_order ASC, id DESC LIMIT 10"
+            "SELECT * FROM projects WHERE is_active = 1 ORDER BY sort_order ASC, created_at DESC"
         );
         $stmt->execute();
         $featuredProjects = $stmt->fetchAll();

@@ -138,131 +138,317 @@ $faqs = [
 </section>
 
 <!-- ═══════════════════════════════════════════════════════════
-     2. TOP FEATURED PROJECTS (WITH MARQUEE TAG)
+     2. TOP FEATURED PROJECTS (ONE-BY-ONE INTERACTIVE SLIDER)
      ═══════════════════════════════════════════════════════════ -->
-<section class="py-14 bg-slate-950 border-b border-slate-900/80 relative overflow-hidden">
+<section class="py-16 bg-slate-950 border-b border-slate-900/80 relative overflow-hidden" id="featured-projects-section">
   <!-- Subtle Micro Grid Background -->
   <div class="tech-grid-wrapper"><div class="tech-grid-subtle"></div></div>
 
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 mb-8 text-center">
-    <span class="section-tag"><i class="fas fa-laptop-code text-xs mr-1"></i> Top Projects Showcase</span>
-    <h2 class="section-title">Top Featured <span class="text-gradient">Client Projects</span></h2>
-    <p class="section-desc max-w-xl mx-auto">Explore recent web platforms, enterprise systems, and custom software delivered by EcoTech Services.</p>
-  </div>
-
-  <!-- Marquee Container (Continuous Left Scroll with Hover Pause) -->
-  <div class="project-marquee-wrapper relative z-10">
-    <marquee behavior="scroll" direction="left" scrollamount="6" onmouseover="this.stop();" onmouseout="this.start();">
-      <?php 
-      $marqueeList = !empty($featuredProjects) ? $featuredProjects : [];
-      if (empty($marqueeList)) {
-          $marqueeList = [
-              [
-                  'title' => 'Enterprise Healthcare Telehealth Platform',
-                  'category' => 'Web Platform',
-                  'description' => 'HIPAA-compliant web portal for real-time doctor appointments and medical telemetry.',
-                  'tech_stack' => 'Next.js, Node.js, WebRTC, PostgreSQL',
-                  'slug' => 'healthcare-telehealth-platform',
-                  'thumbnail' => '',
-                  'live_url' => ''
-              ],
-              [
-                  'title' => 'Fintech Real-Time Payment & Analytics Engine',
-                  'category' => 'Fintech Software',
-                  'description' => 'High-throughput transactional API system with fraud prevention and merchant dashboards.',
-                  'tech_stack' => 'React, Python, Redis, AWS',
-                  'slug' => 'fintech-payment-engine',
-                  'thumbnail' => '',
-                  'live_url' => ''
-              ],
-              [
-                  'title' => 'B2B Logistics & Fleet Management System',
-                  'category' => 'Enterprise System',
-                  'description' => 'Live vehicle telemetry, route optimization, automated invoicing, and ERP synchronization.',
-                  'tech_stack' => 'TypeScript, PHP MVC, Docker, MySQL',
-                  'slug' => 'logistics-management-system',
-                  'thumbnail' => '',
-                  'live_url' => ''
-              ],
-              [
-                  'title' => 'Green Energy Smart Grid IoT Platform',
-                  'category' => 'IoT & Analytics',
-                  'description' => 'Real-time telemetry, power consumption metrics, and predictive anomaly alerts.',
-                  'tech_stack' => 'React, Python, Cloudflare, PostgreSQL',
-                  'slug' => 'smart-grid-platform',
-                  'thumbnail' => '',
-                  'live_url' => ''
-              ],
-          ];
-      }
-      // Duplicate list if small so marquee looks rich and continuous
-      if (count($marqueeList) < 6) {
-          $marqueeList = array_merge($marqueeList, $marqueeList);
-      }
-
-
-      foreach ($marqueeList as $p):
-        // Use live_url for real screenshot, else local thumbnail
-        $hasLive = !empty($p['live_url']);
-        $localThumb = !empty($p['thumbnail']) ? $p['thumbnail'] : 'project_startup_landing.png';
-      ?>
-      <div class="project-marquee-card group">
-        <div class="project-marquee-thumb">
-          <?php if ($hasLive): ?>
-          <img src="//image.thum.io/get/width/800/crop/500/noanimate/<?= Security::e(rtrim($p['live_url'], '/')) ?>"
-               alt="<?= Security::e($p['title']) ?>"
-               class="project-marquee-img"
-               loading="lazy"
-               onerror="this.src='<?= uploadUrl($localThumb) ?>'">
-          <?php else: ?>
-          <img src="<?= uploadUrl($localThumb) ?>" alt="<?= Security::e($p['title']) ?>" class="project-marquee-img" loading="lazy">
-          <?php endif; ?>
-
-          <span class="project-marquee-badge"><?= Security::e(ucfirst($p['category'] ?? 'Project')) ?></span>
-        </div>
-
-        <div class="project-marquee-body">
-          <h3 class="font-display font-bold text-white text-base mb-1.5 group-hover:text-emerald-300 transition-colors line-clamp-1">
-            <?= Security::e($p['title']) ?>
-          </h3>
-          <p class="text-slate-400 text-xs leading-relaxed mb-3 line-clamp-2">
-            <?= Security::e(truncate($p['description'] ?? '', 85)) ?>
-          </p>
-
-          <?php if (!empty($p['tech_stack'])): ?>
-          <div class="flex flex-wrap gap-1.5 mb-3">
-            <?php foreach (array_slice(explode(',', $p['tech_stack']), 0, 3) as $tech): ?>
-            <span class="text-[10px] font-mono px-2 py-0.5 rounded bg-slate-900 text-slate-300 border border-slate-800">
-              <?= Security::e(trim($tech)) ?>
-            </span>
-            <?php endforeach; ?>
-          </div>
-          <?php endif; ?>
-
-          <div class="pt-2.5 border-t border-slate-800 flex items-center justify-between text-xs">
-            <a href="<?= url('projects/view?slug=' . urlencode($p['slug'])) ?>" class="text-emerald-400 font-semibold hover:underline flex items-center">
-              <span>View Details</span>
-              <i class="fas fa-arrow-right ml-1 text-[10px]"></i>
-            </a>
-            <?php if (!empty($p['live_url'])): ?>
-            <a href="<?= Security::e($p['live_url']) ?>" target="_blank" class="text-slate-400 hover:text-white flex items-center text-[11px]">
-              <i class="fas fa-external-link-alt mr-1"></i> Live Site
-            </a>
-            <?php endif; ?>
-          </div>
-        </div>
+  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 z-10 mb-8">
+    <div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+      <div>
+        <span class="section-tag"><i class="fas fa-layer-group text-xs mr-1"></i> Featured Portfolio</span>
+        <h2 class="section-title text-left mt-2">Top Featured <span class="text-gradient">Client Projects</span></h2>
+        <p class="section-desc text-left max-w-xl mt-1">Explore verified live websites, digital platforms, and custom software delivered by EcoTech Services.</p>
       </div>
-      <?php endforeach; ?>
-    </marquee>
+
+      <!-- Slider Controls Header (Non-Circular, Sleek Rectangular) -->
+      <div class="flex items-center space-x-3 self-start md:self-end">
+        <!-- Live Slide Counter Badge -->
+        <div id="projectSlideCounter" class="text-xs font-mono font-semibold text-emerald-400 bg-emerald-950/60 border border-emerald-500/30 px-3.5 py-2 rounded-lg tracking-wider">
+          01 / <?= str_pad((string)count($featuredProjects), 2, '0', STR_PAD_LEFT) ?>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <button id="projPrevBtn" class="w-10 h-10 bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 hover:border-emerald-500/50 rounded-lg transition-all shadow-sm active:scale-95 flex items-center justify-center cursor-pointer" aria-label="Previous project">
+          <span class="material-symbols-outlined text-xl">arrow_back</span>
+        </button>
+        <button id="projNextBtn" class="w-10 h-10 bg-slate-900/90 hover:bg-slate-800 text-slate-300 hover:text-white border border-slate-800 hover:border-emerald-500/50 rounded-lg transition-all shadow-sm active:scale-95 flex items-center justify-center cursor-pointer" aria-label="Next project">
+          <span class="material-symbols-outlined text-xl">arrow_forward</span>
+        </button>
+
+        <a href="<?= url('projects') ?>" class="btn-outline text-xs py-2.5 px-4 rounded-lg hidden sm:inline-flex items-center space-x-1.5 border-slate-800 hover:border-slate-700">
+          <span>All Projects</span>
+          <i class="fas fa-arrow-right text-[10px]"></i>
+        </a>
+      </div>
+    </div>
   </div>
 
-  <div class="text-center mt-6 relative z-10">
-    <a href="<?= url('projects') ?>" class="btn-outline text-xs py-2.5 px-6 border-slate-800">
-      <span>View Full Portfolio Gallery</span>
-      <i class="fas fa-arrow-right ml-2 text-[11px]"></i>
-    </a>
+  <!-- One-by-One Project Slider Track Container -->
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+    <div class="project-slider-viewport" id="projectSliderViewport">
+      <div class="project-slider-track gap-6" id="projectSliderTrack">
+        <?php foreach ($featuredProjects as $p): 
+          $hasLive = !empty($p['live_url']);
+          $localThumb = !empty($p['thumbnail']) ? $p['thumbnail'] : 'project_startup_landing.png';
+          $thumbUrl = uploadUrl($localThumb);
+          $categoryLabel = ucfirst($p['category'] ?? 'Website');
+        ?>
+        <div class="project-slide-card group flex-shrink-0">
+          <div class="project-slide-inner">
+            <!-- Thumbnail Viewport -->
+            <div class="project-slide-thumb relative">
+              <?php if ($hasLive): ?>
+              <img src="//image.thum.io/get/width/800/crop/500/noanimate/<?= Security::e(rtrim($p['live_url'], '/')) ?>"
+                   alt="<?= Security::e($p['title']) ?>"
+                   class="project-slide-img"
+                   loading="lazy"
+                   onerror="this.onerror=null; this.src='<?= $thumbUrl ?>'">
+              <?php else: ?>
+              <img src="<?= $thumbUrl ?>"
+                   alt="<?= Security::e($p['title']) ?>"
+                   class="project-slide-img"
+                   loading="lazy">
+              <?php endif; ?>
+
+              <!-- Clean Rectangular Category Badge (Non-circular) -->
+              <span class="absolute top-3 left-3 bg-slate-950/85 backdrop-blur-md border border-slate-700/60 text-emerald-400 text-[10px] font-mono font-semibold uppercase tracking-wider px-2.5 py-1 rounded-md">
+                <?= Security::e($categoryLabel) ?>
+              </span>
+
+              <?php if (!empty($p['is_featured'])): ?>
+              <span class="absolute top-3 right-3 bg-amber-500/20 backdrop-blur-md border border-amber-500/40 text-amber-300 text-[10px] font-semibold px-2 py-0.5 rounded-md flex items-center gap-1">
+                <i class="fas fa-star text-[9px] text-amber-400"></i> Featured
+              </span>
+              <?php endif; ?>
+            </div>
+
+            <!-- Card Body -->
+            <div class="p-5 flex flex-col flex-grow justify-between">
+              <div>
+                <h3 class="font-display font-bold text-white text-lg mb-2 group-hover:text-emerald-300 transition-colors line-clamp-1">
+                  <?= Security::e($p['title']) ?>
+                </h3>
+                <p class="text-slate-400 text-xs sm:text-sm leading-relaxed mb-4 line-clamp-2">
+                  <?= Security::e(truncate($p['description'] ?? '', 110)) ?>
+                </p>
+
+                <!-- Tech Stack Tags -->
+                <?php if (!empty($p['tech_stack'])): ?>
+                <div class="flex flex-wrap gap-1.5 mb-4">
+                  <?php foreach (array_slice(explode(',', $p['tech_stack']), 0, 3) as $tech): ?>
+                  <span class="text-[11px] font-mono px-2.5 py-0.5 rounded-md bg-slate-950 text-slate-300 border border-slate-800">
+                    <?= Security::e(trim($tech)) ?>
+                  </span>
+                  <?php endforeach; ?>
+                </div>
+                <?php endif; ?>
+              </div>
+
+              <!-- Card Action Bar -->
+              <div class="pt-3.5 border-t border-slate-800/80 flex items-center justify-between text-xs mt-auto">
+                <a href="<?= url('projects/view?slug=' . urlencode($p['slug'])) ?>" class="text-emerald-400 font-semibold hover:text-emerald-300 flex items-center space-x-1 transition-colors">
+                  <span>View Case Study</span>
+                  <span class="material-symbols-outlined text-sm">arrow_forward</span>
+                </a>
+                <?php if ($hasLive): ?>
+                <a href="<?= Security::e($p['live_url']) ?>" target="_blank" rel="noopener noreferrer" class="text-slate-400 hover:text-white flex items-center space-x-1 text-[11px] transition-colors">
+                  <span>Live Site</span>
+                  <span class="material-symbols-outlined text-xs">open_in_new</span>
+                </a>
+                <?php endif; ?>
+              </div>
+            </div>
+          </div>
+        </div>
+        <?php endforeach; ?>
+      </div>
+    </div>
+
+    <!-- Bottom Indicator Pills (Non-Circular Bars) -->
+    <div class="flex items-center justify-center gap-2 mt-8" id="projectSliderIndicators">
+      <!-- Generated via JS -->
+    </div>
   </div>
 </section>
+
+<script>
+// ── Top Featured Projects One-by-One Interactive Slider ──────
+(function initProjectSlider() {
+  const container = document.getElementById('projectSliderViewport');
+  const track = document.getElementById('projectSliderTrack');
+  const prevBtn = document.getElementById('projPrevBtn');
+  const nextBtn = document.getElementById('projNextBtn');
+  const counter = document.getElementById('projectSlideCounter');
+  const indicatorsContainer = document.getElementById('projectSliderIndicators');
+  
+  if (!container || !track) return;
+
+  const originalCards = Array.from(track.children);
+  const totalOriginal = originalCards.length;
+  if (totalOriginal === 0) return;
+
+  // Clone original cards once for seamless infinite loop
+  originalCards.forEach(card => {
+    const clone = card.cloneNode(true);
+    clone.setAttribute('aria-hidden', 'true');
+    track.appendChild(clone);
+  });
+
+  let currentIndex = 0;
+  let isTransitioning = false;
+  let autoplayTimer = null;
+  const autoplayDelay = 3500; // 3.5s per card
+
+  function getVisibleCount() {
+    if (window.innerWidth >= 1024) return 3;
+    if (window.innerWidth >= 640) return 2;
+    return 1;
+  }
+
+  function getCardWidth() {
+    const visible = getVisibleCount();
+    const gap = 24; // gap-6
+    const containerWidth = container.clientWidth;
+    return (containerWidth - (visible - 1) * gap) / visible;
+  }
+
+  function updateLayout() {
+    const cardWidth = getCardWidth();
+    const allCards = Array.from(track.children);
+    allCards.forEach(card => {
+      card.style.width = `${cardWidth}px`;
+      card.style.flexShrink = '0';
+    });
+    moveTo(currentIndex, false);
+    updateCounterAndIndicators();
+  }
+
+  function moveTo(index, animate = true) {
+    const cardWidth = getCardWidth();
+    const gap = 24;
+    const offset = index * (cardWidth + gap);
+    
+    if (animate) {
+      track.style.transition = 'transform 0.5s cubic-bezier(0.25, 1, 0.5, 1)';
+      isTransitioning = true;
+    } else {
+      track.style.transition = 'none';
+    }
+    track.style.transform = `translateX(-${offset}px)`;
+    currentIndex = index;
+    updateCounterAndIndicators();
+  }
+
+  function updateCounterAndIndicators() {
+    const activeIndex = currentIndex % totalOriginal;
+    if (counter) {
+      const displayNum = String(activeIndex + 1).padStart(2, '0');
+      const totalNum = String(totalOriginal).padStart(2, '0');
+      counter.textContent = `${displayNum} / ${totalNum}`;
+    }
+    if (indicatorsContainer) {
+      const dots = indicatorsContainer.querySelectorAll('.slider-indicator-pill');
+      dots.forEach((dot, idx) => {
+        if (idx === activeIndex) {
+          dot.classList.add('bg-emerald-400', 'w-8');
+          dot.classList.remove('bg-slate-800', 'w-3');
+        } else {
+          dot.classList.remove('bg-emerald-400', 'w-8');
+          dot.classList.add('bg-slate-800', 'w-3');
+        }
+      });
+    }
+  }
+
+  function nextSlide() {
+    if (isTransitioning) return;
+    moveTo(currentIndex + 1, true);
+  }
+
+  function prevSlide() {
+    if (isTransitioning) return;
+    if (currentIndex <= 0) {
+      moveTo(totalOriginal, false);
+      track.offsetHeight; // Force reflow
+      moveTo(totalOriginal - 1, true);
+    } else {
+      moveTo(currentIndex - 1, true);
+    }
+  }
+
+  track.addEventListener('transitionend', () => {
+    isTransitioning = false;
+    if (currentIndex >= totalOriginal) {
+      const target = currentIndex - totalOriginal;
+      moveTo(target, false);
+    }
+  });
+
+  if (nextBtn) nextBtn.addEventListener('click', () => {
+    nextSlide();
+    resetAutoplay();
+  });
+  if (prevBtn) prevBtn.addEventListener('click', () => {
+    prevSlide();
+    resetAutoplay();
+  });
+
+  function startAutoplay() {
+    stopAutoplay();
+    autoplayTimer = setInterval(nextSlide, autoplayDelay);
+  }
+  function stopAutoplay() {
+    if (autoplayTimer) clearInterval(autoplayTimer);
+  }
+  function resetAutoplay() {
+    stopAutoplay();
+    startAutoplay();
+  }
+
+  container.addEventListener('mouseenter', stopAutoplay);
+  container.addEventListener('mouseleave', startAutoplay);
+
+  // Touch / swipe gestures
+  let touchStartX = 0;
+  let touchDeltaX = 0;
+
+  container.addEventListener('touchstart', (e) => {
+    stopAutoplay();
+    touchStartX = e.touches[0].clientX;
+    touchDeltaX = 0;
+  }, { passive: true });
+
+  container.addEventListener('touchmove', (e) => {
+    touchDeltaX = e.touches[0].clientX - touchStartX;
+  }, { passive: true });
+
+  container.addEventListener('touchend', () => {
+    if (Math.abs(touchDeltaX) > 40) {
+      if (touchDeltaX < 0) {
+        nextSlide();
+      } else {
+        prevSlide();
+      }
+    }
+    startAutoplay();
+  });
+
+  window.addEventListener('resize', () => {
+    updateLayout();
+  });
+
+  // Build indicators
+  if (indicatorsContainer) {
+    indicatorsContainer.innerHTML = '';
+    for (let i = 0; i < totalOriginal; i++) {
+      const btn = document.createElement('button');
+      btn.type = 'button';
+      btn.className = `slider-indicator-pill h-1.5 transition-all duration-300 rounded-md ${i === 0 ? 'bg-emerald-400 w-8' : 'bg-slate-800 w-3 hover:bg-slate-700'}`;
+      btn.setAttribute('aria-label', `Go to project ${i + 1}`);
+      btn.addEventListener('click', () => {
+        moveTo(i, true);
+        resetAutoplay();
+      });
+      indicatorsContainer.appendChild(btn);
+    }
+  }
+
+  updateLayout();
+  startAutoplay();
+})();
+</script>
 
 <!-- ═══════════════════════════════════════════════════════════
      3. CORE SERVICES & CAPABILITIES (MINIMAL CORPORATE GRID)

@@ -2071,72 +2071,75 @@ body.cursor-hover #customCursor {
   transform: translateY(-2px);
 }
 
-/* ── Top Projects Marquee Showcase Styles ─────────────────────── */
-.project-marquee-wrapper {
+/* ── Top Projects One-by-One Interactive Slider ──────────────── */
+.project-slider-viewport {
+  width: 100%;
   position: relative;
   overflow: hidden;
-  padding: 1.5rem 0;
-  width: 100%;
+  padding: 0.5rem 0 1rem 0;
+  user-select: none;
+  -webkit-user-select: none;
 }
 
-.project-marquee-card {
-  display: inline-block;
-  width: 330px;
-  background: rgba(15, 23, 42, 0.9);
+.project-slider-track {
+  display: flex;
+  transition: transform 0.5s cubic-bezier(0.25, 1, 0.5, 1);
+  will-change: transform;
+}
+
+.project-slide-card {
+  box-sizing: border-box;
+  flex-shrink: 0;
+}
+
+.project-slide-inner {
+  background: rgba(15, 23, 42, 0.85);
   border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 1rem;
+  border-radius: 0.875rem;
   overflow: hidden;
-  margin: 0 12px;
-  text-align: left;
-  vertical-align: top;
-  white-space: normal;
-  transition: border-color 0.3s ease, transform 0.3s ease, box-shadow 0.3s ease;
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  transition: transform 0.35s ease, border-color 0.35s ease, box-shadow 0.35s ease;
   backdrop-filter: blur(12px);
   -webkit-backdrop-filter: blur(12px);
 }
 
-.project-marquee-card:hover {
+.project-slide-card:hover .project-slide-inner {
   border-color: rgba(74, 222, 128, 0.45);
-  box-shadow: 0 16px 36px -10px rgba(0, 0, 0, 0.7), 0 0 25px rgba(34, 197, 94, 0.16);
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px -12px rgba(0, 0, 0, 0.75), 0 0 25px rgba(34, 197, 94, 0.15);
 }
 
-.project-marquee-thumb {
-  height: 175px;
+.project-slide-thumb {
+  height: 200px;
   width: 100%;
   background: #0f172a;
   position: relative;
   overflow: hidden;
 }
 
-.project-marquee-img {
+.project-slide-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform 0.4s ease;
+  transition: transform 0.5s ease;
 }
 
-.project-marquee-card:hover .project-marquee-img {
+.project-slide-card:hover .project-slide-img {
   transform: scale(1.05);
 }
 
-.project-marquee-badge {
-  position: absolute;
-  top: 10px;
-  left: 10px;
-  background: rgba(3, 7, 18, 0.85);
-  border: 1px solid rgba(255, 255, 255, 0.12);
-  color: #4ade80;
-  font-size: 10px;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
-  padding: 3px 9px;
-  border-radius: 9999px;
-  backdrop-filter: blur(8px);
+.slider-indicator-pill {
+  cursor: pointer;
+  border: none;
+  outline: none;
+  transition: all 0.3s cubic-bezier(0.25, 1, 0.5, 1);
 }
 
-.project-marquee-body {
-  padding: 1.15rem;
+.slider-indicator-pill:focus-visible {
+  outline: 2px solid #4ade80;
+  outline-offset: 2px;
 }
 
 /* =============================================================
