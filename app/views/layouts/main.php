@@ -325,6 +325,8 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <!-- Editorial type pair: Instrument Serif (display) + IBM Plex Sans/Mono (workhorse) -->
+  <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined|Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
@@ -340,11 +342,19 @@
               300: '#86efac', 400: '#4ade80', 500: '#22c55e',
               600: '#16a34a', 700: '#15803d', 800: '#166534',
               900: '#14532d', 950: '#052e16',
-            }
+            },
+            // Editorial palette (home + legal pages): graphite ink on warm paper
+            paper:  { DEFAULT: '#EDEAE2', deep: '#E3DFD5', dark: '#1B1C19' },
+            ink:    { DEFAULT: '#191A17', soft: '#43453E', mute: '#6E7066' },
+            rule:   { DEFAULT: '#C9C4B6', soft: '#D8D4C8' },
+            signal: { DEFAULT: '#2C5F42', bright: '#3C7E56' },
           },
           fontFamily: {
             sans:    ['Inter', 'system-ui', 'sans-serif'],
             display: ['Space Grotesk', 'Inter', 'sans-serif'],
+            edit:    ['"Instrument Serif"', 'Georgia', 'serif'],
+            plex:    ['"IBM Plex Sans"', 'system-ui', 'sans-serif'],
+            spec:    ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
           }
         }
       }
@@ -1139,11 +1149,11 @@
         <div class="lg:col-span-3 space-y-4">
           <h3 class="font-display font-bold uppercase text-xs tracking-wide text-eco-400">Legal &amp; Policies</h3>
           <ul class="space-y-3 text-sm">
-            <li><a href="<?= url('contact') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-shield-halved text-eco-400 text-xs w-4 text-center"></i>Privacy Policy</a></li>
-            <li><a href="<?= url('contact') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-file-contract text-eco-400 text-xs w-4 text-center"></i>Terms of Service</a></li>
-            <li><a href="<?= url('contact') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-lock text-eco-400 text-xs w-4 text-center"></i>Security</a></li>
-            <li><a href="<?= url('contact') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-cookie-bite text-eco-400 text-xs w-4 text-center"></i>Cookie Policy</a></li>
-            <li><a href="<?= url('contact') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-scale-balanced text-eco-400 text-xs w-4 text-center"></i>Compliance</a></li>
+            <li><a href="<?= url('privacy') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-shield-halved text-eco-400 text-xs w-4 text-center"></i>Privacy Policy</a></li>
+            <li><a href="<?= url('terms') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-file-contract text-eco-400 text-xs w-4 text-center"></i>Terms of Service</a></li>
+            <li><a href="<?= url('privacy#security') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-lock text-eco-400 text-xs w-4 text-center"></i>Security</a></li>
+            <li><a href="<?= url('privacy#cookies') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-cookie-bite text-eco-400 text-xs w-4 text-center"></i>Cookie Policy</a></li>
+            <li><a href="<?= url('terms#compliance') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-scale-balanced text-eco-400 text-xs w-4 text-center"></i>Compliance</a></li>
           </ul>
         </div>
 
@@ -1167,8 +1177,8 @@
         <p>&copy; <?= date('Y') ?> <span class="text-white font-semibold">Ecotech Service</span>. All rights reserved. Built for sustainable growth.</p>
         
         <div class="flex items-center space-x-6">
-          <a href="<?= url('contact') ?>" class="hover:text-eco-400 transition">Privacy Policy</a>
-          <a href="<?= url('contact') ?>" class="hover:text-eco-400 transition">Terms of Service</a>
+          <a href="<?= url('privacy') ?>" class="hover:text-eco-400 transition">Privacy Policy</a>
+          <a href="<?= url('terms') ?>" class="hover:text-eco-400 transition">Terms of Service</a>
           <a href="<?= url('services/web-development-in-lucknow') ?>" class="hover:text-eco-400 transition">SEO Sitemap</a>
         </div>
       </div>

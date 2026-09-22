@@ -31,6 +31,8 @@ $routes = [
     'blog'              => ['BlogController',         'index'],
     'blog/post'         => ['BlogController',         'post'],
     'search'            => ['SearchController',       'index'],
+    'privacy'           => ['LegalController',        'privacy'],
+    'terms'             => ['LegalController',        'terms'],
     'sitemap.xml'       => ['SitemapController',      'index'],
     'robots.txt'        => ['SitemapController',      'robots'],
     // Admin
