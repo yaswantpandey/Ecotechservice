@@ -1,5 +1,5 @@
 <?php
-// ── PROJECTS / PORTFOLIO PAGE ───────────────────────────────
+// ── PROJECTS / Project PAGE ───────────────────────────────
 
 $categoryCounts = $categoryCounts ?? [];
 
@@ -23,7 +23,7 @@ $catIcons = [
 $activeLabel = $cats[$activeCategory]['label'] ?? 'All Projects';
 $shown       = count($projects);
 
-$portfolioStats = [
+$ProjectStats = [
     ['num' => '50+', 'label' => 'Projects Delivered'],
     ['num' => '98%', 'label' => 'Client Satisfaction'],
     ['num' => '12+', 'label' => 'Industries Served'],
@@ -235,7 +235,7 @@ $portfolioStats = [
   <div class="pp-shell relative z-10">
     <div class="max-w-4xl">
       <span class="pp-eyebrow">Our Work</span>
-      <h1 class="pp-h1">Portfolio &amp; <span class="text-gradient">case studies</span></h1>
+      <h1 class="pp-h1">Project &amp; <span class="text-gradient">case studies</span></h1>
       <div class="pp-accent-rule"></div>
       <p class="pp-lead">
         Web applications, e-commerce platforms, mobile apps, and digital campaigns &mdash;
@@ -243,7 +243,7 @@ $portfolioStats = [
       </p>
 
       <div class="pp-stats">
-        <?php foreach ($portfolioStats as $ps): ?>
+        <?php foreach ($ProjectStats as $ps): ?>
         <div class="pp-stat">
           <div class="pp-stat-num" data-counter="<?= Security::e($ps['num']) ?>"><?= Security::e($ps['num']) ?></div>
           <div class="pp-stat-label"><?= Security::e($ps['label']) ?></div>
@@ -295,7 +295,7 @@ $portfolioStats = [
 <section class="py-14">
   <div class="pp-shell">
     <?php if ($projects): ?>
-    <div class="pp-grid" id="portfolioGrid">
+    <div class="pp-grid" id="ProjectGrid">
       <?php foreach ($projects as $i => $p):
         $techList  = array_filter(array_map('trim', explode(',', (string)($p['tech_stack'] ?? ''))));
         $techShown = array_slice($techList, 0, 4);
@@ -369,7 +369,7 @@ $portfolioStats = [
       </h3>
       <p class="text-slate-400 text-sm mb-7 max-w-sm mx-auto">
         <?php if ($activeCategory): ?>
-          We haven't published work in this category yet &mdash; browse the full portfolio instead.
+          We haven't published work in this category yet &mdash; browse the full Project instead.
         <?php else: ?>
           Our case studies are on the way. In the meantime, tell us what you're building.
         <?php endif; ?>
@@ -411,7 +411,7 @@ $portfolioStats = [
 
 <script>
 // ── Scroll reveal for project cards ─────────────────────────
-(function initPortfolioReveal() {
+(function initProjectReveal() {
   const cards = document.querySelectorAll('#projectsPage .reveal-card');
   if (!cards.length) return;
 

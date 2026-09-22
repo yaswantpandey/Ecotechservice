@@ -129,7 +129,7 @@ require __DIR__ . '/_style.php';
             <div class="doc-callout">
               <p>
                 We do not use client production data to train models, to build internal
-                datasets, or as demonstration material. Client work appears in our portfolio
+                datasets, or as demonstration material. Client work appears in our Project
                 only with permission, and only using publicly visible interfaces.
               </p>
             </div>

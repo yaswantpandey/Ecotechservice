@@ -178,7 +178,7 @@ $catIcons = [
     <nav class="pd-crumbs" aria-label="Breadcrumb">
       <a href="<?= url('') ?>">Home</a>
       <i class="fas fa-chevron-right"></i>
-      <a href="<?= url('projects') ?>">Portfolio</a>
+      <a href="<?= url('projects') ?>">Project</a>
       <?php if ($project['category']): ?>
       <i class="fas fa-chevron-right"></i>
       <a href="<?= url('projects?cat=' . urlencode((string)$project['category'])) ?>"><?= Security::e($category) ?></a>
@@ -274,7 +274,7 @@ $catIcons = [
 
           <a href="<?= url('projects') ?>" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition-colors mt-6">
             <i class="fas fa-arrow-left text-[10px]"></i>
-            <span>Back to portfolio</span>
+            <span>Back to Project</span>
           </a>
         </div>
       </aside>

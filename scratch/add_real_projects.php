@@ -58,9 +58,9 @@ $projects = [
         'sort_order'  => 3,
     ],
     [
-        'title'       => 'Yaswant.co.in — Developer Portfolio',
-        'slug'        => 'yaswant-portfolio',
-        'description' => 'Official portfolio and developer ecosystem for Yaswant Pandey. Features 26+ browser-based cybersecurity & developer utilities, online image editing tools, ATS resume studio, engineering study notes, and internship listings.',
+        'title'       => 'Yaswant.co.in — Developer Project
+        'slug'        => 'yaswant-Project
+        'description' => 'Official Projectnd developer ecosystem for Yaswant Pandey. Features 26+ browser-based cybersecurity & developer utilities, online image editing tools, ATS resume studio, engineering study notes, and internship listings.',
         'tech_stack'  => 'React, TypeScript, Vite, Tailwind CSS, Google Analytics',
         'category'    => 'website',
         'live_url'    => 'https://yaswant.co.in/',
@@ -82,7 +82,7 @@ $projects = [
     [
         'title'       => 'Eco-Tech Engineering',
         'slug'        => 'ecotech-engineering',
-        'description' => 'Corporate engineering services website for Eco-Tech Engineering. Built with Bootstrap 5 and animated with AOS (Animate on Scroll), featuring services showcase, project portfolio, and contact system for an engineering consultancy firm.',
+        'description' => 'Corporate engineering services website for Eco-Tech Engineering. Built with Bootstrap 5 and animated with AOS (Animate on Scroll), featuring services showcase, project Projectand contact system for an engineering consultancy firm.',
         'tech_stack'  => 'Bootstrap 5, Font Awesome, AOS Animations, PHP, CSS3',
         'category'    => 'website',
         'live_url'    => 'https://www.ecotechengineering.in/',

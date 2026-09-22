@@ -17,7 +17,7 @@
     </p>
 
     <!-- Stats Bar -->
-    <div class="portfolio-stats animate-fadeInUp mx-auto" style="animation-delay:0.3s">
+    <div class="Project-stats animate-fadeInUp mx-auto" style="animation-delay:0.3s">
       <div class="stat-pill"><span class="stat-num"><?= count($templates) ?>+</span><span class="stat-label">Templates</span></div>
       <div class="stat-divider"></div>
       <div class="stat-pill"><span class="stat-num">100%</span><span class="stat-label">Responsive</span></div>
@@ -33,7 +33,7 @@
      FILTER TABS
      ══════════════════════════════════════════════════════════ -->
 <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mb-12 mt-10">
-  <div class="portfolio-filter-bar">
+  <div class="Project-filter-bar">
     <a href="<?= url('templates') ?>" class="filter-pill <?= empty($_GET['type'] ?? '') ? 'filter-pill--active' : '' ?>">
       <i class="fas fa-th-large mr-2 text-xs"></i>All Templates
     </a>

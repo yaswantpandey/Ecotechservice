@@ -68,11 +68,11 @@
         </div>
         <h2 class="text-xl font-display font-bold text-white">No exact matches found</h2>
         <p class="text-slate-400 text-sm max-w-md mx-auto">
-          We couldn't find any results matching "<strong><?= Security::e($query) ?></strong>". Try searching for general terms like "web", "security", "mobile", or "portfolio".
+          We couldn't find any results matching "<strong><?= Security::e($query) ?></strong>". Try searching for general terms like "web", "security", "mobile", or "Project".
         </p>
         <div class="pt-4 flex flex-wrap justify-center gap-3">
           <a href="<?= url('services') ?>" class="btn-primary py-2.5 px-6 text-xs rounded-md">View All Services</a>
-          <a href="<?= url('projects') ?>" class="btn-outline py-2.5 px-6 text-xs rounded-md">View Portfolio</a>
+          <a href="<?= url('projects') ?>" class="btn-outline py-2.5 px-6 text-xs rounded-md">View Project</a>
           <a href="<?= url('contact') ?>" class="btn-outline py-2.5 px-6 text-xs rounded-md">Contact Us</a>
         </div>
       </div>
@@ -110,12 +110,12 @@
     </div>
     <?php endif; ?>
 
-    <!-- 2. Projects / Portfolio Results -->
+    <!-- 2. Projects / Project Results -->
     <?php if (!empty($projectsResults)): ?>
     <div class="space-y-4">
       <div class="flex items-center space-x-2 text-blue-400 border-b border-slate-800/80 pb-2">
         <span class="material-icons-outlined text-lg">work</span>
-        <h2 class="text-base font-display font-bold text-white uppercase tracking-wider text-xs">Portfolio Case Studies (<?= count($projectsResults) ?>)</h2>
+        <h2 class="text-base font-display font-bold text-white uppercase tracking-wider text-xs">Project Case Studies (<?= count($projectsResults) ?>)</h2>
       </div>
       <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
         <?php foreach ($projectsResults as $p): ?>
@@ -237,7 +237,7 @@
           <div class="w-10 h-10 bg-blue-500/10 border border-blue-500/20 text-blue-400 rounded-md flex items-center justify-center mb-3">
             <span class="material-icons-outlined text-xl">work</span>
           </div>
-          <h3 class="font-display font-bold text-base text-white group-hover:text-blue-300 transition-colors">Portfolio &amp; Case Studies</h3>
+          <h3 class="font-display font-bold text-base text-white group-hover:text-blue-300 transition-colors">Project &amp; Case Studies</h3>
           <p class="text-xs text-slate-400 mt-1">Verified live platforms including Pandey Reality, Apna Cleaning, and more.</p>
         </a>
 

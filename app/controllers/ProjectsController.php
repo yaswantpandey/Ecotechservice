@@ -43,9 +43,9 @@ class ProjectsController extends BaseController {
             'projects'        => $projects,
             'activeCategory'  => $category,
             'categoryCounts'  => $categoryCounts,
-            'pageTitle'       => 'Portfolio & Client Case Studies — ' . APP_NAME,
-            'metaDescription' => 'Explore our portfolio of web applications, e-commerce platforms, mobile apps, and digital campaigns built with modern tech stacks and responsive design.',
-            'metaKeywords'    => 'web development portfolio, custom software projects, ecommerce case studies, mobile application portfolio, client work',
+            'pageTitle'       => 'Project & Client Case Studies — ' . APP_NAME,
+            'metaDescription' => 'Explore our Project of web applications, e-commerce platforms, mobile apps, and digital campaigns built with modern tech stacks and responsive design.',
+            'metaKeywords'    => 'web development Project, custom software projects, ecommerce case studies, mobile application Project, client work',
             'canonicalPath'   => 'projects' . ($category ? '?cat=' . urlencode($category) : ''),
         ]);
     }

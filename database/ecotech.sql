@@ -114,7 +114,7 @@ CREATE TABLE IF NOT EXISTS `templates` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT INTO `templates` (`title`,`slug`,`description`,`is_free`) VALUES
-('Business Pro','business-pro','A clean, modern business portfolio template with dark/light mode.', 1),
+('Business Pro','business-pro','A clean, modern business Project template with dark/light mode.', 1),
 ('SaaS Launch Kit','saas-launch-kit','Everything a SaaS startup needs — hero, pricing, FAQ, testimonials.', 0),
 ('Eco Landing Page','eco-landing','Nature-inspired landing page template optimised for conversions.', 1);
 

@@ -119,8 +119,8 @@ $maxMb     = (int)round(MAX_FILE_SIZE / 1048576);
       <h2 class="af-title"><?= $formTitle ?></h2>
       <p class="af-sub">
         <?= $isEdit
-              ? 'Update the details for this portfolio entry.'
-              : 'Add a new entry to the public portfolio.' ?>
+              ? 'Update the details for this Project entry.'
+              : 'Add a new entry to the public Project.' ?>
       </p>
     </div>
   </div>
@@ -162,7 +162,7 @@ $maxMb     = (int)round(MAX_FILE_SIZE / 1048576);
         <textarea id="af_description" name="description" required rows="5" class="af-input"
                   placeholder="What was built, for whom, and what problem it solved…"><?= Security::e($project['description'] ?? '') ?></textarea>
         <p class="af-hint">
-          The first ~110 characters appear on portfolio cards and the first 155 in search results.
+          The first ~110 characters appear on Project cards and the first 155 in search results.
           <span id="af_desc_count" class="text-slate-500"></span>
         </p>
       </div>

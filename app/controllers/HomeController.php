@@ -23,7 +23,7 @@ class HomeController extends BaseController {
         }
         // ─────────────────────────────────────────────────────────────────
 
-        // Real active projects for home page slider (matching portfolio order)
+        // Real active projects for home page slider (matching Project order)
         $stmt = $this->db->prepare(
             "SELECT * FROM projects WHERE is_active = 1 ORDER BY sort_order ASC, created_at DESC"
         );

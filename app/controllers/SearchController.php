@@ -71,7 +71,7 @@ class SearchController extends BaseController {
             // 5. Core pages matching
             $corePages = [
                 ['title' => 'Technology Services', 'url' => url('services'), 'desc' => 'Explore custom web development, mobile apps, DevOps, and cybersecurity penetration testing.', 'keywords' => ['service', 'services', 'development', 'security', 'pentest', 'app', 'mobile', 'cloud', 'devops', 'ui', 'ux']],
-                ['title' => 'Client Portfolio & Case Studies', 'url' => url('projects'), 'desc' => 'Browse real client websites, web platforms, and mobile apps delivered by Ecotech.', 'keywords' => ['project', 'projects', 'portfolio', 'work', 'case study', 'client', 'clients']],
+                ['title' => 'Client Project & Case Studies', 'url' => url('projects'), 'desc' => 'Browse real client websites, web platforms, and mobile apps delivered by Ecotech.', 'keywords' => ['project', 'projects', 'Project', 'work', 'case study', 'client', 'clients']],
                 ['title' => 'Website Templates', 'url' => url('templates'), 'desc' => 'Download high-performance, responsive HTML5 and PHP website templates.', 'keywords' => ['template', 'templates', 'theme', 'themes', 'landing page', 'saas kit']],
                 ['title' => 'About Ecotech Service', 'url' => url('about'), 'desc' => 'Learn about our engineering culture, cybersecurity focus, and company mission.', 'keywords' => ['about', 'company', 'team', 'who we are', 'mission', 'culture']],
                 ['title' => 'Contact Us & Hire Developers', 'url' => url('contact'), 'desc' => 'Reach out to our team for custom quotes, consultation, and project kickoff.', 'keywords' => ['contact', 'hire', 'quote', 'email', 'phone', 'consultation', 'talk', 'touch']],
@@ -123,7 +123,7 @@ class SearchController extends BaseController {
             'pagesResults'     => $pagesResults,
             'totalCount'       => $totalCount,
             'pageTitle'        => $pageTitle,
-            'metaDescription'  => 'Search across Ecotech Service solutions, web development services, client portfolio case studies, and articles.',
+            'metaDescription'  => 'Search across Ecotech Service solutions, web development services, client Project case studies, and articles.',
             'robotsMeta'       => 'noindex, follow',
             'canonicalPath'    => 'search' . ($query ? '?q=' . urlencode($query) : '')
         ]);

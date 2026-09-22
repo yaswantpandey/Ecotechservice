@@ -161,10 +161,10 @@ require __DIR__ . '/_style.php';
               your name wherever possible. We work inside your accounts rather than holding
               your production environment inside ours.
             </p>
-            <h3>Portfolio</h3>
+            <h3>Projecth3>
             <p>
               We may describe the engagement and show publicly visible interfaces in our
-              portfolio unless you ask us not to. We will never publish your internal data,
+              Projectnless you ask us not to. We will never publish your internal data,
               credentials, private screens or unannounced features.
             </p>
           </section>

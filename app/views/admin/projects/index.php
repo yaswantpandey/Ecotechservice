@@ -148,7 +148,7 @@ $catIcons = [
   <div class="flex flex-col sm:flex-row sm:items-start justify-between gap-4 mb-6">
     <div>
       <h2 class="ap-head-title">Projects</h2>
-      <p class="ap-sub">Manage portfolio entries shown on the public site.</p>
+      <p class="ap-sub">Manage Projectntries shown on the public site.</p>
     </div>
     <a href="<?= url('admin/projects/add') ?>" class="btn-primary text-sm py-2 shrink-0">
       <i class="fas fa-plus mr-2 text-xs"></i>Add Project
@@ -280,7 +280,7 @@ $catIcons = [
               <div class="ap-empty">
                 <div class="ap-empty-icon"><i class="fas fa-folder-open"></i></div>
                 <p class="text-slate-300 text-sm font-medium mb-1">No projects yet</p>
-                <p class="text-xs text-slate-500 mb-5">Add your first portfolio entry to show it on the public site.</p>
+                <p class="text-xs text-slate-500 mb-5">Add your first Projectntry to show it on the public site.</p>
                 <a href="<?= url('admin/projects/add') ?>" class="btn-primary text-xs py-2 px-4">
                   <i class="fas fa-plus mr-1.5"></i>Add Project
                 </a>

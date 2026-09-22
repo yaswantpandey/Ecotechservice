@@ -13,7 +13,7 @@ class TemplatesController extends BaseController {
         $this->view('templates', [
             'templates'       => $templates,
             'pageTitle'       => 'Premium & Free Website Templates — ' . APP_NAME,
-            'metaDescription' => 'Download responsive, SEO-ready HTML5, CSS3, and PHP website templates crafted by Ecotech Service for businesses, SaaS startups, and creative portfolios.',
+            'metaDescription' => 'Download responsive, SEO-ready HTML5, CSS3, and PHP website templates crafted by Ecotech Service for businesses, SaaS startups, and creative Projects.',
             'metaKeywords'    => 'website templates, free HTML templates, SaaS landing page template, business website template, responsive web templates',
             'canonicalPath'   => 'templates',
         ]);

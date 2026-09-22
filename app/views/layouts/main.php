@@ -327,6 +327,8 @@
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Space+Grotesk:wght@400;500;600;700&display=swap" rel="stylesheet">
   <!-- Editorial type pair: Instrument Serif (display) + IBM Plex Sans/Mono (workhorse) -->
   <link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <!-- Home + footer pair: Fraunces (warm display) + Figtree (friendly humanist body) -->
+  <link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Figtree:wght@400;500;600&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined|Material+Icons" rel="stylesheet">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:opsz,wght,FILL,GRAD@20..48,100..700,0..1,-50..200" />
 
@@ -1049,141 +1051,197 @@
   </main>
 
   <!-- ── Ultra-Modern Footer ── -->
-  <footer class="bg-slate-950 border-t border-slate-800/80 mt-24 relative overflow-hidden text-slate-300">
-    <!-- Top Glow Line -->
-    <div class="absolute top-0 left-1/2 -translate-x-1/2 w-3/4 h-[1px] bg-gradient-to-r from-transparent via-eco-500/50 to-transparent"></div>
-    <div class="absolute top-0 left-1/4 w-96 h-96 bg-eco-500/5 rounded-full blur-3xl pointer-events-none"></div>
+  <style>
+    /* Ported from the shadcn `footer-section` component. The React original used
+       framer-motion + lucide-react; here the same staggered blur-in is done with
+       CSS + IntersectionObserver (no bundler in this PHP app), and lucide glyphs
+       are swapped for Font Awesome, which is already loaded. */
+    .ftr {
+      --line: rgba(255,255,255,0.09);
+      --fg: #f9fafb; --fg-2: #9CA3AF; --fg-3: #6b7280;
+      --eco: #22c55e; --eco-br: #4ade80;
+      font-family: 'Figtree', 'Inter', system-ui, sans-serif;
+      background: #030712;
+      color: var(--fg-2);
+      position: relative;
+      border-top: 1px solid var(--line);
+      border-top-left-radius: 28px;
+      border-top-right-radius: 28px;
+      margin-top: 6rem;
+      overflow: hidden;
+    }
+    @media (min-width: 768px) { .ftr { border-top-left-radius: 44px; border-top-right-radius: 44px; } }
+    /* The component's soft top wash + blurred centre seam */
+    .ftr::before {
+      content: ''; position: absolute; inset: 0; pointer-events: none;
+      background: radial-gradient(35% 128px at 50% 0%, rgba(255,255,255,0.07), transparent);
+    }
+    .ftr-seam {
+      position: absolute; top: 0; left: 50%; transform: translateX(-50%) translateY(-50%);
+      width: 33%; height: 1px; border-radius: 999px; filter: blur(1px);
+      background: rgba(34,197,94,0.55); pointer-events: none;
+    }
+    .ftr-inner { position: relative; max-width: 1152px; margin: 0 auto; padding: 3rem 1.5rem; }
+    @media (min-width: 1024px) { .ftr-inner { padding: 4rem 1.5rem 3rem; } }
 
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 relative z-10">
-      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
+    .ftr-brand { font-family: 'Fraunces', Georgia, serif; font-weight: 600; font-size: 1.35rem; color: var(--fg); letter-spacing: -0.01em; }
+    .ftr-label { font-size: .75rem; font-weight: 600; color: var(--fg); letter-spacing: .02em; }
+    .ftr-list { list-style: none; margin: 1rem 0 0; padding: 0; }
+    .ftr-list li + li { margin-top: .5rem; }
+    .ftr-list a {
+      display: inline-flex; align-items: center; gap: .45rem;
+      font-size: .875rem; color: var(--fg-2); text-decoration: none;
+      transition: color .3s ease;
+    }
+    .ftr-list a:hover { color: var(--fg); }
+    .ftr-list a i { width: 1rem; font-size: .75rem; color: var(--eco-br); }
+    .ftr-meta { font-size: .8125rem; color: var(--fg-3); }
+    .ftr-meta a { color: var(--fg-2); text-decoration: none; }
+    .ftr-meta a:hover { color: var(--eco-br); }
+    .ftr-bottom { border-top: 1px solid var(--line); margin-top: 2.5rem; padding-top: 1.5rem; }
 
-        <!-- Column 1: Brand, Social & Contact (Span 4) -->
-        <div class="lg:col-span-4 space-y-6">
-          <a href="<?= url() ?>" class="inline-flex items-center gap-3 group">
-            <i class="fas fa-leaf text-eco-400 text-2xl"></i>
-            <span class="font-display font-bold text-white text-2xl tracking-wide uppercase">Ecotech Services</span>
+    /* Equivalent of the component's <AnimatedContainer> stagger */
+    .ftr-anim { opacity: 0; filter: blur(4px); transform: translateY(-8px); }
+    .ftr-anim.is-in {
+      opacity: 1; filter: blur(0); transform: none;
+      transition: opacity .8s ease, filter .8s ease, transform .8s ease;
+      transition-delay: var(--d, 0s);
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .ftr-anim, .ftr-anim.is-in { opacity: 1; filter: none; transform: none; transition: none; }
+    }
+  </style>
+
+  <footer class="ftr">
+    <div class="ftr-seam" aria-hidden="true"></div>
+
+    <div class="ftr-inner">
+      <div class="grid w-full gap-8 xl:grid-cols-3">
+
+        <!-- Brand block (component's left column) -->
+        <div class="ftr-anim" style="--d:0s">
+          <a href="<?= url() ?>" class="inline-flex items-center gap-2.5">
+            <i class="fas fa-leaf text-eco-400 text-xl"></i>
+            <span class="ftr-brand">Ecotech Services</span>
           </a>
-          <p class="text-slate-400 text-sm leading-relaxed max-w-sm">
-            Leading provider of innovative IT, IoT, and AI solutions. Empowering businesses with cutting-edge technology for a sustainable digital future.
+          <p class="mt-4 text-sm max-w-xs" style="color:var(--fg-2)">
+            Software engineering — web platforms, mobile apps and serverless systems, maintained after launch.
           </p>
 
-          <!-- Follow Us -->
-          <div class="space-y-3">
-            <h3 class="font-display font-bold uppercase text-xs tracking-wide text-eco-400">Follow Us</h3>
-            <div class="flex items-center gap-4 text-lg">
-              <?php
-              $socials = [
-                'linkedin'  => ['icon' => 'fab fa-linkedin',    'label' => 'LinkedIn'],
-                'github'    => ['icon' => 'fab fa-github',      'label' => 'GitHub'],
-                'facebook'  => ['icon' => 'fab fa-facebook',    'label' => 'Facebook'],
-                'twitter'   => ['icon' => 'fab fa-x-twitter',   'label' => 'X / Twitter'],
-                'instagram' => ['icon' => 'fab fa-instagram',   'label' => 'Instagram'],
-              ];
-              foreach ($socials as $key => $s):
-                $sUrl = setting($key . '_url');
-                if ($sUrl):
-              ?>
-              <a href="<?= Security::e($sUrl) ?>" target="_blank" rel="noopener" aria-label="<?= $s['label'] ?>"
-                 class="text-slate-400 hover:text-eco-400 transition-colors duration-300">
-                <i class="<?= $s['icon'] ?>"></i>
-              </a>
-              <?php endif; endforeach; ?>
-
-              <a href="mailto:<?= Security::e(setting('site_email') ?: 'ecotech.internships@gmail.com') ?>" aria-label="Email"
-                 class="text-slate-400 hover:text-eco-400 transition-colors duration-300">
-                <i class="fas fa-envelope"></i>
-              </a>
-              <a href="tel:<?= Security::e(preg_replace('/\s+/', '', setting('site_phone') ?: '+917398301184')) ?>" aria-label="Phone"
-                 class="text-slate-400 hover:text-eco-400 transition-colors duration-300">
-                <i class="fas fa-phone"></i>
-              </a>
-              <a href="https://wa.me/<?= setting('whatsapp_number') ?>" target="_blank" rel="noopener" aria-label="WhatsApp"
-                 class="text-slate-400 hover:text-[#25D366] transition-colors duration-300">
-                <i class="fab fa-whatsapp"></i>
-              </a>
-            </div>
+          <div class="flex items-center gap-4 mt-5 text-base">
+            <?php
+            $socials = [
+              'linkedin'  => ['icon' => 'fab fa-linkedin',    'label' => 'LinkedIn'],
+              'github'    => ['icon' => 'fab fa-github',      'label' => 'GitHub'],
+              'facebook'  => ['icon' => 'fab fa-facebook',    'label' => 'Facebook'],
+              'twitter'   => ['icon' => 'fab fa-x-twitter',   'label' => 'X / Twitter'],
+              'instagram' => ['icon' => 'fab fa-instagram',   'label' => 'Instagram'],
+            ];
+            foreach ($socials as $key => $s):
+              $sUrl = setting($key . '_url');
+              if ($sUrl):
+            ?>
+            <a href="<?= Security::e($sUrl) ?>" target="_blank" rel="noopener" aria-label="<?= $s['label'] ?>"
+               class="text-slate-400 hover:text-eco-400 transition-colors duration-300">
+              <i class="<?= $s['icon'] ?>"></i>
+            </a>
+            <?php endif; endforeach; ?>
+            <a href="https://wa.me/<?= setting('whatsapp_number') ?>" target="_blank" rel="noopener" aria-label="WhatsApp"
+               class="text-slate-400 hover:text-[#25D366] transition-colors duration-300">
+              <i class="fab fa-whatsapp"></i>
+            </a>
           </div>
 
-          <!-- Contact Info -->
-          <div class="space-y-3 pt-4">
-            <h3 class="font-display font-bold uppercase text-xs tracking-wide text-eco-400">Contact Info</h3>
-            <ul class="space-y-2.5 text-sm text-slate-400">
-              <li class="flex items-center gap-3">
-                <i class="fas fa-envelope text-eco-400 text-xs w-4 text-center shrink-0"></i>
-                <a href="mailto:<?= Security::e(setting('site_email') ?: 'ecotech.internships@gmail.com') ?>" class="hover:text-eco-400 transition-colors break-all">
-                  <?= Security::e(setting('site_email') ?: 'ecotech.internships@gmail.com') ?>
-                </a>
-              </li>
-              <li class="flex items-center gap-3">
-                <i class="fas fa-phone text-eco-400 text-xs w-4 text-center shrink-0"></i>
-                <a href="tel:<?= Security::e(preg_replace('/\s+/', '', setting('site_phone') ?: '+917398301184')) ?>" class="hover:text-eco-400 transition-colors">
-                  <?= Security::e(setting('site_phone') ?: '+91 7398301184') ?>
-                </a>
-              </li>
-              <li class="flex items-center gap-3">
-                <i class="fas fa-location-dot text-eco-400 text-xs w-4 text-center shrink-0"></i>
-                <span><?= Security::e(setting('site_address') ?: 'Lucknow, Uttar Pradesh, India') ?></span>
-              </li>
-              <li class="flex items-center gap-3">
-                <i class="fas fa-clock text-eco-400 text-xs w-4 text-center shrink-0"></i>
-                <span><?= Security::e(setting('business_hours') ?: 'Mon - Sat: 9:00 AM - 6:00 PM') ?></span>
-              </li>
+          <p class="ftr-meta mt-6">&copy; <?= date('Y') ?> Ecotech Services. All rights reserved.</p>
+        </div>
+
+        <!-- Four link columns (component's right block) -->
+        <div class="mt-10 grid grid-cols-2 gap-8 md:grid-cols-4 xl:col-span-2 xl:mt-0">
+          <?php
+          $fEmail = setting('site_email') ?: 'ecotech.internships@gmail.com';
+          $fPhone = setting('site_phone') ?: '+91 7398301184';
+          $footerGroups = [
+            [
+              'label' => 'Services',
+              'links' => [
+                ['Web development',  url('services'), 'fa-window-maximize'],
+                ['Mobile apps',      url('services'), 'fa-mobile-screen'],
+                ['Cloud &amp; DevOps', url('services'), 'fa-cloud'],
+                ['Cybersecurity',    url('services'), 'fa-shield-halved'],
+              ],
+            ],
+            [
+              'label' => 'Company',
+              'links' => [
+                ['About us',  url('about'),    'fa-circle-info'],
+                ['Portfolio', url('projects'), 'fa-folder-open'],
+                ['Blog',      url('blog'),     'fa-newspaper'],
+                ['Contact',   url('contact'),  'fa-envelope-open-text'],
+              ],
+            ],
+            [
+              'label' => 'Legal',
+              'links' => [
+                ['Privacy Policy',   url('privacy'),          'fa-shield-halved'],
+                ['Terms of Service', url('terms'),            'fa-file-contract'],
+                ['Security',         url('privacy#security'), 'fa-lock'],
+                ['Cookie Policy',    url('privacy#cookies'),  'fa-cookie-bite'],
+              ],
+            ],
+            [
+              'label' => 'Get in touch',
+              'links' => [
+                [Security::e($fEmail), 'mailto:' . Security::e($fEmail), 'fa-envelope'],
+                [Security::e($fPhone), 'tel:' . Security::e(preg_replace('/\s+/', '', $fPhone)), 'fa-phone'],
+                [Security::e(setting('site_address') ?: 'Lucknow, India'), url('contact'), 'fa-location-dot'],
+                [Security::e(setting('business_hours') ?: 'Mon - Sat, 9-6'), url('contact'), 'fa-clock'],
+              ],
+            ],
+          ];
+          foreach ($footerGroups as $gi => $group):
+          ?>
+          <div class="ftr-anim" style="--d:<?= number_format(0.1 + $gi * 0.1, 1) ?>s">
+            <h3 class="ftr-label"><?= $group['label'] ?></h3>
+            <ul class="ftr-list">
+              <?php foreach ($group['links'] as $l): ?>
+              <li><a href="<?= $l[1] ?>"><i class="fas <?= $l[2] ?>"></i><?= $l[0] ?></a></li>
+              <?php endforeach; ?>
             </ul>
           </div>
+          <?php endforeach; ?>
         </div>
-
-        <!-- Column 2: Quick Links (Span 2) -->
-        <div class="lg:col-span-2 space-y-4">
-          <h3 class="font-display font-bold uppercase text-xs tracking-wide text-eco-400">Quick Links</h3>
-          <ul class="space-y-3 text-sm">
-            <li><a href="<?= url() ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-house text-eco-400 text-xs w-4 text-center"></i>Home</a></li>
-            <li><a href="<?= url('services') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-gears text-eco-400 text-xs w-4 text-center"></i>Services</a></li>
-            <li><a href="<?= url('contact') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-graduation-cap text-eco-400 text-xs w-4 text-center"></i>Internships</a></li>
-            <li><a href="<?= url('about') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-circle-info text-eco-400 text-xs w-4 text-center"></i>About Us</a></li>
-            <li><a href="<?= url('blog') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fab fa-blogger-b text-eco-400 text-xs w-4 text-center"></i>Blog</a></li>
-            <li><a href="<?= url('contact') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-envelope-open-text text-eco-400 text-xs w-4 text-center"></i>Contact</a></li>
-          </ul>
-        </div>
-
-        <!-- Column 3: Legal & Policies (Span 3) -->
-        <div class="lg:col-span-3 space-y-4">
-          <h3 class="font-display font-bold uppercase text-xs tracking-wide text-eco-400">Legal &amp; Policies</h3>
-          <ul class="space-y-3 text-sm">
-            <li><a href="<?= url('privacy') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-shield-halved text-eco-400 text-xs w-4 text-center"></i>Privacy Policy</a></li>
-            <li><a href="<?= url('terms') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-file-contract text-eco-400 text-xs w-4 text-center"></i>Terms of Service</a></li>
-            <li><a href="<?= url('privacy#security') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-lock text-eco-400 text-xs w-4 text-center"></i>Security</a></li>
-            <li><a href="<?= url('privacy#cookies') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-cookie-bite text-eco-400 text-xs w-4 text-center"></i>Cookie Policy</a></li>
-            <li><a href="<?= url('terms#compliance') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-scale-balanced text-eco-400 text-xs w-4 text-center"></i>Compliance</a></li>
-          </ul>
-        </div>
-
-        <!-- Column 4: Our Services (Span 3) -->
-        <div class="lg:col-span-3 space-y-4">
-          <h3 class="font-display font-bold uppercase text-xs tracking-wide text-eco-400">Our Services</h3>
-          <ul class="space-y-3 text-sm">
-            <li><a href="<?= url('services') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-window-maximize text-eco-400 text-xs w-4 text-center"></i>Web Development</a></li>
-            <li><a href="<?= url('services') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-mobile-screen text-eco-400 text-xs w-4 text-center"></i>Mobile Apps</a></li>
-            <li><a href="<?= url('services') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-robot text-eco-400 text-xs w-4 text-center"></i>AI &amp; ML Solutions</a></li>
-            <li><a href="<?= url('services') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-wifi text-eco-400 text-xs w-4 text-center"></i>IoT Development</a></li>
-            <li><a href="<?= url('services') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-cloud text-eco-400 text-xs w-4 text-center"></i>Cloud Solutions</a></li>
-            <li><a href="<?= url('services') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-shield-halved text-eco-400 text-xs w-4 text-center"></i>Cybersecurity</a></li>
-          </ul>
-        </div>
-
       </div>
 
-      <!-- Footer Bottom Bar -->
-      <div class="border-t border-slate-800/80 mt-12 pt-8 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-400">
-        <p>&copy; <?= date('Y') ?> <span class="text-white font-semibold">Ecotech Service</span>. All rights reserved. Built for sustainable growth.</p>
-        
-        <div class="flex items-center space-x-6">
-          <a href="<?= url('privacy') ?>" class="hover:text-eco-400 transition">Privacy Policy</a>
-          <a href="<?= url('terms') ?>" class="hover:text-eco-400 transition">Terms of Service</a>
-          <a href="<?= url('services/web-development-in-lucknow') ?>" class="hover:text-eco-400 transition">SEO Sitemap</a>
+      <div class="ftr-bottom flex flex-col sm:flex-row items-center justify-between gap-3">
+        <p class="ftr-meta">Built and maintained in Lucknow, India.</p>
+        <div class="flex items-center gap-6 ftr-meta">
+          <a href="<?= url('privacy') ?>">Privacy</a>
+          <a href="<?= url('terms') ?>">Terms</a>
+          <a href="<?= url('services/web-development-in-lucknow') ?>">Sitemap</a>
         </div>
       </div>
     </div>
   </footer>
+
+  <script>
+  /* whileInView + viewport.once equivalent for the footer stagger */
+  (function () {
+    var items = document.querySelectorAll('.ftr-anim');
+    if (!items.length) return;
+    if (!('IntersectionObserver' in window)) {
+      items.forEach(function (el) { el.classList.add('is-in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        entry.target.classList.add('is-in');
+        io.unobserve(entry.target);
+      });
+    }, { threshold: 0.15 });
+    items.forEach(function (el) { io.observe(el); });
+  })();
+  </script>
 
   <!-- WhatsApp Floating Action Button (Clean Rectangular, No circular design) -->
   <a href="https://wa.me/<?= setting('whatsapp_number') ?>?text=Hello%20Ecotech%2C%20I%20have%20a%20project%20inquiry." target="_blank" aria-label="Chat on WhatsApp"
