@@ -78,7 +78,14 @@ class ProjectsController extends \BaseController {
 
     public function delete(): void {
         requireAdmin();
-        $id = (int)($_GET['id'] ?? 0);
+        // Destructive action: POST + CSRF only, so a crafted link or image
+        // tag cannot delete a project on behalf of a logged-in admin.
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') {
+            redirect(url('admin/projects'));
+        }
+        $this->validateCsrf();
+
+        $id = (int)($_POST['id'] ?? 0);
         $this->db->prepare("DELETE FROM projects WHERE id = ?")->execute([$id]);
         setFlash('success', 'Project deleted.');
         redirect(url('admin/projects'));

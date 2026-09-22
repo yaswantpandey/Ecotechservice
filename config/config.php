@@ -43,11 +43,11 @@ define('SMTP_HOST',     $env['SMTP_HOST'] ?? 'smtp.gmail.com');
 define('SMTP_PORT',     $env['SMTP_PORT'] ?? 587);
 define('SMTP_USER',     $env['SMTP_USER'] ?? 'your_email@gmail.com');
 define('SMTP_PASS',     $env['SMTP_PASS'] ?? 'your_app_password');
-define('SMTP_FROM',     $env['SMTP_FROM'] ?? 'hello@ecotechservice.com');
+define('SMTP_FROM',     $env['SMTP_FROM'] ?? 'contact@ecotech.com');
 define('SMTP_FROM_NAME', $env['SMTP_FROM_NAME'] ?? 'Ecotech Service');
 
 // ── WhatsApp ─────────────────────────────────────────────────
-define('WHATSAPP_NUMBER', $env['WHATSAPP_NUMBER'] ?? '18001234567');
+define('WHATSAPP_NUMBER', $env['WHATSAPP_NUMBER'] ?? '7398301184');
 
 // ── Upload Limits ─────────────────────────────────────────────
 define('MAX_FILE_SIZE',  5 * 1024 * 1024); // 5 MB

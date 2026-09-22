@@ -1047,107 +1047,116 @@
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-16 pb-12 relative z-10">
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-10">
 
-        <!-- Column 1: Brand & Bio (Span 4) -->
-        <div class="lg:col-span-4 space-y-5">
-          <a href="<?= url() ?>" class="inline-block group">
-            <img src="<?= url('assets/img/logo.png') ?>?v=<?= file_exists(PUBLIC_PATH . '/assets/img/logo.png') ? filemtime(PUBLIC_PATH . '/assets/img/logo.png') : '2.0' ?>" alt="Ecotech Service Logo" class="h-14 w-auto object-contain transition-opacity duration-300 group-hover:opacity-95" loading="lazy">
+        <!-- Column 1: Brand, Social & Contact (Span 4) -->
+        <div class="lg:col-span-4 space-y-6">
+          <a href="<?= url() ?>" class="inline-flex items-center gap-3 group">
+            <i class="fas fa-leaf text-eco-400 text-2xl"></i>
+            <span class="font-display font-bold text-white text-2xl tracking-wide uppercase">Ecotech Services</span>
           </a>
           <p class="text-slate-400 text-sm leading-relaxed max-w-sm">
-            <?= Security::e(setting('site_tagline') ?: 'Sustainable Digital Engineering & Web Development') ?>. We build high-performance web systems, custom software, and scalable digital solutions for modern businesses.
+            Leading provider of innovative IT, IoT, and AI solutions. Empowering businesses with cutting-edge technology for a sustainable digital future.
           </p>
 
-          <div class="inline-flex items-center space-x-2 px-3 py-1.5 rounded-full bg-slate-900 border border-slate-800 text-xs text-eco-400 font-medium">
-            <span class="w-2 h-2 rounded-full bg-eco-400 animate-pulse"></span>
-            <span>Sustainable &amp; Eco-Friendly Cloud Engineering</span>
+          <!-- Follow Us -->
+          <div class="space-y-3">
+            <h3 class="font-display font-bold uppercase text-xs tracking-wide text-eco-400">Follow Us</h3>
+            <div class="flex items-center gap-4 text-lg">
+              <?php
+              $socials = [
+                'linkedin'  => ['icon' => 'fab fa-linkedin',    'label' => 'LinkedIn'],
+                'github'    => ['icon' => 'fab fa-github',      'label' => 'GitHub'],
+                'facebook'  => ['icon' => 'fab fa-facebook',    'label' => 'Facebook'],
+                'twitter'   => ['icon' => 'fab fa-x-twitter',   'label' => 'X / Twitter'],
+                'instagram' => ['icon' => 'fab fa-instagram',   'label' => 'Instagram'],
+              ];
+              foreach ($socials as $key => $s):
+                $sUrl = setting($key . '_url');
+                if ($sUrl):
+              ?>
+              <a href="<?= Security::e($sUrl) ?>" target="_blank" rel="noopener" aria-label="<?= $s['label'] ?>"
+                 class="text-slate-400 hover:text-eco-400 transition-colors duration-300">
+                <i class="<?= $s['icon'] ?>"></i>
+              </a>
+              <?php endif; endforeach; ?>
+
+              <a href="mailto:<?= Security::e(setting('site_email') ?: 'ecotech.internships@gmail.com') ?>" aria-label="Email"
+                 class="text-slate-400 hover:text-eco-400 transition-colors duration-300">
+                <i class="fas fa-envelope"></i>
+              </a>
+              <a href="tel:<?= Security::e(preg_replace('/\s+/', '', setting('site_phone') ?: '+917398301184')) ?>" aria-label="Phone"
+                 class="text-slate-400 hover:text-eco-400 transition-colors duration-300">
+                <i class="fas fa-phone"></i>
+              </a>
+              <a href="https://wa.me/<?= setting('whatsapp_number') ?>" target="_blank" rel="noopener" aria-label="WhatsApp"
+                 class="text-slate-400 hover:text-[#25D366] transition-colors duration-300">
+                <i class="fab fa-whatsapp"></i>
+              </a>
+            </div>
           </div>
 
-          <!-- Social Media Pills -->
-          <div class="flex items-center space-x-2.5 pt-2">
-            <?php 
-            $socials = [
-              'facebook'  => ['icon' => 'fab fa-facebook-f',  'label' => 'Facebook'],
-              'twitter'   => ['icon' => 'fab fa-x-twitter',   'label' => 'X / Twitter'],
-              'linkedin'  => ['icon' => 'fab fa-linkedin-in', 'label' => 'LinkedIn'],
-              'instagram' => ['icon' => 'fab fa-instagram',   'label' => 'Instagram'],
-              'github'    => ['icon' => 'fab fa-github',      'label' => 'GitHub'],
-            ];
-            foreach ($socials as $key => $s):
-              $sUrl = setting($key . '_url');
-              if ($sUrl):
-            ?>
-            <a href="<?= Security::e($sUrl) ?>" target="_blank" aria-label="<?= $s['label'] ?>"
-               class="w-9 h-9 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-eco-500/50 hover:bg-eco-500 hover:text-white flex items-center justify-center text-slate-400 transition-all duration-300 text-xs shadow-sm">
-              <i class="<?= $s['icon'] ?>"></i>
-            </a>
-            <?php endif; endforeach; ?>
-
-            <!-- WhatsApp Quick Social -->
-            <a href="https://wa.me/<?= setting('whatsapp_number') ?>" target="_blank" aria-label="WhatsApp"
-               class="w-9 h-9 rounded-xl bg-slate-900/90 border border-slate-800 hover:border-[#25D366] hover:bg-[#25D366] hover:text-white flex items-center justify-center text-slate-400 transition-all duration-300 text-xs shadow-sm">
-              <i class="fab fa-whatsapp"></i>
-            </a>
-          </div>
-        </div>
-
-        <!-- Column 2: Solutions & Services (Span 3) -->
-        <div class="lg:col-span-3 space-y-4">
-          <h3 class="font-display font-bold text-white text-base tracking-wide uppercase text-xs text-eco-400">Our Services</h3>
-          <ul class="space-y-2.5 text-sm">
-            <li><a href="<?= url('services') ?>" class="text-slate-400 hover:text-eco-300 transition-colors flex items-center"><i class="fas fa-angle-right text-xs text-eco-500 mr-2"></i>Custom Web Development</a></li>
-            <li><a href="<?= url('services') ?>" class="text-slate-400 hover:text-eco-300 transition-colors flex items-center"><i class="fas fa-angle-right text-xs text-eco-500 mr-2"></i>Full-Stack Software Architecture</a></li>
-            <li><a href="<?= url('templates') ?>" class="text-slate-400 hover:text-eco-300 transition-colors flex items-center"><i class="fas fa-angle-right text-xs text-eco-500 mr-2"></i>Ready-to-Launch Templates</a></li>
-            <li><a href="<?= url('services') ?>" class="text-slate-400 hover:text-eco-300 transition-colors flex items-center"><i class="fas fa-angle-right text-xs text-eco-500 mr-2"></i>Programmatic SEO Systems</a></li>
-            <li><a href="<?= url('services') ?>" class="text-slate-400 hover:text-eco-300 transition-colors flex items-center"><i class="fas fa-angle-right text-xs text-eco-500 mr-2"></i>Digital Marketing &amp; Growth</a></li>
-          </ul>
-        </div>
-
-        <!-- Column 3: Navigation & Links (Span 2) -->
-        <div class="lg:col-span-2 space-y-4">
-          <h3 class="font-display font-bold text-white text-base tracking-wide uppercase text-xs text-eco-400">Company</h3>
-          <ul class="space-y-2.5 text-sm">
-            <li><a href="<?= url('about') ?>" class="text-slate-400 hover:text-white transition-colors">About Us</a></li>
-            <li><a href="<?= url('projects') ?>" class="text-slate-400 hover:text-white transition-colors">Portfolio Work</a></li>
-            <li><a href="<?= url('blog') ?>" class="text-slate-400 hover:text-white transition-colors">Blog &amp; Insights</a></li>
-            <li><a href="<?= url('contact') ?>" class="text-slate-400 hover:text-white transition-colors">Contact Support</a></li>
-            <li><a href="<?= url('admin/login') ?>" class="text-slate-400 hover:text-white transition-colors flex items-center"><i class="fas fa-lock text-[10px] mr-1.5 text-slate-500"></i>Admin Portal</a></li>
-          </ul>
-        </div>
-
-        <!-- Column 4: Contact Details (Span 3) -->
-        <div class="lg:col-span-3 space-y-4">
-          <h3 class="font-display font-bold text-white text-base tracking-wide uppercase text-xs text-eco-400">Get in Touch</h3>
-          <ul class="space-y-3 text-sm text-slate-400">
-            <li class="flex items-start space-x-3">
-              <div class="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-eco-400 shrink-0 mt-0.5">
-                <i class="fas fa-envelope text-xs"></i>
-              </div>
-              <div class="break-all">
-                <div class="text-[11px] text-slate-500 uppercase font-semibold">Email Us</div>
-                <a href="mailto:<?= Security::e(setting('site_email') ?: 'hello@ecotechservice.com') ?>" class="hover:text-eco-400 transition-colors font-medium">
-                  <?= Security::e(setting('site_email') ?: 'hello@ecotechservice.com') ?>
+          <!-- Contact Info -->
+          <div class="space-y-3 pt-4">
+            <h3 class="font-display font-bold uppercase text-xs tracking-wide text-eco-400">Contact Info</h3>
+            <ul class="space-y-2.5 text-sm text-slate-400">
+              <li class="flex items-center gap-3">
+                <i class="fas fa-envelope text-eco-400 text-xs w-4 text-center shrink-0"></i>
+                <a href="mailto:<?= Security::e(setting('site_email') ?: 'ecotech.internships@gmail.com') ?>" class="hover:text-eco-400 transition-colors break-all">
+                  <?= Security::e(setting('site_email') ?: 'ecotech.internships@gmail.com') ?>
                 </a>
-              </div>
-            </li>
+              </li>
+              <li class="flex items-center gap-3">
+                <i class="fas fa-phone text-eco-400 text-xs w-4 text-center shrink-0"></i>
+                <a href="tel:<?= Security::e(preg_replace('/\s+/', '', setting('site_phone') ?: '+917398301184')) ?>" class="hover:text-eco-400 transition-colors">
+                  <?= Security::e(setting('site_phone') ?: '+91 7398301184') ?>
+                </a>
+              </li>
+              <li class="flex items-center gap-3">
+                <i class="fas fa-location-dot text-eco-400 text-xs w-4 text-center shrink-0"></i>
+                <span><?= Security::e(setting('site_address') ?: 'Lucknow, Uttar Pradesh, India') ?></span>
+              </li>
+              <li class="flex items-center gap-3">
+                <i class="fas fa-clock text-eco-400 text-xs w-4 text-center shrink-0"></i>
+                <span><?= Security::e(setting('business_hours') ?: 'Mon - Sat: 9:00 AM - 6:00 PM') ?></span>
+              </li>
+            </ul>
+          </div>
+        </div>
 
-            <li class="flex items-start space-x-3">
-              <div class="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-eco-400 shrink-0 mt-0.5">
-                <i class="fas fa-phone text-xs"></i>
-              </div>
-              <div>
-                <div class="text-[11px] text-slate-500 uppercase font-semibold">Call / WhatsApp</div>
-                <span class="font-medium"><?= Security::e(setting('site_phone') ?: '+91 1800-123-4567') ?></span>
-              </div>
-            </li>
+        <!-- Column 2: Quick Links (Span 2) -->
+        <div class="lg:col-span-2 space-y-4">
+          <h3 class="font-display font-bold uppercase text-xs tracking-wide text-eco-400">Quick Links</h3>
+          <ul class="space-y-3 text-sm">
+            <li><a href="<?= url() ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-house text-eco-400 text-xs w-4 text-center"></i>Home</a></li>
+            <li><a href="<?= url('services') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-gears text-eco-400 text-xs w-4 text-center"></i>Services</a></li>
+            <li><a href="<?= url('contact') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-graduation-cap text-eco-400 text-xs w-4 text-center"></i>Internships</a></li>
+            <li><a href="<?= url('about') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-circle-info text-eco-400 text-xs w-4 text-center"></i>About Us</a></li>
+            <li><a href="<?= url('blog') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fab fa-blogger-b text-eco-400 text-xs w-4 text-center"></i>Blog</a></li>
+            <li><a href="<?= url('contact') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-envelope-open-text text-eco-400 text-xs w-4 text-center"></i>Contact</a></li>
+          </ul>
+        </div>
 
-            <li class="flex items-start space-x-3">
-              <div class="w-8 h-8 rounded-lg bg-slate-900 border border-slate-800 flex items-center justify-center text-eco-400 shrink-0 mt-0.5">
-                <i class="fas fa-location-dot text-xs"></i>
-              </div>
-              <div>
-                <div class="text-[11px] text-slate-500 uppercase font-semibold">Location</div>
-                <span><?= Security::e(setting('site_address') ?: 'Lucknow, India') ?></span>
-              </div>
-            </li>
+        <!-- Column 3: Legal & Policies (Span 3) -->
+        <div class="lg:col-span-3 space-y-4">
+          <h3 class="font-display font-bold uppercase text-xs tracking-wide text-eco-400">Legal &amp; Policies</h3>
+          <ul class="space-y-3 text-sm">
+            <li><a href="<?= url('contact') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-shield-halved text-eco-400 text-xs w-4 text-center"></i>Privacy Policy</a></li>
+            <li><a href="<?= url('contact') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-file-contract text-eco-400 text-xs w-4 text-center"></i>Terms of Service</a></li>
+            <li><a href="<?= url('contact') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-lock text-eco-400 text-xs w-4 text-center"></i>Security</a></li>
+            <li><a href="<?= url('contact') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-cookie-bite text-eco-400 text-xs w-4 text-center"></i>Cookie Policy</a></li>
+            <li><a href="<?= url('contact') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-scale-balanced text-eco-400 text-xs w-4 text-center"></i>Compliance</a></li>
+          </ul>
+        </div>
+
+        <!-- Column 4: Our Services (Span 3) -->
+        <div class="lg:col-span-3 space-y-4">
+          <h3 class="font-display font-bold uppercase text-xs tracking-wide text-eco-400">Our Services</h3>
+          <ul class="space-y-3 text-sm">
+            <li><a href="<?= url('services') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-window-maximize text-eco-400 text-xs w-4 text-center"></i>Web Development</a></li>
+            <li><a href="<?= url('services') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-mobile-screen text-eco-400 text-xs w-4 text-center"></i>Mobile Apps</a></li>
+            <li><a href="<?= url('services') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-robot text-eco-400 text-xs w-4 text-center"></i>AI &amp; ML Solutions</a></li>
+            <li><a href="<?= url('services') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-wifi text-eco-400 text-xs w-4 text-center"></i>IoT Development</a></li>
+            <li><a href="<?= url('services') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-cloud text-eco-400 text-xs w-4 text-center"></i>Cloud Solutions</a></li>
+            <li><a href="<?= url('services') ?>" class="text-slate-300 hover:text-eco-400 transition-colors flex items-center gap-3"><i class="fas fa-shield-halved text-eco-400 text-xs w-4 text-center"></i>Cybersecurity</a></li>
           </ul>
         </div>
 
