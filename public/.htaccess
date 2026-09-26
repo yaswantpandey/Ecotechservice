@@ -3,7 +3,7 @@ RewriteEngine On
 
 
 # Block access to sensitive directories
-RewriteRule ^(config|app|database|logs|vendor)/ - [F,L]
+RewriteRule ^(config|app|database|logs|vendor|storage)/ - [F,L]
 
 # Dynamic SEO routes (always routed through controller)
 RewriteRule ^(sitemap\.xml|robots\.txt)$ index.php [QSA,L]

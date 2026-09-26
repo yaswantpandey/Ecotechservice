@@ -62,8 +62,11 @@
       <nav class="flex-1 overflow-y-auto py-6 px-3 space-y-1">
         <?php
         $adminNav = [
-          ['icon'=>'fa-tachometer-alt','label'=>'Dashboard',    'path'=>'admin/dashboard'],
-          ['icon'=>'fa-briefcase',      'label'=>'Projects',     'path'=>'admin/projects'],
+    ['icon'=>'fa-tachometer-alt','label'=>'Dashboard',    'path'=>'admin/dashboard'],
+    ['icon'=>'fa-file-lines',     'label'=>'Applications', 'path'=>'admin/applications'],
+    ['icon'=>'fa-layer-group',    'label'=>'Internships',  'path'=>'admin/tracks'],
+    ['icon'=>'fa-user-graduate',  'label'=>'Interns',      'path'=>'admin/interns'],
+    ['icon'=>'fa-briefcase',      'label'=>'Projects',     'path'=>'admin/projects'],
           ['icon'=>'fa-cogs',           'label'=>'Services',     'path'=>'admin/services'],
           ['icon'=>'fa-star',           'label'=>'Testimonials', 'path'=>'admin/testimonials'],
           ['icon'=>'fa-envelope',       'label'=>'Contacts',     'path'=>'admin/contacts'],

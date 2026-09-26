@@ -119,6 +119,158 @@ function requireAdmin(): void {
     }
 }
 
+// ── Intern (internship portal) session ───────────────────────────────────
+// Deliberately a separate session key from admin_id. An intern session can
+// never satisfy isAdmin(), and vice versa.
+
+/**
+ * Check if an intern is logged in.
+ */
+function isIntern(): bool {
+    return !empty($_SESSION['intern_id']);
+}
+
+/**
+ * Current intern id, or null.
+ */
+function internId(): ?int {
+    return isIntern() ? (int) $_SESSION['intern_id'] : null;
+}
+
+/**
+ * Current intern display name.
+ */
+function internName(): string {
+    return (string) ($_SESSION['intern_name'] ?? '');
+}
+
+/**
+ * Require an intern session. Remembers where they were headed so login can
+ * bounce them back.
+ */
+function requireIntern(): void {
+    if (!isIntern()) {
+        $_SESSION['intern_redirect'] = $_SERVER['REQUEST_URI'] ?? '';
+        setFlash('error', 'Please sign in to continue.');
+        redirect(url('internships/login'));
+    }
+}
+
+/**
+ * Clear ONLY the intern keys. Using session_destroy() here would also log out
+ * an admin who happens to be signed in in the same browser.
+ */
+function internLogout(): void {
+    unset(
+        $_SESSION['intern_id'],
+        $_SESSION['intern_name'],
+        $_SESSION['intern_email'],
+        $_SESSION['intern_redirect']
+    );
+}
+
+// ── Application status presentation ──────────────────────────────────────
+
+/**
+ * All selectable application statuses with their human labels.
+ *
+ * @return array<string,string>
+ */
+function applicationStatuses(): array {
+    return [
+        'pending'      => 'Pending',
+        'under_review' => 'Under Review',
+        'shortlisted'  => 'Shortlisted',
+        'approved'     => 'Approved',
+        'rejected'     => 'Rejected',
+        'withdrawn'    => 'Withdrawn',
+    ];
+}
+
+/**
+ * Human label for a status key.
+ */
+function statusLabel(string $status): string {
+    return applicationStatuses()[$status] ?? ucfirst(str_replace('_', ' ', $status));
+}
+
+/**
+ * Tailwind classes for a status badge.
+ */
+function statusClasses(string $status): string {
+    return match ($status) {
+        'approved'     => 'bg-eco-500/20 text-eco-400 border border-eco-500/30',
+        'shortlisted'  => 'bg-blue-500/20 text-blue-300 border border-blue-500/30',
+        'under_review' => 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
+        'rejected'     => 'bg-red-500/20 text-red-300 border border-red-500/30',
+        'withdrawn'    => 'bg-gray-700 text-gray-400 border border-gray-600',
+        default        => 'bg-gray-700/60 text-gray-300 border border-gray-600',
+    };
+}
+
+/**
+ * Font Awesome icon for a status key.
+ */
+function statusIcon(string $status): string {
+    return match ($status) {
+        'approved'     => 'fa-circle-check',
+        'shortlisted'  => 'fa-star',
+        'under_review' => 'fa-hourglass-half',
+        'rejected'     => 'fa-circle-xmark',
+        'withdrawn'    => 'fa-ban',
+        default        => 'fa-clock',
+    };
+}
+
+/**
+ * Render a status badge.
+ */
+function statusBadge(string $status): string {
+    return '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium '
+        . statusClasses($status) . '">'
+        . '<i class="fas ' . statusIcon($status) . '"></i>'
+        . Security::e(statusLabel($status))
+        . '</span>';
+}
+
+// ── Pagination ───────────────────────────────────────────────────────────
+
+/**
+ * Compute pagination metadata.
+ *
+ * @return array{page:int,perPage:int,total:int,pages:int,offset:int,from:int,to:int}
+ */
+function paginate(int $total, int $perPage = 15, ?int $page = null): array {
+    $perPage = max(1, $perPage);
+    $pages   = max(1, (int) ceil($total / $perPage));
+    $page    = $page ?? (int) ($_GET['page'] ?? 1);
+    $page    = max(1, min($page, $pages));
+    $offset  = ($page - 1) * $perPage;
+
+    return [
+        'page'    => $page,
+        'perPage' => $perPage,
+        'total'   => $total,
+        'pages'   => $pages,
+        'offset'  => $offset,
+        'from'    => $total === 0 ? 0 : $offset + 1,
+        'to'      => min($offset + $perPage, $total),
+    ];
+}
+
+/**
+ * Build a URL for the current route preserving existing query params but
+ * overriding some of them (used by pagination links and filter forms).
+ */
+function queryUrl(string $path, array $overrides = []): string {
+    $params = array_merge($_GET, $overrides);
+    $params = array_filter(
+        $params,
+        static fn($v) => $v !== '' && $v !== null
+    );
+    return url($path) . ($params ? '?' . http_build_query($params) : '');
+}
+
 /**
  * Format a MySQL timestamp to a human-readable date.
  */

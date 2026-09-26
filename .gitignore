@@ -7,3 +7,9 @@
 .env
 .DS_Store
 Thumbs.db
+
+# Candidate resumes are personal data — never commit them.
+# Keep the directory (and its deny rules) but not its contents.
+/storage/resumes/*
+!/storage/resumes/.gitkeep
+!/storage/resumes/.htaccess

@@ -15,8 +15,13 @@ if (file_exists(ROOT_PATH . '/.env')) {
 // ── Environment ──────────────────────────────────────────────
 define('APP_ENV',  $env['APP_ENV'] ?? 'production'); // 'production' on live server
 define('APP_NAME', 'Ecotech Service');
-// Automatically detect protocol and host for safe deployment anywhere
-$protocol = (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off' || $_SERVER['SERVER_PORT'] == 443) ? "https://" : "http://";
+// Automatically detect protocol and host for safe deployment anywhere.
+// Guarded with ?? so CLI scripts (migrations, cron, diagnostics) do not warn
+// on the missing $_SERVER keys that only exist during a web request.
+$protocol = (
+    (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] !== 'off')
+    || ($_SERVER['SERVER_PORT'] ?? null) == 443
+) ? "https://" : "http://";
 $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
 $base_dir = ($host === 'localhost') ? '/Ecotechservice/public' : '';
 define('APP_URL',  $protocol . $host . $base_dir);
@@ -46,12 +51,50 @@ define('SMTP_PASS',     $env['SMTP_PASS'] ?? 'your_app_password');
 define('SMTP_FROM',     $env['SMTP_FROM'] ?? 'contact@ecotech.com');
 define('SMTP_FROM_NAME', $env['SMTP_FROM_NAME'] ?? 'Ecotech Service');
 
+// Encryption: 'ssl' (implicit TLS, port 465) or 'tls' (STARTTLS, port 587).
+// Hostinger and most cPanel hosts want 465/ssl; Gmail wants 587/tls.
+// Defaults are derived from the port so an unset value still does the right thing.
+define('SMTP_ENCRYPTION', strtolower(
+    $env['SMTP_ENCRYPTION'] ?? ((int) SMTP_PORT === 465 ? 'ssl' : 'tls')
+));
+
 // ── WhatsApp ─────────────────────────────────────────────────
 define('WHATSAPP_NUMBER', $env['WHATSAPP_NUMBER'] ?? '7398301184');
 
 // ── Upload Limits ─────────────────────────────────────────────
 define('MAX_FILE_SIZE',  5 * 1024 * 1024); // 5 MB
 define('ALLOWED_IMAGE_TYPES', ['image/jpeg','image/png','image/webp','image/gif']);
+
+// ── Internship Portal ────────────────────────────────────────────────────
+// Resumes live OUTSIDE the web root and are streamed by an authenticated
+// controller. Never place them under /public.
+define('RESUME_PATH', ROOT_PATH . '/storage/resumes');
+
+// Capped to PHP's own upload_max_filesize (2M on this server). Raising this
+// constant alone will not work — raise upload_max_filesize in php.ini too.
+define('MAX_RESUME_SIZE', 2 * 1024 * 1024); // 2 MB
+
+define('ALLOWED_RESUME_TYPES', [
+    'application/pdf'                                                         => 'pdf',
+    'application/msword'                                                      => 'doc',
+    'application/vnd.openxmlformats-officedocument.wordprocessingml.document'  => 'docx',
+]);
+
+// Offer letter identity
+define('OFFER_PREFIX',      'ECO-INT');
+define('OFFER_SIGNATORY',   'Yaswant Kumar');
+define('OFFER_SIGNATORY_TITLE', 'Founder & Technical Director');
+define('COMPANY_LEGAL_NAME', 'Ecotech Services');
+define('COMPANY_ADDRESS',    'Lucknow, Uttar Pradesh, India - 226001');
+define('COMPANY_EMAIL',      'ecotech.servic@gmail.com');
+define('COMPANY_PHONE',      '+91 7398301184');
+
+// Outbound email for the portal (registration / application / status change)
+define('MAIL_ENABLED', true);
+
+// Intern login throttling
+define('LOGIN_MAX_ATTEMPTS', 5);
+define('LOGIN_LOCKOUT_SECS', 300);
 
 // ── Error Reporting ───────────────────────────────────────────
 if (APP_ENV === 'development') {
@@ -64,8 +107,9 @@ if (APP_ENV === 'development') {
     ini_set('error_log', ROOT_PATH . '/logs/error.log');
 }
 
-// ── Session ───────────────────────────────────────────────────
-if (session_status() === PHP_SESSION_NONE) {
+// ── Session ──────────────────────────────────────────────────
+// Skipped under CLI, where there are no cookies or headers to configure.
+if (PHP_SAPI !== 'cli' && session_status() === PHP_SESSION_NONE) {
     ini_set('session.cookie_httponly', 1);
     ini_set('session.use_only_cookies', 1);
     ini_set('session.cookie_samesite', 'Lax');

@@ -299,6 +299,63 @@ $stackList = static function (?string $raw, int $limit = 3): array {
     </div>
   </section>
 
+  <!-- ══ INTERNSHIPS — programme entry point ════════════════════════════ -->
+  <section class="hm-band">
+    <div class="hm-shell py-14 lg:py-18">
+      <div class="hm-card hm-rise" style="padding:2rem">
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 items-center">
+
+          <div class="lg:col-span-2">
+            <span class="inline-flex items-center gap-2 text-xs font-semibold text-eco-400 mb-3">
+              <i class="fas fa-graduation-cap"></i>
+              Internship Programme <?= date('Y') ?>
+            </span>
+            <h2 class="hm-h text-[1.6rem] lg:text-[2rem] mb-3">
+              Eleven internship tracks, open for applications
+            </h2>
+            <p class="text-slate-400 text-sm leading-relaxed mb-5 max-w-2xl">
+              Full stack, frontend, backend, Python, Java, mobile app, UI/UX, cybersecurity, IoT,
+              AI &amp; machine learning and data science. Apply online, track your application, and
+              receive a formal offer letter on selection.
+            </p>
+
+            <div class="flex flex-wrap gap-3">
+              <a href="<?= url('internships') ?>" class="btn-primary py-3 px-7">
+                <i class="fas fa-arrow-right mr-2 text-xs"></i>Browse Internships
+              </a>
+              <?php if (isIntern()): ?>
+                <a href="<?= url('internships/dashboard') ?>" class="btn-outline py-3 px-6">
+                  My Dashboard
+                </a>
+              <?php else: ?>
+                <a href="<?= url('internships/register') ?>" class="btn-outline py-3 px-6">
+                  Create an Account
+                </a>
+              <?php endif; ?>
+            </div>
+          </div>
+
+          <ul class="space-y-3 text-sm">
+            <?php foreach ([
+              ['fa-laptop-code', 'Remote and hybrid options'],
+              ['fa-user-tie',    'Direct mentor code review'],
+              ['fa-file-contract','Formal offer letter'],
+              ['fa-certificate', 'Completion certificate'],
+            ] as $point): ?>
+              <li class="flex items-center gap-3 text-slate-300">
+                <span class="w-8 h-8 rounded-lg bg-eco-500/10 border border-eco-500/30 flex items-center justify-center text-eco-400 shrink-0">
+                  <i class="fas <?= $point[0] ?> text-xs"></i>
+                </span>
+                <?= Security::e($point[1]) ?>
+              </li>
+            <?php endforeach; ?>
+          </ul>
+
+        </div>
+      </div>
+    </div>
+  </section>
+
   <!-- ══ CONTACT — short ════════════════════════════════════════════════ -->
   <section class="hm-band" style="background:var(--card)">
     <div class="hm-shell py-16 lg:py-20">

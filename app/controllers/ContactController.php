@@ -75,7 +75,9 @@ class ContactController extends BaseController {
             $mail->SMTPAuth = true;
             $mail->Username = SMTP_USER;
             $mail->Password = SMTP_PASS;
-            $mail->SMTPSecure = PHPMailer::ENCRYPTION_STARTTLS;
+            $mail->SMTPSecure = SMTP_ENCRYPTION === 'ssl'
+                ? PHPMailer::ENCRYPTION_SMTPS
+                : PHPMailer::ENCRYPTION_STARTTLS;
             $mail->Port = SMTP_PORT;
 
             $mail->setFrom(SMTP_FROM, SMTP_FROM_NAME);

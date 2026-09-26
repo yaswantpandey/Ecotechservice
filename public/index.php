@@ -35,6 +35,22 @@ $routes = [
     'terms'             => ['LegalController',        'terms'],
     'sitemap.xml'       => ['SitemapController',      'index'],
     'robots.txt'        => ['SitemapController',      'robots'],
+    // Internship Portal (public)
+    'internships'               => ['InternshipsController',    'index'],
+    'internships/track'         => ['InternshipsController',    'show'],
+    'internships/apply'         => ['InternshipsController',    'apply'],
+    'internships/apply/store'   => ['InternshipsController',    'store'],
+    'internships/register'      => ['InternAuthController',     'register'],
+    'internships/register/post' => ['InternAuthController',     'doRegister'],
+    'internships/login'         => ['InternAuthController',     'login'],
+    'internships/login/post'    => ['InternAuthController',     'doLogin'],
+    'internships/logout'        => ['InternAuthController',     'logout'],
+    // Internship Portal (intern dashboard)
+    'internships/dashboard'              => ['InternDashboardController', 'index'],
+    'internships/dashboard/application'  => ['InternDashboardController', 'application'],
+    'internships/dashboard/withdraw'     => ['InternDashboardController', 'withdraw'],
+    'internships/dashboard/resume'       => ['InternDashboardController', 'resume'],
+    'internships/dashboard/offer-letter' => ['InternDashboardController', 'offerLetter'],
     // Admin
     'admin'             => ['Admin\AuthController',  'login'],
     'admin/login'       => ['Admin\AuthController',  'login'],
@@ -71,6 +87,22 @@ $routes = [
     'admin/blog/edit'       => ['Admin\BlogController','edit'],
     'admin/blog/update'     => ['Admin\BlogController','update'],
     'admin/blog/delete'     => ['Admin\BlogController','delete'],
+    // Admin Internships
+    'admin/applications'        => ['Admin\ApplicationsController','index'],
+    'admin/applications/view'   => ['Admin\ApplicationsController','show'],
+    'admin/applications/status' => ['Admin\ApplicationsController','updateStatus'],
+    'admin/applications/resume' => ['Admin\ApplicationsController','resume'],
+    'admin/applications/offer'  => ['Admin\ApplicationsController','offerLetter'],
+    'admin/applications/export' => ['Admin\ApplicationsController','export'],
+    'admin/applications/delete' => ['Admin\ApplicationsController','delete'],
+    'admin/interns'         => ['Admin\InternsController','index'],
+    'admin/interns/toggle'  => ['Admin\InternsController','toggle'],
+    'admin/tracks'          => ['Admin\TracksController','index'],
+    'admin/tracks/add'      => ['Admin\TracksController','add'],
+    'admin/tracks/store'    => ['Admin\TracksController','store'],
+    'admin/tracks/edit'     => ['Admin\TracksController','edit'],
+    'admin/tracks/update'   => ['Admin\TracksController','update'],
+    'admin/tracks/delete'   => ['Admin\TracksController','delete'],
 ];
 
 // Autoloader for controllers

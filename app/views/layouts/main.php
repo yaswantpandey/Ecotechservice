@@ -526,8 +526,9 @@
             ''          => ['label' => 'Home',      'icon' => 'home'],
             'about'     => ['label' => 'About',     'icon' => 'info'],
             'services'  => ['label' => 'Services',  'icon' => 'miscellaneous_services', 'hasDropdown' => true],
-            'projects'  => ['label' => 'Portfolio', 'icon' => 'work_outline'],
-            'templates' => ['label' => 'Templates', 'icon' => 'dashboard_customize'],
+  'projects'  => ['label' => 'Portfolio', 'icon' => 'work_outline'],
+  'internships' => ['label' => 'Internships', 'icon' => 'school'],
+  'templates' => ['label' => 'Templates', 'icon' => 'dashboard_customize'],
             'blog'      => ['label' => 'Blog',      'icon' => 'article'],
             'contact'   => ['label' => 'Contact',   'icon' => 'mail_outline'],
           ];
@@ -664,6 +665,22 @@
             <span class="material-icons-outlined text-base">chat</span>
             <span>WhatsApp</span>
           </a>
+
+          <!-- Internship portal — auth aware -->
+          <?php if (isIntern()): ?>
+            <a href="<?= url('internships/dashboard') ?>"
+               class="hidden md:inline-flex items-center gap-1.5 px-3 py-2 rounded-md border border-eco-500/40 text-eco-300 hover:text-white hover:border-eco-500 text-sm font-semibold transition-colors"
+               title="<?= Security::e(internName()) ?>">
+              <span class="material-icons-outlined text-base">dashboard</span>
+              <span>Dashboard</span>
+            </a>
+          <?php else: ?>
+            <a href="<?= url('internships/login') ?>"
+               class="hidden md:inline-flex items-center gap-1.5 px-3 py-2 rounded-md border border-slate-700 text-slate-300 hover:text-white hover:border-slate-500 text-sm font-semibold transition-colors">
+              <span class="material-icons-outlined text-base">login</span>
+              <span>Intern Login</span>
+            </a>
+          <?php endif; ?>
 
           <!-- Primary CTA Button (Clean Rectangular) -->
           <a href="<?= url('contact') ?>" class="hidden md:inline-flex nav-btn-primary">
@@ -1173,10 +1190,10 @@
             [
               'label' => 'Company',
               'links' => [
-                ['About us',  url('about'),    'fa-circle-info'],
-                ['Portfolio', url('projects'), 'fa-folder-open'],
-                ['Blog',      url('blog'),     'fa-newspaper'],
-                ['Contact',   url('contact'),  'fa-envelope-open-text'],
+                ['About us',    url('about'),       'fa-circle-info'],
+                ['Portfolio',   url('projects'),    'fa-folder-open'],
+                ['Internships', url('internships'), 'fa-graduation-cap'],
+                ['Contact',     url('contact'),     'fa-envelope-open-text'],
               ],
             ],
             [
@@ -1258,8 +1275,8 @@
   $mobileNavItems = [
       ['route' => '',          'label' => 'Home',      'icon' => 'home'],
       ['route' => 'services',  'label' => 'Services',  'icon' => 'miscellaneous_services'],
+      ['route' => 'internships', 'label' => 'Interns', 'icon' => 'school'],
       ['route' => 'projects',  'label' => 'Portfolio', 'icon' => 'work_outline'],
-      ['route' => 'about',     'label' => 'About',     'icon' => 'info'],
       ['route' => 'contact',   'label' => 'Contact',   'icon' => 'mail_outline'],
   ];
   ?>
