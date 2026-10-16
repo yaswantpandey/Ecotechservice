@@ -35,7 +35,14 @@ define('DB_PASS',    $env['DB_PASS'] ?? '');
 define('DB_CHARSET', 'utf8mb4');
 
 // ── Security ─────────────────────────────────────────────────
-define('CSRF_SECRET', $env['CSRF_SECRET'] ?? 'EcoTech@CSRF#2024$Secret!Key');
+// No hardcoded fallback: a secret committed to the repo is not a secret.
+// Production refuses to boot without one; dev gets a per-process random value.
+if (empty($env['CSRF_SECRET']) && APP_ENV !== 'development' && PHP_SAPI !== 'cli') {
+    error_log('CSRF_SECRET is not set in .env');
+    http_response_code(500);
+    exit('Server misconfigured.');
+}
+define('CSRF_SECRET', $env['CSRF_SECRET'] ?? bin2hex(random_bytes(32)));
 define('SESSION_NAME', 'ecotech_session');
 define('BCRYPT_COST',  12);
 
@@ -113,6 +120,9 @@ if (PHP_SAPI !== 'cli' && session_status() === PHP_SESSION_NONE) {
     ini_set('session.cookie_httponly', 1);
     ini_set('session.use_only_cookies', 1);
     ini_set('session.cookie_samesite', 'Lax');
+    if ($protocol === 'https://') {
+        ini_set('session.cookie_secure', 1);
+    }
     session_name(SESSION_NAME);
     session_start();
 }

@@ -73,13 +73,10 @@ In XAMPP:
 | Homepage | `http://localhost/Ecotechservice/public/` |
 | Admin Panel | `http://localhost/Ecotechservice/public/admin` |
 
-### Default Admin Credentials
-| Field | Value |
-|-------|-------|
-| Email | `admin@ecotech.com` |
-| Password | `Admin@123` |
-
-> **⚠️ Change these immediately after first login via Admin → Settings**
+### Admin Credentials
+The seed data in `database/ecotech.sql` creates a default admin account.
+> **⚠️ Change its email and password immediately after first login via Admin → Settings.**
+> Also set `CSRF_SECRET` (a long random string) in `.env` — production will not start without it.
 
 ---
 

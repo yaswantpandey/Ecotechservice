@@ -30,7 +30,11 @@ jobs:
             **/node_modules/**
             **/logs/**
             **/public/uploads/**
+            !public/uploads/.htaccess
             database/**
+            scratch/**
+            .cortex/**
+            .github/**
             README.md
-            seo_pages.sql
+            *.sql
             reset_password.php

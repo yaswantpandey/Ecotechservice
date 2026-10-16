@@ -102,8 +102,16 @@ class Security {
             throw new RuntimeException('Invalid file type. Only JPEG, PNG, WebP, and GIF are allowed.');
         }
 
-        $ext      = pathinfo($file['name'], PATHINFO_EXTENSION);
-        $filename = uniqid('img_', true) . '.' . strtolower($ext);
+        // Extension comes from the sniffed MIME, never the client filename —
+        // otherwise a valid GIF named x.php would be saved as executable PHP.
+        $extMap = [
+            'image/jpeg' => 'jpg',
+            'image/png'  => 'png',
+            'image/webp' => 'webp',
+            'image/gif'  => 'gif',
+        ];
+        $ext      = $extMap[$mime];
+        $filename = 'img_' . bin2hex(random_bytes(16)) . '.' . $ext;
         $destDir  = UPLOAD_PATH . '/' . $subDir;
 
         if (!is_dir($destDir)) {
