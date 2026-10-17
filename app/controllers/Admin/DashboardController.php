@@ -19,12 +19,13 @@ class DashboardController extends \BaseController {
         ];
 
         // Latest 5 contacts
-        $stmt = $this->db->query(
+        $recentContacts = $this->safe('recentContacts', fn () => $this->db->query(
             "SELECT * FROM contacts ORDER BY created_at DESC LIMIT 5"
-        );
-        $recentContacts = $stmt->fetchAll();
+        )->fetchAll(), []);
 
         // ── Internship portal ───────────────────────────────────────────
+        // Every internship query degrades to zero/empty so a missing or
+        // out-of-date internship schema cannot take the whole dashboard down.
         $internship = [
             'interns'      => $this->count('interns'),
             'applications' => $this->count('applications'),
@@ -33,7 +34,7 @@ class DashboardController extends \BaseController {
             'tracks'       => $this->count('internship_tracks', 'is_active = 1'),
         ];
 
-        $stmt = $this->db->query(
+        $recentApplications = $this->safe('recentApplications', fn () => $this->db->query(
             "SELECT a.id, a.ref_no, a.status, a.created_at,
                     t.title AS track_title, i.name AS intern_name
              FROM applications a
@@ -41,8 +42,9 @@ class DashboardController extends \BaseController {
              JOIN interns i           ON i.id = a.intern_id
              ORDER BY a.created_at DESC
              LIMIT 5"
-        );
-        $recentApplications = $stmt->fetchAll();
+        )->fetchAll(), []);
+
+        $emptySeries = ['labels' => [], 'values' => []];
 
         $this->view('admin.dashboard', [
             'layout'             => 'admin',
@@ -52,11 +54,24 @@ class DashboardController extends \BaseController {
             'internship'         => $internship,
             'recentApplications' => $recentApplications,
             'charts'             => [
-                'status' => $this->statusChart(),
-                'track'  => $this->trackChart(),
-                'trend'  => $this->trendChart(),
+                'status' => $this->safe('statusChart', fn () => $this->statusChart(), $emptySeries),
+                'track'  => $this->safe('trackChart',  fn () => $this->trackChart(),  $emptySeries),
+                'trend'  => $this->safe('trendChart',  fn () => $this->trendChart(),  $emptySeries),
             ],
         ]);
+    }
+
+    /**
+     * Run a dashboard query; on any database failure log the exact error
+     * (missing table, unknown column, …) and return the fallback instead.
+     */
+    private function safe(string $what, callable $fn, mixed $fallback): mixed {
+        try {
+            return $fn();
+        } catch (\Throwable $e) {
+            error_log(sprintf('[admin-dashboard:%s] %s: %s', $what, get_class($e), $e->getMessage()));
+            return $fallback;
+        }
     }
 
     /**
@@ -144,6 +159,6 @@ class DashboardController extends \BaseController {
     private function count(string $table, string $where = ''): int {
         $sql  = "SELECT COUNT(*) FROM `{$table}`";
         if ($where) $sql .= " WHERE {$where}";
-        return (int)$this->db->query($sql)->fetchColumn();
+        return (int) $this->safe("count:{$table}", fn () => $this->db->query($sql)->fetchColumn(), 0);
     }
 }
