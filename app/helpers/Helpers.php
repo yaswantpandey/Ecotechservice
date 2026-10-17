@@ -195,16 +195,15 @@ function statusLabel(string $status): string {
 }
 
 /**
- * Tailwind classes for a status badge.
+ * Design-system tag classes for a status (assets/css/site.css).
  */
 function statusClasses(string $status): string {
     return match ($status) {
-        'approved'     => 'bg-eco-500/20 text-eco-400 border border-eco-500/30',
-        'shortlisted'  => 'bg-blue-500/20 text-blue-300 border border-blue-500/30',
-        'under_review' => 'bg-amber-500/20 text-amber-300 border border-amber-500/30',
-        'rejected'     => 'bg-red-500/20 text-red-300 border border-red-500/30',
-        'withdrawn'    => 'bg-gray-700 text-gray-400 border border-gray-600',
-        default        => 'bg-gray-700/60 text-gray-300 border border-gray-600',
+        'approved'     => 's-tag s-tag--solid',
+        'shortlisted'  => 's-tag s-tag--signal',
+        'rejected'     => 's-tag s-tag--danger',
+        'withdrawn'    => 's-tag s-tag--mute',
+        default        => 's-tag',
     };
 }
 
@@ -223,12 +222,10 @@ function statusIcon(string $status): string {
 }
 
 /**
- * Render a status badge.
+ * Render a status tag (text only — no icon, no colour fill).
  */
 function statusBadge(string $status): string {
-    return '<span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-md text-xs font-medium '
-        . statusClasses($status) . '">'
-        . '<i class="fas ' . statusIcon($status) . '"></i>'
+    return '<span class="' . statusClasses($status) . '">'
         . Security::e(statusLabel($status))
         . '</span>';
 }

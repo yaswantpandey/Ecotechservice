@@ -27,7 +27,7 @@ require __DIR__ . '/_style.php';
 ?>
 
 <div class="doc">
-  <div class="doc-shell pt-[104px] md:pt-[124px] lg:pt-[140px] pb-12 lg:pb-16">
+  <div class="doc-shell pt-12 lg:pt-20 pb-12 lg:pb-16">
     <p class="doc-spec mb-5"><?= Security::e($company) ?> — legal</p>
     <h1 class="doc-display text-[2.4rem] sm:text-[3.2rem] lg:text-[3.8rem] max-w-[20ch] mb-6">Terms of Service</h1>
     <p class="text-[1.0625rem] max-w-[68ch]" style="color:var(--ink-2)">
@@ -161,10 +161,10 @@ require __DIR__ . '/_style.php';
               your name wherever possible. We work inside your accounts rather than holding
               your production environment inside ours.
             </p>
-            <h3>Projecth3>
+            <h3>Portfolio</h3>
             <p>
               We may describe the engagement and show publicly visible interfaces in our
-              Projectnless you ask us not to. We will never publish your internal data,
+              portfolio unless you ask us not to. We will never publish your internal data,
               credentials, private screens or unannounced features.
             </p>
           </section>
@@ -380,7 +380,7 @@ require __DIR__ . '/_style.php';
               </tbody>
             </table>
             <p style="margin-top:1.4rem">
-              <a href="<?= url('privacy') ?>" class="doc-cta">Read the Privacy Policy <span style="font-family:'IBM Plex Mono',monospace;font-size:.75rem;opacity:.75">&rarr;</span></a>
+              <a href="<?= url('privacy') ?>" class="doc-cta">Read the Privacy Policy <span class="doc-cta-mark" aria-hidden="true">&rarr;</span></a>
             </p>
           </section>
 
@@ -405,7 +405,7 @@ require __DIR__ . '/_style.php';
         a.classList.toggle('is-current', a.getAttribute('href') === '#' + entry.target.id);
       });
     });
-  }, { rootMargin: '-130px 0px -65% 0px' });
+  }, { rootMargin: '-120px 0px -65% 0px' });
 
   sections.forEach(function (s) { io.observe(s); });
 })();

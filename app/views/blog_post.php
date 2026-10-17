@@ -1,74 +1,62 @@
-<!-- ── BLOG POST DETAIL ──────────────────────────────────── -->
+<!-- BLOG POST DETAIL -->
 
-<div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-16">
+<article class="s-sec">
+  <div class="s-shell">
+    <nav class="s-crumbs" aria-label="Breadcrumb">
+      <a href="<?= url('') ?>">Home</a><span>/</span>
+      <a href="<?= url('blog') ?>">Blog</a><span>/</span>
+      <span aria-current="page"><?= Security::e($post['title']) ?></span>
+    </nav>
 
-  <!-- Back link -->
-  <a href="<?= url('blog') ?>" class="inline-flex items-center gap-2 text-gray-400 hover:text-eco-400 transition-colors text-sm mb-10 group">
-    <i class="fas fa-arrow-left group-hover:-translate-x-1 transition-transform"></i> Back to Blog
-  </a>
+    <div class="s-grid mt-8">
+      <div style="grid-column:span 9">
+        <p class="s-eyebrow">
+          <?= Security::e($post['author_name']) ?> &mdash; <time datetime="<?= Security::e(date('Y-m-d', strtotime($post['published_at']))) ?>"><?= Security::e(date('F d, Y', strtotime($post['published_at']))) ?></time>
+        </p>
+        <h1 class="s-h1 mt-4"><?= Security::e($post['title']) ?></h1>
+        <?php if ($post['excerpt']): ?>
+        <p class="s-lede mt-6"><?= Security::e($post['excerpt']) ?></p>
+        <?php endif; ?>
+      </div>
+    </div>
 
-  <article>
-    <!-- Featured image -->
     <?php if ($post['thumbnail']): ?>
-    <img src="<?= url('uploads/' . Security::e($post['thumbnail'])) ?>"
-         alt="<?= Security::e($post['title']) ?>"
-         class="w-full h-72 object-cover rounded-2xl mb-8 shadow-xl shadow-black/40">
+    <figure class="s-media s-media--16x10 mt-12">
+      <img src="<?= url('uploads/' . Security::e($post['thumbnail'])) ?>"
+           alt="<?= Security::e($post['title']) ?>" width="1200" height="750" loading="lazy">
+    </figure>
     <?php endif; ?>
 
-    <!-- Meta -->
-    <div class="flex flex-wrap items-center gap-4 text-sm text-gray-400 mb-6">
-      <span class="flex items-center gap-1.5">
-        <span class="w-7 h-7 rounded-full bg-eco-500 flex items-center justify-center text-white font-bold text-xs">
-          <?= strtoupper(substr($post['author_name'], 0, 1)) ?>
-        </span>
-        <?= Security::e($post['author_name']) ?>
-      </span>
-      <span class="text-gray-700">•</span>
-      <span class="flex items-center gap-1.5">
-        <i class="fas fa-calendar-alt text-eco-400 text-xs"></i>
-        <?= date('F d, Y', strtotime($post['published_at'])) ?>
-      </span>
-    </div>
-
-    <!-- Title -->
-    <h1 class="text-3xl md:text-4xl font-display font-bold text-white mb-6 leading-tight">
-      <?= Security::e($post['title']) ?>
-    </h1>
-
-    <!-- Excerpt callout -->
-    <?php if ($post['excerpt']): ?>
-    <p class="text-lg text-eco-400 font-medium mb-8 border-l-4 border-eco-500 pl-5 leading-relaxed">
-      <?= Security::e($post['excerpt']) ?>
-    </p>
-    <?php endif; ?>
-
-    <!-- Body (rendered HTML from rich editor) -->
-    <div class="blog-body prose-content">
-      <?= $post['body'] ?>
-    </div>
-  </article>
-
-  <!-- Footer nav -->
-  <div class="mt-16 pt-8 border-t border-white/10 flex items-center justify-between">
-    <a href="<?= url('blog') ?>" class="btn-primary inline-flex items-center gap-2">
-      <i class="fas fa-arrow-left"></i> All Posts
-    </a>
-    <!-- Share buttons -->
-    <div class="flex items-center gap-3 text-sm text-gray-400">
-      <span>Share:</span>
-      <a href="https://twitter.com/intent/tweet?text=<?= urlencode($post['title']) ?>&url=<?= urlencode(url('blog/post?slug=' . $post['slug'])) ?>"
-         target="_blank" class="hover:text-eco-400 transition" title="Share on Twitter">
-        <i class="fab fa-twitter text-lg"></i>
-      </a>
-      <a href="https://www.linkedin.com/sharing/share-offsite/?url=<?= urlencode(url('blog/post?slug=' . $post['slug'])) ?>"
-         target="_blank" class="hover:text-eco-400 transition" title="Share on LinkedIn">
-        <i class="fab fa-linkedin text-lg"></i>
-      </a>
-      <a href="https://wa.me/?text=<?= urlencode($post['title'] . ' — ' . url('blog/post?slug=' . $post['slug'])) ?>"
-         target="_blank" class="hover:text-eco-400 transition" title="Share on WhatsApp">
-        <i class="fab fa-whatsapp text-lg"></i>
-      </a>
+    <div class="s-grid mt-12">
+      <!-- Body (rendered HTML from rich editor) -->
+      <div class="s-prose" style="grid-column:span 8">
+        <?= $post['body'] ?>
+      </div>
+      <aside style="grid-column:span 4">
+        <p class="s-eyebrow">Share</p>
+        <ul class="mt-3 space-y-2">
+          <li><a class="s-link" href="https://twitter.com/intent/tweet?text=<?= urlencode($post['title']) ?>&url=<?= urlencode(url('blog/post?slug=' . $post['slug'])) ?>" target="_blank" rel="noopener"><i class="fab fa-twitter" aria-hidden="true"></i> Twitter</a></li>
+          <li><a class="s-link" href="https://www.linkedin.com/sharing/share-offsite/?url=<?= urlencode(url('blog/post?slug=' . $post['slug'])) ?>" target="_blank" rel="noopener"><i class="fab fa-linkedin" aria-hidden="true"></i> LinkedIn</a></li>
+          <li><a class="s-link" href="https://wa.me/?text=<?= urlencode($post['title'] . ' - ' . url('blog/post?slug=' . $post['slug'])) ?>" target="_blank" rel="noopener"><i class="fab fa-whatsapp" aria-hidden="true"></i> WhatsApp</a></li>
+        </ul>
+        <p class="mt-8"><a href="<?= url('blog') ?>" class="s-btn--line s-btn--sm">All posts</a></p>
+      </aside>
     </div>
   </div>
+</article>
 
-</div>
+<!-- CTA -->
+<section class="s-sec s-band">
+  <div class="s-shell">
+    <div class="s-grid">
+      <div style="grid-column:span 7"><h2 class="s-h2">Want this applied to your project?</h2></div>
+      <div style="grid-column:span 5">
+        <p>Talk to the team that wrote it.</p>
+        <div class="s-actions mt-6">
+          <a href="<?= url('contact') ?>" class="s-btn--light">Contact us</a>
+          <a href="<?= url('blog') ?>" class="s-btn--line">Back to the blog</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

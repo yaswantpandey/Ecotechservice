@@ -1,325 +1,158 @@
-<!-- ── ENTERPRISE ABOUT US PAGE ─────────────────────────────── -->
+<!-- ABOUT PAGE -->
 
-<!-- ── HERO SECTION ─────────────────────────────────────────── -->
-<section class="relative pt-32 pb-16 overflow-hidden bg-slate-950 border-b border-slate-800/80">
-  <!-- Subtle ambient background glow -->
-  <div class="absolute inset-0 bg-[radial-gradient(ellipse_75%_50%_at_50%_-10%,rgba(34,197,94,0.12),rgba(255,255,255,0))] pointer-events-none"></div>
-
-  <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <!-- Corporate Pill Badge -->
-    <div class="inline-flex items-center space-x-2 bg-slate-900 border border-slate-800 px-4 py-1.5 rounded-full text-slate-300 text-xs font-semibold tracking-wide mb-5">
-      <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-      <span>Engineering The Future of Digital Products</span>
+<!-- Intro -->
+<section class="s-sec">
+  <div class="s-shell">
+    <div class="s-grid">
+      <div style="grid-column:span 7">
+        <p class="s-eyebrow">About EcoTech Services</p>
+        <h1 class="s-h1 mt-4">Scalable software for <span class="s-it">sustainable</span> growth.</h1>
+      </div>
+      <div style="grid-column:span 5" class="lg:pt-10">
+        <p class="s-lede">EcoTech Services is a full-cycle software engineering company. We design, develop and maintain web platforms, cloud architectures and digital systems for businesses worldwide.</p>
+      </div>
     </div>
 
-    <h1 class="font-display text-4xl sm:text-5xl lg:text-6xl font-extrabold text-white tracking-tight max-w-4xl mx-auto leading-tight sm:leading-tight">
-      Architecting Scalable Software for <span class="text-emerald-400">Sustainable Growth</span>
-    </h1>
-
-    <p class="text-slate-400 text-base sm:text-lg max-w-3xl mx-auto mt-5 leading-relaxed font-normal">
-      EcoTech Services is a full-cycle software engineering and digital solutions company. We design, develop, and maintain high-performance web platforms, cloud architectures, and digital systems for ambitious businesses worldwide.
-    </p>
-
-    <!-- Key Metrics Strip -->
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mt-12">
-      <div class="p-5 rounded-2xl bg-slate-900/70 border border-slate-800/80 backdrop-blur-sm text-left">
-        <div class="font-display text-3xl font-extrabold text-white">50<span class="text-emerald-400">+</span></div>
-        <div class="text-xs text-slate-400 font-medium mt-1">Delivered Systems</div>
-        <div class="text-[10px] text-slate-500 mt-0.5">Web apps &amp; custom software</div>
-      </div>
-
-      <div class="p-5 rounded-2xl bg-slate-900/70 border border-slate-800/80 backdrop-blur-sm text-left">
-        <div class="font-display text-3xl font-extrabold text-white">99.9<span class="text-emerald-400">%</span></div>
-        <div class="text-xs text-slate-400 font-medium mt-1">Availability SLA</div>
-        <div class="text-[10px] text-slate-500 mt-0.5">High-reliability cloud setups</div>
-      </div>
-
-      <div class="p-5 rounded-2xl bg-slate-900/70 border border-slate-800/80 backdrop-blur-sm text-left">
-        <div class="font-display text-3xl font-extrabold text-white">4<span class="text-emerald-400">+</span></div>
-        <div class="text-xs text-slate-400 font-medium mt-1">Continents Served</div>
-        <div class="text-[10px] text-slate-500 mt-0.5">USA, UK, UAE, India</div>
-      </div>
-
-      <div class="p-5 rounded-2xl bg-slate-900/70 border border-slate-800/80 backdrop-blur-sm text-left">
-        <div class="font-display text-3xl font-extrabold text-white">100<span class="text-emerald-400">%</span></div>
-        <div class="text-xs text-slate-400 font-medium mt-1">Code Ownership</div>
-        <div class="text-[10px] text-slate-500 mt-0.5">Zero vendor lock-in</div>
-      </div>
+    <div class="s-figs mt-14 lg:grid-cols-4" data-reveal>
+      <div class="s-fig"><b>50+</b><span>Delivered systems &mdash; web apps and custom software</span></div>
+      <div class="s-fig"><b>99.9%</b><span>Availability target on cloud setups</span></div>
+      <div class="s-fig"><b>4+</b><span>Continents served &mdash; USA, UK, UAE, India</span></div>
+      <div class="s-fig"><b>100%</b><span>Code ownership &mdash; no vendor lock-in</span></div>
     </div>
   </div>
 </section>
 
-<!-- ── WHO WE ARE & SYSTEM ARCHITECTURE ───────────────────────── -->
-<section class="py-16 sm:py-20 bg-slate-950">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
-
-      <!-- Left Narrative (7 cols) -->
-      <div class="lg:col-span-7 space-y-6">
-        <div class="inline-flex items-center space-x-2 bg-slate-900 border border-slate-800 px-3 py-1 rounded-lg text-emerald-400 text-xs font-semibold uppercase tracking-wider">
-          Who We Are
-        </div>
-
-        <h2 class="text-2xl sm:text-3xl lg:text-4xl font-extrabold text-white tracking-tight leading-snug">
-          Engineered for Performance, Built for <span class="text-emerald-400">Longevity</span>
-        </h2>
-
-        <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
-          Founded with a clear engineering philosophy, <strong class="text-white font-semibold">EcoTech Services</strong> bridges the gap between complex software architecture and smooth business operations. We reject bloated, slow, and overly complicated stacks in favor of fast, clean, and sustainable software engineering.
-        </p>
-
-        <p class="text-slate-400 text-sm sm:text-base leading-relaxed">
-          From full-stack enterprise web applications and mobile apps to automated microservices and serverless workflows, our team handles the entire lifecycle: technical discovery, architecture design, secure programming, CI/CD pipeline automation, and post-launch maintenance.
-        </p>
-
-        <!-- 4 Engineering Pillars Grid -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
-          <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 transition">
-            <div class="w-8 h-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 mb-2.5">
-              <i class="fas fa-code text-xs"></i>
-            </div>
-            <div class="text-xs font-bold text-white">Clean &amp; Modular Code</div>
-            <div class="text-[11px] text-slate-400 mt-1 leading-normal">Maintainable, testable, and strictly structured architecture built for easy team handoff.</div>
-          </div>
-
-          <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 transition">
-            <div class="w-8 h-8 rounded-lg bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 mb-2.5">
-              <i class="fas fa-shield-halved text-xs"></i>
-            </div>
-            <div class="text-xs font-bold text-white">Secure by Default</div>
-            <div class="text-[11px] text-slate-400 mt-1 leading-normal">OWASP Top-10 compliance, encrypted data storage, and zero hardcoded secrets.</div>
-          </div>
-
-          <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 transition">
-            <div class="w-8 h-8 rounded-lg bg-amber-500/10 border border-amber-500/20 flex items-center justify-center text-amber-400 mb-2.5">
-              <i class="fas fa-gauge-high text-xs"></i>
-            </div>
-            <div class="text-xs font-bold text-white">Sub-Second Speeds</div>
-            <div class="text-[11px] text-slate-400 mt-1 leading-normal">Optimized database indexing, Redis caching, and asset compression for top Core Web Vitals.</div>
-          </div>
-
-          <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 hover:border-slate-700 transition">
-            <div class="w-8 h-8 rounded-lg bg-purple-500/10 border border-purple-500/20 flex items-center justify-center text-purple-400 mb-2.5">
-              <i class="fas fa-leaf text-xs"></i>
-            </div>
-            <div class="text-xs font-bold text-white">Resource Efficiency</div>
-            <div class="text-[11px] text-slate-400 mt-1 leading-normal">Minimizing CPU consumption and cloud compute costs through efficient algorithmic logic.</div>
-          </div>
-        </div>
+<!-- Who we are -->
+<section class="s-sec">
+  <div class="s-shell">
+    <div class="s-grid">
+      <div style="grid-column:span 5">
+        <p class="s-eyebrow">Who we are</p>
+        <h2 class="s-h2 mt-4">Engineered for performance, built to last.</h2>
       </div>
-
-      <!-- Right Architecture Card (5 cols) -->
-      <div class="lg:col-span-5">
-        <div class="p-6 sm:p-8 rounded-3xl bg-slate-900/80 border border-slate-800 shadow-2xl backdrop-blur-xl relative overflow-hidden">
-          <div class="flex items-center justify-between pb-4 border-b border-slate-800">
-            <div class="flex items-center space-x-2">
-              <div class="w-3 h-3 rounded-full bg-red-500/80"></div>
-              <div class="w-3 h-3 rounded-full bg-amber-500/80"></div>
-              <div class="w-3 h-3 rounded-full bg-emerald-500/80"></div>
-              <span class="text-xs font-mono text-slate-400 ml-2">system-health.json</span>
-            </div>
-            <span class="text-[10px] font-mono text-emerald-400 bg-emerald-500/10 px-2 py-0.5 rounded border border-emerald-500/30">ONLINE</span>
-          </div>
-
-          <div class="mt-5 space-y-4 font-mono text-xs">
-            <div class="flex justify-between items-center py-1.5 border-b border-slate-800/60">
-              <span class="text-slate-400">Architecture:</span>
-              <span class="text-white font-semibold">Modular MVC / Microservices</span>
-            </div>
-
-            <div class="flex justify-between items-center py-1.5 border-b border-slate-800/60">
-              <span class="text-slate-400">Average TTFB:</span>
-              <span class="text-emerald-400 font-semibold">&lt; 38 ms (Edge Cached)</span>
-            </div>
-
-            <div class="flex justify-between items-center py-1.5 border-b border-slate-800/60">
-              <span class="text-slate-400">Uptime Reliability:</span>
-              <span class="text-white font-semibold">99.98% SLA Guaranteed</span>
-            </div>
-
-            <div class="flex justify-between items-center py-1.5 border-b border-slate-800/60">
-              <span class="text-slate-400">Security Standard:</span>
-              <span class="text-white font-semibold">OWASP 2024 / CSRF Protected</span>
-            </div>
-
-            <div class="flex justify-between items-center py-1.5 border-b border-slate-800/60">
-              <span class="text-slate-400">Database Tuning:</span>
-              <span class="text-white font-semibold">Indexed Queries / Connection Pool</span>
-            </div>
-          </div>
-
-          <div class="mt-6 pt-5 border-t border-slate-800">
-            <div class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider mb-3">Core Stack Capabilities</div>
-            <div class="flex flex-wrap gap-1.5">
-              <span class="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 text-slate-300 text-[11px] font-mono">PHP 8.2+</span>
-              <span class="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 text-slate-300 text-[11px] font-mono">MySQL 8.0</span>
-              <span class="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 text-slate-300 text-[11px] font-mono">Laravel</span>
-              <span class="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 text-slate-300 text-[11px] font-mono">React</span>
-              <span class="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 text-slate-300 text-[11px] font-mono">Tailwind CSS</span>
-              <span class="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 text-slate-300 text-[11px] font-mono">Docker</span>
-              <span class="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 text-slate-300 text-[11px] font-mono">AWS &amp; Cloud</span>
-              <span class="px-2.5 py-1 rounded-lg bg-slate-950 border border-slate-800 text-slate-300 text-[11px] font-mono">Redis</span>
-            </div>
-          </div>
-        </div>
+      <div style="grid-column:span 7" class="s-prose" data-reveal>
+        <p>EcoTech Services bridges complex software architecture and day-to-day business operations. We avoid bloated, slow, over-complicated stacks in favour of fast, clean, maintainable engineering.</p>
+        <p>From full-stack web applications and mobile apps to automated microservices and serverless workflows, we handle the whole lifecycle: technical discovery, architecture, secure programming, CI/CD automation and post-launch maintenance.</p>
       </div>
-
     </div>
+
+    <ol class="s-list mt-14" data-reveal>
+      <li><span class="s-num">01</span><h3 class="s-h3">Clean, modular code</h3><p>Maintainable, testable, strictly structured architecture that is easy to hand over to another team.</p></li>
+      <li><span class="s-num">02</span><h3 class="s-h3">Secure by default</h3><p>OWASP Top-10 practices, encrypted data storage and no hard-coded secrets.</p></li>
+      <li><span class="s-num">03</span><h3 class="s-h3">Fast responses</h3><p>Database indexing, Redis caching and asset compression aimed at strong Core Web Vitals.</p></li>
+      <li><span class="s-num">04</span><h3 class="s-h3">Resource efficiency</h3><p>Lower CPU use and cloud compute costs through efficient application logic.</p></li>
+    </ol>
   </div>
 </section>
 
-<!-- ── OUR MISSION & VISION ───────────────────────────────────── -->
-<section class="py-16 bg-slate-950 border-t border-slate-800/80">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-      
-      <!-- Mission Card -->
-      <div class="p-8 rounded-3xl bg-slate-900/50 border border-slate-800 hover:border-slate-700 transition">
-        <div class="w-12 h-12 rounded-xl bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 text-lg mb-5">
-          <i class="fas fa-bullseye"></i>
-        </div>
-        <h3 class="text-xl font-bold text-white tracking-tight">Our Mission</h3>
-        <p class="text-slate-400 text-sm leading-relaxed mt-3">
-          To empower fast-growing enterprises, technology startups, and established organizations with high-reliability digital engineering — building software that solves complex real-world operational problems while ensuring sustainable performance and zero technical debt.
-        </p>
+<!-- How we build -->
+<section class="s-sec">
+  <div class="s-shell">
+    <div class="s-grid">
+      <div style="grid-column:span 5">
+        <p class="s-eyebrow">How we build</p>
+        <h2 class="s-h2 mt-4">Defaults we start every project with.</h2>
       </div>
-
-      <!-- Vision Card -->
-      <div class="p-8 rounded-3xl bg-slate-900/50 border border-slate-800 hover:border-slate-700 transition">
-        <div class="w-12 h-12 rounded-xl bg-blue-500/10 border border-blue-500/20 flex items-center justify-center text-blue-400 text-lg mb-5">
-          <i class="fas fa-compass"></i>
-        </div>
-        <h3 class="text-xl font-bold text-white tracking-tight">Our Vision</h3>
-        <p class="text-slate-400 text-sm leading-relaxed mt-3">
-          To be the global benchmark for dependable, clean, and resource-efficient software engineering — recognized worldwide for our architectural integrity, client-first delivery model, and commitment to building digital systems that last.
-        </p>
-      </div>
-
-    </div>
-  </div>
-</section>
-
-<!-- ── CORE VALUES ────────────────────────────────────────────── -->
-<section class="py-16 sm:py-20 bg-slate-950 border-t border-slate-800/80">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="max-w-3xl mx-auto text-center mb-12">
-      <div class="inline-flex items-center space-x-2 bg-slate-900 border border-slate-800 px-3 py-1 rounded-lg text-emerald-400 text-xs font-semibold uppercase tracking-wider mb-3">
-        Core Principles
-      </div>
-      <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight">
-        The Principles That Govern Every Line of Code
-      </h2>
-      <p class="text-slate-400 text-sm mt-2">
-        We prioritize long-term technical value and honest engineering standards over short-term shortcuts.
-      </p>
-    </div>
-
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/30 transition-all">
-        <div class="text-xs font-mono text-emerald-400 font-bold mb-3">01 // INTEGRITY</div>
-        <h3 class="text-base font-bold text-white mb-2">Total Transparency</h3>
-        <p class="text-xs text-slate-400 leading-relaxed">
-          Direct communication with lead engineers. Weekly milestone demonstrations, real-time repository commits, and zero hidden costs.
-        </p>
-      </div>
-
-      <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/30 transition-all">
-        <div class="text-xs font-mono text-emerald-400 font-bold mb-3">02 // INDEPENDENCE</div>
-        <h3 class="text-base font-bold text-white mb-2">Zero Vendor Lock-in</h3>
-        <p class="text-xs text-slate-400 leading-relaxed">
-          You retain 100% full intellectual property ownership. Complete source code, Docker configs, documentation, and database schemas are yours.
-        </p>
-      </div>
-
-      <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/30 transition-all">
-        <div class="text-xs font-mono text-emerald-400 font-bold mb-3">03 // PRAGMATISM</div>
-        <h3 class="text-base font-bold text-white mb-2">Pragmatic Technology</h3>
-        <p class="text-xs text-slate-400 leading-relaxed">
-          We do not chase trends for the sake of novelty. We architect solutions with stable, high-performance, proven stacks tailored to your exact load.
-        </p>
-      </div>
-
-      <div class="p-6 rounded-2xl bg-slate-900/60 border border-slate-800 hover:border-emerald-500/30 transition-all">
-        <div class="text-xs font-mono text-emerald-400 font-bold mb-3">04 // COMMITMENT</div>
-        <h3 class="text-base font-bold text-white mb-2">Post-Launch Support</h3>
-        <p class="text-xs text-slate-400 leading-relaxed">
-          Launch day is the start of growth. We provide ongoing 24/7 infrastructure monitoring, patch management, and continuous feature scaling.
-        </p>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── GLOBAL REACH & DELIVERY LOCATIONS ─────────────────────── -->
-<section class="py-16 bg-slate-950 border-t border-slate-800/80">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="p-8 sm:p-12 rounded-3xl bg-slate-900/40 border border-slate-800 backdrop-blur-sm relative overflow-hidden">
-      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center">
-        <div class="lg:col-span-8 space-y-4">
-          <div class="inline-flex items-center space-x-2 text-xs font-semibold text-emerald-400">
-            <i class="fas fa-globe"></i>
-            <span>Global Delivery Footprint</span>
-          </div>
-          <h3 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-            Serving Growing Enterprises &amp; Global Clients
-          </h3>
-          <p class="text-sm text-slate-400 leading-relaxed max-w-2xl">
-            From our core engineering center in Lucknow, India, EcoTech Services collaborates smoothly across time zones with clients throughout North America, Europe, the Middle East, and Asia-Pacific.
-          </p>
-          <div class="flex flex-wrap gap-2 pt-2">
-            <span class="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs font-medium text-slate-300">United States &amp; Canada</span>
-            <span class="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs font-medium text-slate-300">United Kingdom &amp; EU</span>
-            <span class="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs font-medium text-slate-300">United Arab Emirates (Dubai)</span>
-            <span class="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs font-medium text-slate-300">India &amp; South Asia</span>
-            <span class="px-3 py-1 rounded-full bg-slate-900 border border-slate-800 text-xs font-medium text-slate-300">Australia &amp; Singapore</span>
-          </div>
-        </div>
-
-        <div class="lg:col-span-4 flex flex-col space-y-3">
-          <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
-            <div class="text-[11px] text-slate-500 uppercase font-semibold">Engineering Center</div>
-            <div class="text-sm font-bold text-white mt-0.5">Lucknow, Uttar Pradesh, India</div>
-            <div class="text-xs text-slate-400 mt-1">Full-time dev teams, QA &amp; DevOps</div>
-          </div>
-          <div class="p-4 rounded-xl bg-slate-950 border border-slate-800">
-            <div class="text-[11px] text-slate-500 uppercase font-semibold">Time Zone Adaptability</div>
-            <div class="text-sm font-bold text-white mt-0.5">IST / EST / GMT Overlaps</div>
-            <div class="text-xs text-slate-400 mt-1">Dedicated sprint syncs &amp; standups</div>
-          </div>
+      <div style="grid-column:span 7" data-reveal>
+        <dl class="s-kv">
+          <div><dt>Architecture</dt><dd>Modular MVC / microservices</dd></div>
+          <div><dt>Security standard</dt><dd>OWASP guidance, CSRF protection</dd></div>
+          <div><dt>Database tuning</dt><dd>Indexed queries, connection pooling</dd></div>
+          <div><dt>Caching</dt><dd>Edge and Redis caching</dd></div>
+        </dl>
+        <p class="s-eyebrow mt-8">Core stack</p>
+        <div class="s-tags mt-3">
+          <span class="s-tag">PHP 8.2+</span>
+          <span class="s-tag">MySQL 8.0</span>
+          <span class="s-tag">Laravel</span>
+          <span class="s-tag">React</span>
+          <span class="s-tag">Tailwind CSS</span>
+          <span class="s-tag">Docker</span>
+          <span class="s-tag">AWS &amp; Cloud</span>
+          <span class="s-tag">Redis</span>
         </div>
       </div>
     </div>
   </div>
 </section>
 
-<!-- ── CORPORATE CTA ─────────────────────────────────────────── -->
-<section class="py-16 bg-slate-950 border-t border-slate-800/80">
-  <div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-    <div class="p-8 sm:p-12 rounded-3xl bg-slate-900/60 border border-slate-800 relative overflow-hidden">
-      <!-- Top glow line -->
-      <div class="absolute top-0 left-10 right-10 h-px bg-gradient-to-r from-transparent via-emerald-500/50 to-transparent"></div>
+<!-- Mission & vision -->
+<section class="s-sec">
+  <div class="s-shell">
+    <div class="s-grid" data-reveal>
+      <div style="grid-column:span 6">
+        <p class="s-eyebrow">Our mission</p>
+        <p class="s-h3 mt-4" style="font-size:1.6rem;line-height:1.3">To give growing companies, startups and established organisations dependable engineering &mdash; software that solves real operational problems while staying fast and free of technical debt.</p>
+      </div>
+      <div style="grid-column:span 6">
+        <p class="s-eyebrow">Our vision</p>
+        <p class="s-h3 mt-4" style="font-size:1.6rem;line-height:1.3">To be a benchmark for dependable, clean, resource-efficient software &mdash; known for architectural integrity, client-first delivery and systems that last.</p>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <h2 class="text-2xl sm:text-3xl font-bold text-white tracking-tight">
-        Ready to Build Your Next Digital Product?
-      </h2>
-      <p class="text-slate-400 text-sm max-w-xl mx-auto mt-3 mb-8 leading-relaxed">
-        Let's discuss your project specifications, architectural requirements, and delivery milestones with our solution engineers.
-      </p>
+<!-- Values -->
+<section class="s-sec">
+  <div class="s-shell">
+    <div class="s-grid">
+      <div style="grid-column:span 5">
+        <p class="s-eyebrow">Core principles</p>
+        <h2 class="s-h2 mt-4">The principles behind every line of code.</h2>
+        <p class="s-mute mt-4">Long-term technical value and honest engineering over short-term shortcuts.</p>
+      </div>
+      <div style="grid-column:span 7" data-reveal>
+        <ol class="s-list">
+          <li><span class="s-num">01</span><h3 class="s-h3">Total Transparency</h3><p>Direct contact with lead engineers, weekly milestone demos, visible repository commits and no hidden costs.</p></li>
+          <li><span class="s-num">02</span><h3 class="s-h3">Zero Vendor Lock-in</h3><p>You own 100% of the intellectual property: source code, Docker configs, documentation and database schemas.</p></li>
+          <li><span class="s-num">03</span><h3 class="s-h3">Pragmatic Technology</h3><p>We do not chase trends. We use stable, proven stacks sized to your actual load.</p></li>
+          <li><span class="s-num">04</span><h3 class="s-h3">Post-Launch Support</h3><p>Ongoing infrastructure monitoring, patch management and continued feature work after launch.</p></li>
+        </ol>
+      </div>
+    </div>
+  </div>
+</section>
 
-      <div class="flex flex-col sm:flex-row items-center justify-center gap-3">
-        <a href="<?= url('contact') ?>"
-           class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-6 py-3 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-sm rounded-xl shadow-lg shadow-emerald-500/25 transition-all">
-          <span>Schedule Discovery Call</span>
-          <i class="fas fa-arrow-right text-xs"></i>
-        </a>
+<!-- Global reach -->
+<section class="s-sec">
+  <div class="s-shell">
+    <div class="s-grid">
+      <div style="grid-column:span 7">
+        <p class="s-eyebrow">Delivery footprint</p>
+        <h2 class="s-h2 mt-4">Serving growing businesses and clients abroad.</h2>
+        <p class="s-lede mt-5">From our engineering centre in Lucknow, India, we work across time zones with clients in North America, Europe, the Middle East and Asia-Pacific.</p>
+        <div class="s-tags mt-6">
+          <span class="s-tag">United States &amp; Canada</span>
+          <span class="s-tag">United Kingdom &amp; EU</span>
+          <span class="s-tag">United Arab Emirates (Dubai)</span>
+          <span class="s-tag">India &amp; South Asia</span>
+          <span class="s-tag">Australia &amp; Singapore</span>
+        </div>
+      </div>
+      <div style="grid-column:span 5" data-reveal>
+        <dl class="s-kv">
+          <div><dt>Engineering centre</dt><dd>Lucknow, Uttar Pradesh, India<br><span class="s-mute s-small">Full-time development, QA &amp; DevOps</span></dd></div>
+          <div><dt>Time zones</dt><dd>IST / EST / GMT overlaps<br><span class="s-mute s-small">Scheduled sprint syncs and stand-ups</span></dd></div>
+        </dl>
+      </div>
+    </div>
+  </div>
+</section>
 
-        <a href="https://wa.me/<?= setting('whatsapp_number') ?>?text=Hello%20Ecotech%20Team%2C%20I%20want%20to%20discuss%20a%20new%20project."
-           target="_blank"
-           class="w-full sm:w-auto inline-flex items-center justify-center space-x-2 px-6 py-3 bg-slate-950 hover:bg-slate-900 border border-slate-800 text-white font-semibold text-sm rounded-xl transition">
-          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
-          <i class="fab fa-whatsapp text-emerald-400"></i>
-          <span>Instant WhatsApp Chat</span>
-        </a>
+<!-- CTA -->
+<section class="s-sec s-band">
+  <div class="s-shell">
+    <div class="s-grid">
+      <div style="grid-column:span 7">
+        <p class="s-eyebrow">Next step</p>
+        <h2 class="s-h2 mt-4">Planning your next digital product?</h2>
+      </div>
+      <div style="grid-column:span 5">
+        <p>Talk through specifications, architecture and delivery milestones with our engineers.</p>
+        <div class="s-actions mt-6">
+          <a href="<?= url('contact') ?>" class="s-btn--light">Schedule a discovery call</a>
+          <a href="https://wa.me/<?= Security::e(setting('whatsapp_number')) ?>?text=Hello%20Ecotech%20Team%2C%20I%20want%20to%20discuss%20a%20new%20project." target="_blank" rel="noopener" class="s-btn--line"><i class="fab fa-whatsapp" aria-hidden="true"></i>&nbsp;WhatsApp</a>
+        </div>
       </div>
     </div>
   </div>

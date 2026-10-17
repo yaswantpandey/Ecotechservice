@@ -1,104 +1,114 @@
 <?php // ── ADMIN — TRACK ADD / EDIT FORM ────────────────────────── ?>
 
-<div class="pt-6 max-w-3xl">
-  <a href="<?= url('admin/tracks') ?>" class="text-gray-400 hover:text-white text-sm transition">
-    <i class="fas fa-arrow-left mr-1"></i>Back to tracks
-  </a>
+<div>
+  <div class="mb-5">
+    <a href="<?= url('admin/tracks') ?>" class="s-link text-sm">
+      <i class="fas fa-arrow-left text-xs" aria-hidden="true"></i> Back to tracks
+    </a>
+    <h2 class="s-h3 mt-2 mb-0">
+      <?= $track ? 'Edit ' . Security::e($track['title']) : 'Add Internship Track' ?>
+    </h2>
+  </div>
 
-  <h2 class="font-display font-semibold text-white text-xl mt-4 mb-6">
-    <?= $track ? 'Edit ' . Security::e($track['title']) : 'Add Internship Track' ?>
-  </h2>
-
-  <form action="<?= url($track ? 'admin/tracks/update' : 'admin/tracks/store') ?>" method="POST"
-        class="bg-gray-900 border border-gray-800 rounded-xl p-6 space-y-5">
+  <form action="<?= url($track ? 'admin/tracks/update' : 'admin/tracks/store') ?>" method="POST">
     <?= Security::csrfField() ?>
     <?php if ($track): ?>
       <input type="hidden" name="id" value="<?= (int) $track['id'] ?>">
     <?php endif; ?>
 
-    <div>
-      <label for="title" class="form-label">Track Title *</label>
-      <input type="text" id="title" name="title" required maxlength="150"
-             value="<?= Security::e($track['title'] ?? '') ?>" class="form-input"
-             placeholder="e.g. Full Stack Development">
-    </div>
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+      <div class="lg:col-span-8 a-card a-card-pad">
+        <div class="a-form-grid">
+          <div class="s-field a-span-2">
+            <label for="title" class="s-label">Track title <span class="s-req">*</span></label>
+            <input type="text" id="title" name="title" required maxlength="150"
+                   value="<?= Security::e($track['title'] ?? '') ?>" class="s-input"
+                   placeholder="e.g. Full Stack Development">
+          </div>
 
-    <div>
-      <label for="short_desc" class="form-label">Short Description * <span class="text-gray-500">(shown on cards, max 255)</span></label>
-      <textarea id="short_desc" name="short_desc" rows="2" required maxlength="255"
-                class="form-input resize-y"
-                placeholder="One sentence summarising the track."><?= Security::e($track['short_desc'] ?? '') ?></textarea>
-    </div>
+          <div class="s-field a-span-2">
+            <label for="short_desc" class="s-label">Short description <span class="s-req">*</span> <span class="s-mute">(shown on cards, max 255)</span></label>
+            <textarea id="short_desc" name="short_desc" rows="2" required maxlength="255"
+                      class="s-textarea"
+                      placeholder="One sentence summarising the track."><?= Security::e($track['short_desc'] ?? '') ?></textarea>
+          </div>
 
-    <div>
-      <label for="description" class="form-label">Full Description *</label>
-      <textarea id="description" name="description" rows="6" required
-                class="form-input resize-y"
-                placeholder="What the intern will actually do, learn and deliver."><?= Security::e($track['description'] ?? '') ?></textarea>
-    </div>
+          <div class="s-field a-span-2">
+            <label for="description" class="s-label">Full description <span class="s-req">*</span></label>
+            <textarea id="description" name="description" rows="6" required
+                      class="s-textarea"
+                      placeholder="What the intern will actually do, learn and deliver."><?= Security::e($track['description'] ?? '') ?></textarea>
+          </div>
 
-    <div>
-      <label for="skills" class="form-label">Skills <span class="text-gray-500">(comma separated)</span></label>
-      <input type="text" id="skills" name="skills" maxlength="500"
-             value="<?= Security::e($track['skills'] ?? '') ?>" class="form-input"
-             placeholder="HTML, CSS, JavaScript, MySQL, Git">
-    </div>
+          <div class="s-field a-span-2">
+            <label for="skills" class="s-label">Skills <span class="s-mute">(comma separated)</span></label>
+            <input type="text" id="skills" name="skills" maxlength="500"
+                   value="<?= Security::e($track['skills'] ?? '') ?>" class="s-input"
+                   placeholder="HTML, CSS, JavaScript, MySQL, Git">
+          </div>
 
-    <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
-      <div>
-        <label for="icon" class="form-label">Font Awesome Icon *</label>
-        <input type="text" id="icon" name="icon" required pattern="fa-[a-z0-9\-]+"
-               value="<?= Security::e($track['icon'] ?? 'fa-code') ?>" class="form-input"
-               placeholder="fa-code">
-        <p class="text-gray-600 text-[11px] mt-1.5">Lowercase, starting with <code>fa-</code>, e.g. fa-shield-halved</p>
+          <div class="s-field">
+            <label for="icon" class="s-label">Font Awesome icon <span class="s-req">*</span></label>
+            <input type="text" id="icon" name="icon" required pattern="fa-[a-z0-9\-]+"
+                   value="<?= Security::e($track['icon'] ?? 'fa-code') ?>" class="s-input"
+                   placeholder="fa-code">
+            <p class="s-help">Lowercase, starting with <code>fa-</code>, e.g. fa-shield-halved</p>
+          </div>
+
+          <div class="s-field">
+            <label for="mode" class="s-label">Work mode</label>
+            <input type="text" id="mode" name="mode" maxlength="40"
+                   value="<?= Security::e($track['mode'] ?? 'Remote / Hybrid') ?>" class="s-input">
+          </div>
+
+          <div class="s-field">
+            <label for="duration_weeks" class="s-label">Duration (weeks)</label>
+            <input type="number" id="duration_weeks" name="duration_weeks" min="1" max="104"
+                   value="<?= (int) ($track['duration_weeks'] ?? 8) ?>" class="s-input">
+          </div>
+
+          <div class="s-field">
+            <label for="seats" class="s-label">Seats</label>
+            <input type="number" id="seats" name="seats" min="0" max="9999"
+                   value="<?= (int) ($track['seats'] ?? 10) ?>" class="s-input">
+          </div>
+
+          <div class="s-field a-span-2">
+            <label for="stipend_text" class="s-label">Stipend text</label>
+            <input type="text" id="stipend_text" name="stipend_text" maxlength="120"
+                   value="<?= Security::e($track['stipend_text'] ?? 'Performance based') ?>" class="s-input">
+          </div>
+        </div>
+
+        <div class="a-form-actions">
+          <button type="submit" class="s-btn s-btn--sm">
+            <i class="fas fa-save text-xs" aria-hidden="true"></i> <?= $track ? 'Update Track' : 'Add Track' ?>
+          </button>
+          <a href="<?= url('admin/tracks') ?>" class="s-btn--line s-btn--sm">Cancel</a>
+        </div>
       </div>
 
-      <div>
-        <label for="mode" class="form-label">Work Mode</label>
-        <input type="text" id="mode" name="mode" maxlength="40"
-               value="<?= Security::e($track['mode'] ?? 'Remote / Hybrid') ?>" class="form-input">
+      <div class="lg:col-span-4">
+        <div class="a-card">
+          <div class="a-card-head"><h2>Publish settings</h2></div>
+          <div class="a-card-pad">
+            <div class="s-field">
+              <label for="sort_order" class="s-label">Sort order</label>
+              <input type="number" id="sort_order" name="sort_order"
+                     value="<?= (int) ($track['sort_order'] ?? 0) ?>" class="s-input">
+            </div>
+
+            <label class="s-check">
+              <input type="checkbox" name="is_active" value="1"
+                     <?= (!$track || (int) $track['is_active'] === 1) ? 'checked' : '' ?>>
+              <span>
+                Active
+                <span class="s-help block" style="margin-top:.1rem">Unchecked tracks are hidden from the public listing.</span>
+              </span>
+            </label>
+          </div>
+        </div>
       </div>
-
-      <div>
-        <label for="duration_weeks" class="form-label">Duration (weeks)</label>
-        <input type="number" id="duration_weeks" name="duration_weeks" min="1" max="104"
-               value="<?= (int) ($track['duration_weeks'] ?? 8) ?>" class="form-input">
-      </div>
-
-      <div>
-        <label for="seats" class="form-label">Seats</label>
-        <input type="number" id="seats" name="seats" min="0" max="9999"
-               value="<?= (int) ($track['seats'] ?? 10) ?>" class="form-input">
-      </div>
-
-      <div>
-        <label for="stipend_text" class="form-label">Stipend Text</label>
-        <input type="text" id="stipend_text" name="stipend_text" maxlength="120"
-               value="<?= Security::e($track['stipend_text'] ?? 'Performance based') ?>" class="form-input">
-      </div>
-
-      <div>
-        <label for="sort_order" class="form-label">Sort Order</label>
-        <input type="number" id="sort_order" name="sort_order"
-               value="<?= (int) ($track['sort_order'] ?? 0) ?>" class="form-input">
-      </div>
-    </div>
-
-    <label class="flex items-center gap-3 cursor-pointer pt-2">
-      <input type="checkbox" name="is_active" value="1"
-             <?= (!$track || (int) $track['is_active'] === 1) ? 'checked' : '' ?>
-             class="w-4 h-4 rounded border-gray-600 bg-gray-950 text-eco-500 focus:ring-eco-500/40">
-      <span class="text-gray-300 text-sm">
-        Active
-        <span class="block text-gray-500 text-xs">Unchecked tracks are hidden from the public listing.</span>
-      </span>
-    </label>
-
-    <div class="flex gap-3 pt-2 border-t border-gray-800">
-      <button type="submit" class="btn-primary">
-        <i class="fas fa-save mr-2"></i><?= $track ? 'Update Track' : 'Add Track' ?>
-      </button>
-      <a href="<?= url('admin/tracks') ?>" class="btn-outline">Cancel</a>
     </div>
   </form>
 </div>

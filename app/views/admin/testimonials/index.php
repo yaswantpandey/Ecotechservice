@@ -1,30 +1,45 @@
 <!-- ── ADMIN TESTIMONIALS LIST ─────────────────────────────── -->
-<div class="pt-6">
-  <div class="flex items-center justify-between mb-6">
-    <h2 class="font-display font-semibold text-white text-xl">Testimonials</h2>
-    <a href="<?= url('admin/testimonials/add') ?>" class="btn-primary text-sm py-2"><i class="fas fa-plus mr-2"></i>Add Testimonial</a>
+<div class="a-card">
+  <div class="a-card-head">
+    <h2>Testimonials</h2>
+    <a href="<?= url('admin/testimonials/add') ?>" class="s-btn s-btn--sm"><i class="fas fa-plus text-xs" aria-hidden="true"></i> Add testimonial</a>
   </div>
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-    <?php if ($testimonials): foreach ($testimonials as $t): ?>
-    <div class="bg-gray-900 border border-gray-800 rounded-xl p-5">
-      <div class="flex items-start justify-between mb-3">
-        <div class="flex items-center space-x-3">
-          <div class="w-9 h-9 rounded-full bg-eco-500 flex items-center justify-center text-white font-bold text-sm"><?= strtoupper(substr($t['name'],0,1)) ?></div>
-          <div>
-            <div class="text-white font-semibold text-sm"><?= Security::e($t['name']) ?></div>
-            <div class="text-gray-500 text-xs"><?= Security::e(($t['position'] ?? '') . ($t['company'] ? ', ' . $t['company'] : '')) ?></div>
-          </div>
-        </div>
-        <div class="flex items-center space-x-2">
-          <a href="<?= url('admin/testimonials/edit?id=' . $t['id']) ?>" class="text-blue-400 hover:text-blue-300 text-xs transition"><i class="fas fa-edit"></i></a>
-          <a href="<?= url('admin/testimonials/delete?id=' . $t['id']) ?>" onclick="return confirm('Delete?')" class="text-red-400 hover:text-red-300 text-xs transition"><i class="fas fa-trash"></i></a>
-        </div>
-      </div>
-      <div class="flex space-x-0.5 mb-2"><?= stars((int)$t['rating']) ?></div>
-      <p class="text-gray-400 text-sm leading-relaxed italic">"<?= Security::e(truncate($t['message'], 120)) ?>"</p>
-    </div>
-    <?php endforeach; else: ?>
-    <div class="col-span-2 text-center py-10 text-gray-500">No testimonials yet.</div>
-    <?php endif; ?>
+  <div class="a-table-wrap">
+    <table class="a-table">
+      <thead><tr>
+        <th>Client</th>
+        <th>Rating</th>
+        <th>Message</th>
+        <th class="a-right">Actions</th>
+      </tr></thead>
+      <tbody>
+        <?php if ($testimonials): foreach ($testimonials as $t): ?>
+        <tr>
+          <td>
+            <div class="flex items-center gap-3">
+              <span class="a-thumb flex items-center justify-center font-medium" style="width:36px;height:36px"><?= Security::e(strtoupper(substr($t['name'],0,1))) ?></span>
+              <div>
+                <div class="font-medium"><?= Security::e($t['name']) ?></div>
+                <div class="s-mute text-xs"><?= Security::e(($t['position'] ?? '') . ($t['company'] ? ', ' . $t['company'] : '')) ?></div>
+              </div>
+            </div>
+          </td>
+          <td class="whitespace-nowrap">
+            <span style="color:var(--ink)" aria-hidden="true"><?= str_repeat('★', max(0, min(5, (int)$t['rating']))) ?></span>
+            <span class="s-num"><?= (int)$t['rating'] ?>/5</span>
+          </td>
+          <td class="s-mute" style="max-width:32rem">"<?= Security::e(truncate($t['message'], 120)) ?>"</td>
+          <td class="a-right">
+            <div class="a-row-actions">
+              <a href="<?= url('admin/testimonials/edit?id=' . $t['id']) ?>" class="a-icon-btn" title="Edit" aria-label="Edit testimonial"><i class="fas fa-pen" aria-hidden="true"></i></a>
+              <a href="<?= url('admin/testimonials/delete?id=' . $t['id']) ?>" onclick="return confirm('Delete?')" class="a-icon-btn a-icon-btn--danger" title="Delete" aria-label="Delete testimonial"><i class="fas fa-trash" aria-hidden="true"></i></a>
+            </div>
+          </td>
+        </tr>
+        <?php endforeach; else: ?>
+        <tr><td colspan="4"><div class="a-empty">No testimonials yet.</div></td></tr>
+        <?php endif; ?>
+      </tbody>
+    </table>
   </div>
 </div>

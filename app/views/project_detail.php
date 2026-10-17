@@ -6,298 +6,140 @@ $techList = array_filter(array_map('trim', explode(',', (string)($project['tech_
 $category = ucfirst((string)($project['category'] ?? ''));
 $heroAlt  = Security::e($project['title']);
 $fallback = uploadUrl(!empty($project['thumbnail']) ? $project['thumbnail'] : 'project_startup_landing.png');
-
-$catIcons = [
-    'website'   => 'fa-globe',
-    'marketing' => 'fa-chart-bar',
-    'template'  => 'fa-layer-group',
-    'mobile'    => 'fa-mobile-alt',
-    'other'     => 'fa-star',
-];
 ?>
 
 <style>
-/* ==========================================================
-   Project detail refinement layer (scoped to #projectDetail)
-   ========================================================== */
-#projectDetail {
-  --pd-accent:   #22c55e;
-  --pd-accent-2: #4ade80;
-  --pd-line:     rgba(148, 163, 184, 0.14);
-  --pd-line-str: rgba(148, 163, 184, 0.26);
-  --pd-surface:  rgba(15, 23, 42, 0.55);
-}
-
-#projectDetail .pd-shell { max-width: 75rem; margin: 0 auto; padding: 0 1rem; }
-@media (min-width: 640px) { #projectDetail .pd-shell { padding: 0 1.5rem; } }
-@media (min-width: 1024px) { #projectDetail .pd-shell { padding: 0 2rem; } }
-#projectDetail .pd-rule { border-top: 1px solid var(--pd-line); }
-
-/* ── Breadcrumb ───────────────────────────────────────────── */
-#projectDetail .pd-crumbs {
-  display: flex; align-items: center; flex-wrap: wrap; gap: 0.5rem;
-  font-size: 0.75rem; color: #64748b;
-}
-#projectDetail .pd-crumbs a { color: #94a3b8; transition: color .2s ease; }
-#projectDetail .pd-crumbs a:hover { color: var(--pd-accent-2); }
-#projectDetail .pd-crumbs i { font-size: 0.5rem; opacity: 0.6; }
-#projectDetail .pd-crumbs .pd-crumb-current { color: #e2e8f0; font-weight: 500; }
-
-/* ── Header ───────────────────────────────────────────────── */
-#projectDetail .pd-eyebrow {
-  display: inline-flex; align-items: center; gap: 0.5rem;
-  font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.14em;
-  text-transform: uppercase; color: #94a3b8;
-}
-#projectDetail .pd-eyebrow::before {
-  content: ''; width: 1.5rem; height: 1px; background: var(--pd-accent);
-}
-#projectDetail .pd-h1 {
-  font-family: 'Space Grotesk', Inter, sans-serif;
-  font-weight: 800; color: #fff; letter-spacing: -0.035em;
-  font-size: clamp(2rem, 4.8vw, 3.25rem); line-height: 1.08;
-  margin: 1.125rem 0 0;
-}
-#projectDetail .pd-h2 {
-  font-family: 'Space Grotesk', Inter, sans-serif;
-  font-weight: 700; color: #fff; letter-spacing: -0.02em;
-  font-size: 1.375rem; line-height: 1.25; margin: 0;
-}
-#projectDetail .pd-tech { display: flex; flex-wrap: wrap; gap: 0.375rem; }
-#projectDetail .pd-tech span {
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.6875rem; color: #cbd5e1;
-  background: #020617; border: 1px solid var(--pd-line);
-  padding: 0.1875rem 0.5rem; border-radius: 0.375rem;
-}
-
-/* ── Hero shot ────────────────────────────────────────────── */
-#projectDetail .pd-hero {
-  position: relative; overflow: hidden; aspect-ratio: 16 / 9;
-  border: 1px solid var(--pd-line); border-radius: 1rem; background: #020617;
-}
-#projectDetail .pd-hero img { width: 100%; height: 100%; object-fit: cover; display: block; }
-
-/* ── Body copy ────────────────────────────────────────────── */
-#projectDetail .pd-prose {
-  color: #cbd5e1; font-size: 1rem; line-height: 1.8;
-}
-#projectDetail .pd-prose p { margin: 0 0 1rem; }
-
-/* ── Meta rail ────────────────────────────────────────────── */
-#projectDetail .pd-rail {
-  background: var(--pd-surface); border: 1px solid var(--pd-line);
-  border-radius: 0.875rem; overflow: hidden;
-}
-#projectDetail .pd-rail-row { padding: 1rem 1.25rem; }
-#projectDetail .pd-rail-row + .pd-rail-row { border-top: 1px solid var(--pd-line); }
-#projectDetail .pd-rail-key {
-  font-size: 0.6875rem; font-weight: 600; letter-spacing: 0.1em;
-  text-transform: uppercase; color: #64748b;
-}
-#projectDetail .pd-rail-val { color: #f1f5f9; font-size: 0.875rem; font-weight: 500; margin-top: 0.375rem; }
-@media (min-width: 1024px) { #projectDetail .pd-sticky { position: sticky; top: 7rem; } }
-
-/* ── Gallery ──────────────────────────────────────────────── */
-#projectDetail .pd-gallery {
-  display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1rem;
-}
-@media (min-width: 768px) { #projectDetail .pd-gallery { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-#projectDetail .pd-shot {
-  position: relative; aspect-ratio: 16 / 10; overflow: hidden; padding: 0; border: 0;
-  border: 1px solid var(--pd-line); border-radius: 0.75rem;
-  background: #020617; cursor: zoom-in; display: block; width: 100%;
-  transition: border-color .2s ease;
-}
-#projectDetail .pd-shot:hover { border-color: var(--pd-line-str); }
-#projectDetail .pd-shot:focus-visible { outline: 2px solid var(--pd-accent); outline-offset: 2px; }
-#projectDetail .pd-shot img {
-  width: 100%; height: 100%; object-fit: cover; display: block;
-  transition: transform .4s ease;
-}
-#projectDetail .pd-shot:hover img { transform: scale(1.05); }
-
-/* ── Related cards ────────────────────────────────────────── */
-#projectDetail .pd-related {
-  display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1.25rem;
-}
-@media (min-width: 640px) { #projectDetail .pd-related { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
-#projectDetail .pd-rel-card {
-  display: flex; flex-direction: column; overflow: hidden;
-  background: var(--pd-surface); border: 1px solid var(--pd-line);
-  border-radius: 0.875rem; transition: border-color .25s ease, transform .25s ease;
-}
-#projectDetail .pd-rel-card:hover { border-color: var(--pd-line-str); transform: translateY(-2px); }
-#projectDetail .pd-rel-thumb {
-  aspect-ratio: 16 / 10; overflow: hidden; background: #020617;
-  border-bottom: 1px solid var(--pd-line);
-}
-#projectDetail .pd-rel-thumb img { width: 100%; height: 100%; object-fit: cover; display: block; }
-#projectDetail .pd-rel-title {
-  font-family: 'Space Grotesk', Inter, sans-serif;
-  font-size: 0.9375rem; font-weight: 700; color: #f1f5f9; margin: 0 0 0.375rem;
-  transition: color .2s ease;
-}
-#projectDetail .pd-rel-card:hover .pd-rel-title { color: var(--pd-accent-2); }
-
-/* ── Lightbox ─────────────────────────────────────────────── */
-#pdLightbox[hidden] { display: none; }
-#pdLightbox {
-  position: fixed; inset: 0; z-index: 100;
-  background: rgba(2, 6, 23, 0.96); backdrop-filter: blur(6px);
-  display: flex; align-items: center; justify-content: center; padding: 1.5rem;
-}
-#pdLightbox img { max-width: 100%; max-height: 88vh; object-fit: contain; border-radius: 0.75rem; }
-#pdLightboxClose {
-  position: absolute; top: 1.25rem; right: 1.25rem;
-  width: 2.5rem; height: 2.5rem; border-radius: 0.5rem;
-  display: flex; align-items: center; justify-content: center;
-  color: #cbd5e1; background: rgba(15, 23, 42, 0.8);
-  border: 1px solid var(--pd-line-str); cursor: pointer;
-  transition: color .2s ease, border-color .2s ease;
-}
-#pdLightboxClose:hover { color: #fff; border-color: #fff; }
-#pdLightboxCount {
-  position: absolute; bottom: 1.5rem; left: 50%; transform: translateX(-50%);
-  font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
-  font-size: 0.75rem; color: #94a3b8;
-}
-
-@media (prefers-reduced-motion: reduce) {
-  #projectDetail * { transition: none !important; animation: none !important; }
-}
+@media (min-width: 1024px) { #projectDetail .pd-sticky { position: sticky; top: calc(var(--nav-h) + 2rem); } }
+#projectDetail .pd-gallery { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1.5rem; }
+#projectDetail .pd-shot { display: block; width: 100%; padding: 0; cursor: zoom-in; }
+#projectDetail .pd-shot:hover { border-color: var(--ink); }
+#projectDetail .pd-related { display: grid; grid-template-columns: repeat(1, minmax(0, 1fr)); gap: 1.5rem; }
+@media (min-width: 640px)  { #projectDetail .pd-related { grid-template-columns: repeat(2, minmax(0, 1fr)); } }
+@media (min-width: 1024px) { #projectDetail .pd-related { grid-template-columns: repeat(4, minmax(0, 1fr)); } }
+#projectDetail .pd-rel { text-decoration: none; color: inherit; display: block; }
+#projectDetail .pd-rel:hover .s-h3 { text-decoration: underline; text-underline-offset: .15em; text-decoration-thickness: 1px; }
+#pdLightbox img { max-height: 86vh; }
 </style>
 
-<div id="projectDetail" class="relative">
+<div id="projectDetail">
 
 <!-- ── Header ───────────────────────────────────────────────── -->
-<header class="pt-32 pb-12 bg-slate-950 relative overflow-hidden">
-  <div class="tech-grid-wrapper"><div class="tech-grid-subtle"></div></div>
-
-  <div class="pd-shell relative z-10">
-    <nav class="pd-crumbs" aria-label="Breadcrumb">
+<section class="s-sec">
+  <div class="s-shell">
+    <nav class="s-crumbs" aria-label="Breadcrumb">
       <a href="<?= url('') ?>">Home</a>
-      <i class="fas fa-chevron-right"></i>
-      <a href="<?= url('projects') ?>">Project</a>
+      <span aria-hidden="true">/</span>
+      <a href="<?= url('projects') ?>">Projects</a>
       <?php if ($project['category']): ?>
-      <i class="fas fa-chevron-right"></i>
+      <span aria-hidden="true">/</span>
       <a href="<?= url('projects?cat=' . urlencode((string)$project['category'])) ?>"><?= Security::e($category) ?></a>
       <?php endif; ?>
-      <i class="fas fa-chevron-right"></i>
-      <span class="pd-crumb-current"><?= Security::e($project['title']) ?></span>
+      <span aria-hidden="true">/</span>
+      <span aria-current="page"><?= Security::e($project['title']) ?></span>
     </nav>
 
-    <div class="mt-8 max-w-3xl">
-      <span class="pd-eyebrow">
-        <i class="fas <?= Security::e($catIcons[$project['category']] ?? 'fa-star') ?> text-[10px]"></i>
-        <?= Security::e($category) ?> Case Study
-      </span>
-      <h1 class="pd-h1"><?= Security::e($project['title']) ?></h1>
-
-      <?php if ($techList): ?>
-      <div class="pd-tech mt-6">
-        <?php foreach ($techList as $tech): ?>
-        <span><?= Security::e($tech) ?></span>
-        <?php endforeach; ?>
-      </div>
-      <?php endif; ?>
-
-      <div class="flex flex-wrap gap-3 mt-8">
-        <?php if (!empty($project['live_url'])): ?>
-        <a href="<?= Security::e($project['live_url']) ?>" target="_blank" rel="noopener noreferrer" class="btn-primary text-sm py-2.5 px-6">
-          <i class="fas fa-external-link-alt mr-2 text-xs"></i>Visit live site
-        </a>
-        <?php endif; ?>
-        <?php if (!empty($project['github_url'])): ?>
-        <a href="<?= Security::e($project['github_url']) ?>" target="_blank" rel="noopener noreferrer" class="btn-outline text-sm py-2.5 px-6 border-slate-800 text-slate-200 hover:bg-slate-900">
-          <i class="fab fa-github mr-2"></i>Source code
-        </a>
-        <?php endif; ?>
-        <a href="<?= url('contact') ?>" class="btn-outline text-sm py-2.5 px-6 border-slate-800 text-slate-200 hover:bg-slate-900">
-          <i class="fas fa-paper-plane mr-2 text-xs"></i>Request something similar
-        </a>
+    <div class="s-grid mt-10">
+      <div style="grid-column:span 9">
+        <p class="s-eyebrow"><?= Security::e($category) ?> case study</p>
+        <h1 class="s-h1"><?= Security::e($project['title']) ?></h1>
       </div>
     </div>
+
+    <?php if ($techList): ?>
+    <div class="s-tags mt-6">
+      <?php foreach ($techList as $tech): ?>
+      <span class="s-tag"><?= Security::e($tech) ?></span>
+      <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
+
+    <div class="s-actions mt-8">
+      <?php if (!empty($project['live_url'])): ?>
+      <a href="<?= Security::e($project['live_url']) ?>" target="_blank" rel="noopener noreferrer" class="s-btn">Visit live site</a>
+      <?php endif; ?>
+      <?php if (!empty($project['github_url'])): ?>
+      <a href="<?= Security::e($project['github_url']) ?>" target="_blank" rel="noopener noreferrer" class="s-btn--line"><i class="fab fa-github mr-2" aria-hidden="true"></i>Source code</a>
+      <?php endif; ?>
+      <a href="<?= url('contact') ?>" class="s-btn--line">Request something similar</a>
+    </div>
   </div>
-</header>
+</section>
 
 <!-- ── Hero shot + meta rail ────────────────────────────────── -->
-<section class="pd-rule bg-slate-950 py-14">
-  <div class="pd-shell">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-10">
-
-      <div class="lg:col-span-8">
-        <div class="pd-hero">
+<section class="s-sec">
+  <div class="s-shell">
+    <div class="s-grid">
+      <div style="grid-column:span 8">
+        <div class="s-media s-media--16x10">
           <?php if (!empty($project['live_url'])): ?>
           <img src="//image.thum.io/get/width/1200/crop/750/noanimate/<?= Security::e(rtrim($project['live_url'], '/')) ?>"
-               alt="<?= $heroAlt ?>" loading="lazy"
+               alt="<?= $heroAlt ?>" width="1200" height="750" loading="eager"
                onerror="this.onerror=null; this.src='<?= Security::e($fallback) ?>'">
           <?php else: ?>
-          <img src="<?= Security::e($fallback) ?>" alt="<?= $heroAlt ?>" loading="lazy">
+          <img src="<?= Security::e($fallback) ?>" alt="<?= $heroAlt ?>" width="1200" height="750" loading="eager">
           <?php endif; ?>
         </div>
 
         <div class="mt-12">
-          <h2 class="pd-h2">About this project</h2>
-          <div class="pd-prose mt-5">
+          <h2 class="s-h2">About this project</h2>
+          <div class="s-prose mt-5">
             <p><?= nl2br(Security::e((string)($project['description'] ?? ''))) ?></p>
           </div>
         </div>
       </div>
 
-      <aside class="lg:col-span-4">
+      <aside style="grid-column:span 4">
         <div class="pd-sticky">
-          <div class="pd-rail">
-            <div class="pd-rail-row">
-              <div class="pd-rail-key">Category</div>
-              <div class="pd-rail-val"><?= Security::e($category ?: '—') ?></div>
+          <dl class="s-kv">
+            <div>
+              <dt>Category</dt>
+              <dd><?= Security::e($category ?: '—') ?></dd>
             </div>
-            <div class="pd-rail-row">
-              <div class="pd-rail-key">Tech stack</div>
-              <div class="pd-rail-val"><?= $techList ? Security::e(implode(', ', $techList)) : '—' ?></div>
+            <div>
+              <dt>Tech stack</dt>
+              <dd><?= $techList ? Security::e(implode(', ', $techList)) : '—' ?></dd>
             </div>
-            <div class="pd-rail-row">
-              <div class="pd-rail-key">Completed</div>
-              <div class="pd-rail-val"><?= !empty($project['created_at']) ? Security::e(formatDate($project['created_at'])) : '—' ?></div>
+            <div>
+              <dt>Completed</dt>
+              <dd><?= !empty($project['created_at']) ? Security::e(formatDate($project['created_at'])) : '—' ?></dd>
             </div>
             <?php if (!empty($project['live_url'])): ?>
-            <div class="pd-rail-row">
-              <div class="pd-rail-key">Live URL</div>
-              <div class="pd-rail-val break-all">
-                <a href="<?= Security::e($project['live_url']) ?>" target="_blank" rel="noopener noreferrer" class="text-eco-400 hover:text-eco-300 transition-colors">
+            <div>
+              <dt>Live URL</dt>
+              <dd class="break-all">
+                <a href="<?= Security::e($project['live_url']) ?>" target="_blank" rel="noopener noreferrer" class="s-link">
                   <?= Security::e(preg_replace('#^https?://#', '', rtrim($project['live_url'], '/'))) ?>
                 </a>
-              </div>
+              </dd>
             </div>
             <?php endif; ?>
-          </div>
+          </dl>
 
-          <a href="<?= url('projects') ?>" class="inline-flex items-center gap-2 text-xs font-semibold text-slate-400 hover:text-white transition-colors mt-6">
-            <i class="fas fa-arrow-left text-[10px]"></i>
-            <span>Back to Project</span>
-          </a>
+          <p class="mt-6"><a href="<?= url('projects') ?>" class="s-link s-small">Back to all projects</a></p>
         </div>
       </aside>
-
     </div>
   </div>
 </section>
 
 <!-- ── Gallery ──────────────────────────────────────────────── -->
 <?php if ($images): ?>
-<section class="pd-rule py-14">
-  <div class="pd-shell">
-    <h2 class="pd-h2 mb-6">Gallery</h2>
+<section class="s-sec">
+  <div class="s-shell">
+    <div class="flex items-baseline justify-between gap-4 mb-8">
+      <h2 class="s-h2">Gallery</h2>
+      <span class="s-num"><?= count($images) ?> images</span>
+    </div>
     <div class="pd-gallery">
       <?php foreach ($images as $gi => $img):
         $shotUrl = uploadUrl($img['image_path']);
         $shotAlt = trim((string)($img['alt_text'] ?? '')) ?: $project['title'] . ' screenshot ' . ($gi + 1);
       ?>
-      <button type="button" class="pd-shot"
+      <button type="button" class="pd-shot s-media s-media--16x10"
               data-lightbox-src="<?= Security::e($shotUrl) ?>"
               data-lightbox-index="<?= $gi ?>"
               aria-label="Open image <?= $gi + 1 ?> of <?= count($images) ?> full size">
-        <img src="<?= Security::e($shotUrl) ?>" alt="<?= Security::e($shotAlt) ?>" loading="lazy">
+        <img src="<?= Security::e($shotUrl) ?>" alt="<?= Security::e($shotAlt) ?>" width="800" height="500" loading="lazy">
       </button>
       <?php endforeach; ?>
     </div>
@@ -307,14 +149,11 @@ $catIcons = [
 
 <!-- ── Related work ─────────────────────────────────────────── -->
 <?php if ($related): ?>
-<section class="pd-rule bg-slate-950 py-14">
-  <div class="pd-shell">
-    <div class="flex items-end justify-between gap-4 mb-7">
-      <h2 class="pd-h2">More work</h2>
-      <a href="<?= url('projects') ?>" class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-300 hover:text-white transition-colors shrink-0">
-        <span>All projects</span>
-        <i class="fas fa-arrow-right text-[10px] text-eco-400"></i>
-      </a>
+<section class="s-sec">
+  <div class="s-shell">
+    <div class="flex items-baseline justify-between gap-4 mb-8">
+      <h2 class="s-h2">More work</h2>
+      <a href="<?= url('projects') ?>" class="s-link s-small">All projects</a>
     </div>
 
     <div class="pd-related">
@@ -322,22 +161,18 @@ $catIcons = [
         $rUrl      = url('projects/view?slug=' . urlencode($r['slug']));
         $rFallback = uploadUrl(!empty($r['thumbnail']) ? $r['thumbnail'] : 'project_startup_landing.png');
       ?>
-      <a href="<?= $rUrl ?>" class="pd-rel-card">
-        <div class="pd-rel-thumb">
+      <a href="<?= $rUrl ?>" class="pd-rel" data-reveal>
+        <div class="s-media s-media--16x10">
           <?php if (!empty($r['live_url'])): ?>
           <img src="//image.thum.io/get/width/600/crop/375/noanimate/<?= Security::e(rtrim($r['live_url'], '/')) ?>"
-               alt="<?= Security::e($r['title']) ?>" loading="lazy"
+               alt="<?= Security::e($r['title']) ?>" width="600" height="375" loading="lazy"
                onerror="this.onerror=null; this.src='<?= Security::e($rFallback) ?>'">
           <?php else: ?>
-          <img src="<?= Security::e($rFallback) ?>" alt="<?= Security::e($r['title']) ?>" loading="lazy">
+          <img src="<?= Security::e($rFallback) ?>" alt="<?= Security::e($r['title']) ?>" width="600" height="375" loading="lazy">
           <?php endif; ?>
         </div>
-        <div class="p-4">
-          <h3 class="pd-rel-title"><?= Security::e($r['title']) ?></h3>
-          <p class="text-slate-400 text-xs leading-relaxed">
-            <?= Security::e(truncate((string)($r['description'] ?? ''), 72)) ?>
-          </p>
-        </div>
+        <h3 class="s-h3 mt-4"><?= Security::e($r['title']) ?></h3>
+        <p class="s-mute s-small mt-2"><?= Security::e(truncate((string)($r['description'] ?? ''), 72)) ?></p>
       </a>
       <?php endforeach; ?>
     </div>
@@ -345,16 +180,33 @@ $catIcons = [
 </section>
 <?php endif; ?>
 
+<!-- ── CTA ──────────────────────────────────────────────────── -->
+<section class="s-band s-sec">
+  <div class="s-shell">
+    <div class="s-grid">
+      <div style="grid-column:span 7">
+        <h2 class="s-h1">Want something like this?</h2>
+      </div>
+      <div style="grid-column:span 5" class="flex flex-col justify-end">
+        <p class="s-lede">Send a short brief. We reply with scope, timeline and a fixed quote.</p>
+        <div class="s-actions mt-6">
+          <a href="<?= url('contact') ?>" class="s-btn--light">Start a conversation</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 </div><!-- /#projectDetail -->
 
 <!-- ── Lightbox ─────────────────────────────────────────────── -->
 <?php if ($images): ?>
-<div id="pdLightbox" hidden role="dialog" aria-modal="true" aria-label="Project image viewer">
-  <button type="button" id="pdLightboxClose" aria-label="Close image viewer">
-    <i class="fas fa-times"></i>
-  </button>
+<div id="pdLightbox" class="s-lightbox" hidden role="dialog" aria-modal="true" aria-label="Project image viewer">
+  <div class="s-lightbox-bar">
+    <span id="pdLightboxCount"></span>
+    <button type="button" id="pdLightboxClose" aria-label="Close image viewer">Close</button>
+  </div>
   <img id="pdLightboxImg" src="" alt="">
-  <div id="pdLightboxCount"></div>
 </div>
 
 <script>
@@ -383,11 +235,13 @@ $catIcons = [
     lastFocused = document.activeElement;
     render(index);
     box.hidden = false;
+    box.classList.add('is-open');
     document.body.style.overflow = 'hidden';
     closeBtn.focus();
   }
 
   function close() {
+    box.classList.remove('is-open');
     box.hidden = true;
     img.src = '';
     document.body.style.overflow = '';

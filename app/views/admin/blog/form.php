@@ -1,13 +1,12 @@
 <!-- ── ADMIN BLOG POST FORM ────────────────────────────────── -->
-<div class="pt-6 max-w-4xl">
+<div>
 
   <!-- Header -->
-  <div class="flex items-center space-x-3 mb-6">
-    <a href="<?= url('admin/blog') ?>" class="text-gray-400 hover:text-white text-sm transition">
-      <i class="fas fa-arrow-left mr-1"></i>Back to Posts
+  <div class="mb-5">
+    <a href="<?= url('admin/blog') ?>" class="s-link text-sm">
+      <i class="fas fa-arrow-left text-xs" aria-hidden="true"></i> Back to posts
     </a>
-    <span class="text-gray-700">/</span>
-    <h2 class="font-display font-semibold text-white text-xl">
+    <h2 class="s-h3 mt-2 mb-0">
       <?= $post ? 'Edit Post' : 'New Blog Post' ?>
     </h2>
   </div>
@@ -19,8 +18,8 @@
       selector: '#body',
       plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
       toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-      skin: 'oxide-dark',
-      content_css: 'dark',
+      skin: 'oxide',
+      content_css: 'default',
       height: 420,
       promotion: false,
       branding: false,
@@ -31,113 +30,108 @@
   </script>
 
   <form action="<?= url($post ? 'admin/blog/update' : 'admin/blog/store') ?>"
-        method="POST" enctype="multipart/form-data"
-        class="space-y-6">
+        method="POST" enctype="multipart/form-data">
     <?= Security::csrfField() ?>
     <?php if ($post): ?>
     <input type="hidden" name="id" value="<?= $post['id'] ?>">
     <?php endif; ?>
 
-    <!-- Title + Publish Status Row -->
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
-      <div class="md:col-span-2 bg-gray-900 border border-gray-800 rounded-xl p-5">
-        <label class="form-label">Post Title *</label>
-        <input type="text" name="title" id="post-title" required
-               value="<?= Security::e($post['title'] ?? '') ?>"
-               class="form-input text-lg" placeholder="Write a compelling title…">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-5">
+
+      <!-- ── Main fields ─────────────────────────────────────── -->
+      <div class="lg:col-span-8 a-card a-card-pad">
+        <div class="a-form-grid">
+          <div class="s-field a-span-2">
+            <label for="post-title" class="s-label">Post title <span class="s-req">*</span></label>
+            <input type="text" name="title" id="post-title" required
+                   value="<?= Security::e($post['title'] ?? '') ?>"
+                   class="s-input" placeholder="Write a compelling title…">
+          </div>
+
+          <div class="s-field a-span-2">
+            <label for="excerpt" class="s-label">Excerpt <span class="s-mute">(short summary shown on blog listing)</span></label>
+            <textarea id="excerpt" name="excerpt" rows="2" class="s-textarea"
+                      placeholder="Brief one-or-two sentence summary of this post…"><?= Security::e($post['excerpt'] ?? '') ?></textarea>
+          </div>
+
+          <div class="s-field a-span-2">
+            <label for="body" class="s-label">Content <span class="s-req">*</span></label>
+            <textarea name="body" id="body" required
+                      class="s-textarea" style="min-height:300px"><?= htmlspecialchars($post['body'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
+          </div>
+        </div>
+
+        <p class="s-eyebrow mb-4">SEO settings</p>
+        <div class="a-form-grid">
+          <div class="s-field a-span-2">
+            <label for="meta_title" class="s-label">Meta title <span class="s-mute">(leave blank to use post title)</span></label>
+            <input type="text" id="meta_title" name="meta_title" value="<?= Security::e($post['meta_title'] ?? '') ?>"
+                   class="s-input" placeholder="Custom SEO Title">
+          </div>
+
+          <div class="s-field a-span-2">
+            <label for="meta_description" class="s-label">Meta description</label>
+            <textarea id="meta_description" name="meta_description" rows="2" class="s-textarea"
+                      placeholder="Meta description for search engines…"><?= Security::e($post['meta_description'] ?? '') ?></textarea>
+          </div>
+
+          <div class="s-field a-span-2">
+            <label for="meta_keywords" class="s-label">Meta keywords</label>
+            <input type="text" id="meta_keywords" name="meta_keywords" value="<?= Security::e($post['meta_keywords'] ?? '') ?>"
+                   class="s-input" placeholder="keyword1, keyword2, keyword3">
+          </div>
+        </div>
+
+        <div class="a-form-actions">
+          <button type="submit" class="s-btn s-btn--sm">
+            <i class="fas fa-save text-xs" aria-hidden="true"></i>
+            <?= $post ? 'Update Post' : 'Publish Post' ?>
+          </button>
+          <a href="<?= url('admin/blog') ?>" class="s-btn--line s-btn--sm">Cancel</a>
+        </div>
       </div>
 
-      <div class="bg-gray-900 border border-gray-800 rounded-xl p-5 space-y-4">
-        <div>
-          <label class="form-label">Publish Status</label>
-          <label class="flex items-center gap-3 cursor-pointer mt-2">
-            <div class="relative">
-              <input type="checkbox" name="is_published" id="is_published" class="sr-only peer"
-                     <?= ($post['is_published'] ?? 0) ? 'checked' : '' ?>>
-              <div class="w-10 h-6 bg-gray-700 peer-checked:bg-eco-500 rounded-full transition-colors duration-200"></div>
-              <div class="absolute top-1 left-1 w-4 h-4 bg-white rounded-full transition-transform duration-200 peer-checked:translate-x-4"></div>
+      <!-- ── Side column ─────────────────────────────────────── -->
+      <div class="lg:col-span-4 space-y-5">
+        <div class="a-card">
+          <div class="a-card-head"><h2>Publish settings</h2></div>
+          <div class="a-card-pad">
+            <div class="s-field">
+              <span class="s-label">Publish status</span>
+              <label class="s-check" for="is_published">
+                <input type="checkbox" name="is_published" id="is_published"
+                       <?= ($post['is_published'] ?? 0) ? 'checked' : '' ?>>
+                <span class="font-medium" id="publish-label">
+                  <?= ($post['is_published'] ?? 0) ? 'Published' : 'Draft' ?>
+                </span>
+              </label>
             </div>
-            <span class="text-gray-300 text-sm font-medium" id="publish-label">
-              <?= ($post['is_published'] ?? 0) ? 'Published' : 'Draft' ?>
-            </span>
-          </label>
+
+            <div id="published-at-wrapper" class="s-field" style="margin-bottom:0">
+              <label for="published_at" class="s-label">Publish date</label>
+              <input type="datetime-local" id="published_at" name="published_at" class="s-input"
+                     value="<?= !empty($post['published_at']) ? date('Y-m-d\TH:i', strtotime($post['published_at'])) : date('Y-m-d\TH:i') ?>">
+            </div>
+          </div>
         </div>
 
-        <div id="published-at-wrapper">
-          <label class="form-label">Publish Date</label>
-          <input type="datetime-local" name="published_at" class="form-input text-sm"
-                 value="<?= $post['published_at'] ? date('Y-m-d\TH:i', strtotime($post['published_at'])) : date('Y-m-d\TH:i') ?>">
+        <div class="a-card">
+          <div class="a-card-head"><h2>Featured image</h2></div>
+          <div class="a-card-pad">
+            <?php if (!empty($post['thumbnail'])): ?>
+            <div class="mb-4">
+              <img src="<?= uploadUrl($post['thumbnail']) ?>"
+                   class="a-preview" style="margin-top:0" alt="Current thumbnail">
+              <p class="s-help">Current thumbnail — upload a new one to replace it</p>
+            </div>
+            <?php endif; ?>
+
+            <label for="thumbnail" class="s-label">Upload image</label>
+            <input id="thumbnail" type="file" name="thumbnail" accept="image/*" class="text-sm block w-full" onchange="previewThumb(this)"><img id="thumbPreview" src="" alt="" class="a-preview hidden">
+            <p class="s-help">JPEG · PNG · WebP — max 5 MB</p>
+          </div>
         </div>
       </div>
-    </div>
-
-    <!-- Excerpt -->
-    <div class="bg-gray-900 border border-gray-800 rounded-xl p-5">
-      <label class="form-label">Excerpt <span class="text-gray-500 font-normal">(short summary shown on blog listing)</span></label>
-      <textarea name="excerpt" rows="2" class="form-input resize-none"
-                placeholder="Brief one-or-two sentence summary of this post…"><?= Security::e($post['excerpt'] ?? '') ?></textarea>
-    </div>
-
-    <!-- Body (Rich Text Editor) -->
-    <div class="bg-gray-900 border border-gray-800 rounded-xl p-5">
-      <label class="form-label mb-3 block">Content *</label>
-      <textarea name="body" id="body" required
-                class="w-full bg-gray-800 border border-gray-700 rounded-lg text-gray-200 text-sm p-3 min-h-[300px]"><?= htmlspecialchars($post['body'] ?? '', ENT_QUOTES, 'UTF-8') ?></textarea>
-    </div>
-
-    <!-- Thumbnail -->
-    <div class="bg-gray-900 border border-gray-800 rounded-xl p-5">
-      <label class="form-label">Featured Image</label>
-
-      <?php if (!empty($post['thumbnail'])): ?>
-      <div class="mb-4 flex items-center gap-3">
-        <img src="<?= uploadUrl($post['thumbnail']) ?>"
-             class="w-24 h-16 object-cover rounded-lg border border-gray-700" alt="Current thumbnail">
-        <span class="text-gray-500 text-xs">Current thumbnail — upload a new one to replace it</span>
-      </div>
-      <?php endif; ?>
-
-      <!-- Drop zone -->
-      <label for="thumbnail"
-             class="flex flex-col items-center justify-center w-full h-36 border-2 border-dashed border-gray-700 hover:border-eco-500/60 rounded-xl cursor-pointer transition-colors duration-200 group bg-gray-800/40 hover:bg-eco-500/5">
-        <i class="fas fa-cloud-upload-alt text-3xl text-gray-600 group-hover:text-eco-400 mb-2 transition-colors"></i>
-        <span class="text-gray-400 text-sm group-hover:text-gray-300 transition-colors">Click or drag image here</span>
-        <span class="text-gray-600 text-xs mt-1">JPEG · PNG · WebP — max 5 MB</span>
-        <input id="thumbnail" type="file" name="thumbnail" accept="image/*" class="hidden" onchange="previewThumb(this)">
-      </label>
-      <img id="thumbPreview" src="" alt="" class="hidden mt-3 h-32 object-cover rounded-lg border border-gray-700">
-    </div>
-
-    <!-- SEO Settings -->
-    <div class="bg-gray-900 border border-gray-800 rounded-xl p-5 space-y-5">
-      <h3 class="text-white font-semibold mb-2">SEO Settings</h3>
-      
-      <div>
-        <label class="form-label">Meta Title <span class="text-gray-500 font-normal">(Leave blank to use post title)</span></label>
-        <input type="text" name="meta_title" value="<?= Security::e($post['meta_title'] ?? '') ?>"
-               class="form-input text-sm" placeholder="Custom SEO Title">
-      </div>
-
-      <div>
-        <label class="form-label">Meta Description</label>
-        <textarea name="meta_description" rows="2" class="form-input resize-none text-sm"
-                  placeholder="Meta description for search engines…"><?= Security::e($post['meta_description'] ?? '') ?></textarea>
-      </div>
-
-      <div>
-        <label class="form-label">Meta Keywords</label>
-        <input type="text" name="meta_keywords" value="<?= Security::e($post['meta_keywords'] ?? '') ?>"
-               class="form-input text-sm" placeholder="keyword1, keyword2, keyword3">
-      </div>
-    </div>
-
-    <!-- Actions -->
-    <div class="flex items-center gap-3 pb-8">
-      <button type="submit" class="btn-primary inline-flex items-center gap-2">
-        <i class="fas fa-save"></i>
-        <?= $post ? 'Update Post' : 'Publish Post' ?>
-      </button>
-      <a href="<?= url('admin/blog') ?>" class="btn-outline">Cancel</a>
     </div>
   </form>
 </div>

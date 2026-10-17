@@ -24,7 +24,7 @@ require __DIR__ . '/_style.php';
 ?>
 
 <div class="doc">
-  <div class="doc-shell pt-[104px] md:pt-[124px] lg:pt-[140px] pb-12 lg:pb-16">
+  <div class="doc-shell pt-12 lg:pt-20 pb-12 lg:pb-16">
     <p class="doc-spec mb-5"><?= Security::e($company) ?> — legal</p>
     <h1 class="doc-display text-[2.4rem] sm:text-[3.2rem] lg:text-[3.8rem] max-w-[20ch] mb-6">Privacy Policy</h1>
     <p class="text-[1.0625rem] max-w-[68ch]" style="color:var(--ink-2)">
@@ -291,7 +291,7 @@ require __DIR__ . '/_style.php';
               </tbody>
             </table>
             <p style="margin-top:1.4rem">
-              <a href="<?= url('terms') ?>" class="doc-cta">Read the Terms of Service <span style="font-family:'IBM Plex Mono',monospace;font-size:.75rem;opacity:.75">&rarr;</span></a>
+              <a href="<?= url('terms') ?>" class="doc-cta">Read the Terms of Service <span class="doc-cta-mark" aria-hidden="true">&rarr;</span></a>
             </p>
           </section>
 
@@ -316,7 +316,7 @@ require __DIR__ . '/_style.php';
         a.classList.toggle('is-current', a.getAttribute('href') === '#' + entry.target.id);
       });
     });
-  }, { rootMargin: '-130px 0px -65% 0px' });
+  }, { rootMargin: '-120px 0px -65% 0px' });
 
   sections.forEach(function (s) { io.observe(s); });
 })();

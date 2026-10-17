@@ -3,38 +3,35 @@
 $statusList = applicationStatuses();
 ?>
 
-<div class="pt-6">
+<div>
 
-  <!-- Status filter chips -->
-  <div class="flex items-center gap-2 overflow-x-auto pb-4 mb-5">
-    <a href="<?= url('admin/applications') ?>"
-       class="shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium border transition
-              <?= $filters['status'] === '' ? 'bg-eco-500/20 text-eco-400 border-eco-500/30' : 'bg-gray-900 text-gray-400 border-gray-800 hover:text-white' ?>">
-      All <span class="opacity-60">(<?= (int) $statusCounts['all'] ?>)</span>
-    </a>
-    <?php foreach ($statusList as $key => $label): ?>
-      <a href="<?= url('admin/applications?status=' . urlencode($key)) ?>"
-         class="shrink-0 px-3 py-1.5 rounded-lg text-xs font-medium border transition
-                <?= $filters['status'] === $key ? 'bg-eco-500/20 text-eco-400 border-eco-500/30' : 'bg-gray-900 text-gray-400 border-gray-800 hover:text-white' ?>">
-        <?= Security::e($label) ?>
-        <span class="opacity-60">(<?= (int) ($statusCounts[$key] ?? 0) ?>)</span>
+  <!-- Status filter -->
+  <div class="overflow-x-auto mb-5">
+    <nav class="s-filter" aria-label="Filter by status">
+      <a href="<?= url('admin/applications') ?>" <?= $filters['status'] === '' ? 'aria-current="page"' : '' ?>>
+        All <span class="s-num">(<?= (int) $statusCounts['all'] ?>)</span>
       </a>
-    <?php endforeach; ?>
+      <?php foreach ($statusList as $key => $label): ?>
+        <a href="<?= url('admin/applications?status=' . urlencode($key)) ?>" <?= $filters['status'] === $key ? 'aria-current="page"' : '' ?>>
+          <?= Security::e($label) ?>
+          <span class="s-num">(<?= (int) ($statusCounts[$key] ?? 0) ?>)</span>
+        </a>
+      <?php endforeach; ?>
+    </nav>
   </div>
 
   <!-- Filters -->
-  <form method="GET" action="<?= url('admin/applications') ?>"
-        class="bg-gray-900 border border-gray-800 rounded-xl p-5 mb-6">
-    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-4">
-      <div class="lg:col-span-2">
-        <label for="q" class="form-label">Search</label>
+  <form method="GET" action="<?= url('admin/applications') ?>" class="a-card a-card-pad mb-6">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-x-4">
+      <div class="s-field lg:col-span-2">
+        <label for="q" class="s-label">Search</label>
         <input type="search" id="q" name="q" value="<?= Security::e($filters['q']) ?>"
-               class="form-input" placeholder="Name, email, reference or college">
+               class="s-input" placeholder="Name, email, reference or college">
       </div>
 
-      <div>
-        <label for="track" class="form-label">Track</label>
-        <select id="track" name="track" class="form-input">
+      <div class="s-field">
+        <label for="track" class="s-label">Track</label>
+        <select id="track" name="track" class="s-select">
           <option value="">All tracks</option>
           <?php foreach ($tracks as $t): ?>
             <option value="<?= (int) $t['id'] ?>" <?= $filters['track'] === (int) $t['id'] ? 'selected' : '' ?>>
@@ -44,14 +41,14 @@ $statusList = applicationStatuses();
         </select>
       </div>
 
-      <div>
-        <label for="from" class="form-label">From</label>
-        <input type="date" id="from" name="from" value="<?= Security::e($filters['from']) ?>" class="form-input">
+      <div class="s-field">
+        <label for="from" class="s-label">From</label>
+        <input type="date" id="from" name="from" value="<?= Security::e($filters['from']) ?>" class="s-input">
       </div>
 
-      <div>
-        <label for="to" class="form-label">To</label>
-        <input type="date" id="to" name="to" value="<?= Security::e($filters['to']) ?>" class="form-input">
+      <div class="s-field">
+        <label for="to" class="s-label">To</label>
+        <input type="date" id="to" name="to" value="<?= Security::e($filters['to']) ?>" class="s-input">
       </div>
     </div>
 
@@ -59,121 +56,115 @@ $statusList = applicationStatuses();
       <input type="hidden" name="status" value="<?= Security::e($filters['status']) ?>">
     <?php endif; ?>
 
-    <div class="flex flex-wrap items-center gap-3 mt-4 pt-4 border-t border-gray-800">
-      <button type="submit" class="btn-primary text-sm py-2">
-        <i class="fas fa-filter mr-2"></i>Apply Filters
-      </button>
-      <a href="<?= url('admin/applications') ?>" class="btn-outline text-sm py-2">Reset</a>
+    <div class="a-form-actions items-center">
+      <button type="submit" class="s-btn s-btn--sm">Apply filters</button>
+      <a href="<?= url('admin/applications') ?>" class="s-btn--line s-btn--sm">Reset</a>
 
-      <a href="<?= Security::e(queryUrl('admin/applications/export')) ?>"
-         class="ml-auto text-eco-400 hover:text-eco-300 text-xs font-semibold">
-        <i class="fas fa-file-csv mr-1.5"></i>Export this view to CSV
+      <a href="<?= Security::e(queryUrl('admin/applications/export')) ?>" class="s-link ml-auto text-sm">
+        <i class="fas fa-file-csv mr-1"></i>Export this view to CSV
       </a>
     </div>
   </form>
 
-  <!-- Result summary -->
-  <div class="flex flex-wrap items-center justify-between gap-3 mb-4">
-    <h2 class="font-display font-semibold text-white text-xl">Applications</h2>
-    <p class="text-gray-500 text-xs">
-      <?php if ($page['total'] > 0): ?>
-        Showing <?= (int) $page['from'] ?>–<?= (int) $page['to'] ?> of <?= (int) $page['total'] ?>
-      <?php else: ?>
-        No matching applications
-      <?php endif; ?>
-    </p>
-  </div>
-
   <!-- Table -->
-  <div class="bg-gray-900 border border-gray-800 rounded-xl overflow-x-auto">
-    <table class="w-full text-sm">
-      <thead>
-        <tr class="border-b border-gray-800">
-          <th class="text-left text-gray-400 font-medium px-5 py-3">Reference</th>
-          <th class="text-left text-gray-400 font-medium px-5 py-3">Candidate</th>
-          <th class="text-left text-gray-400 font-medium px-5 py-3">Track</th>
-          <th class="text-left text-gray-400 font-medium px-5 py-3">Status</th>
-          <th class="text-left text-gray-400 font-medium px-5 py-3">Applied</th>
-          <th class="text-right text-gray-400 font-medium px-5 py-3">Actions</th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-800">
-        <?php if ($applications): foreach ($applications as $a): ?>
-          <tr class="hover:bg-gray-800/50 transition">
-            <td class="px-5 py-3.5">
-              <a href="<?= url('admin/applications/view?id=' . (int) $a['id']) ?>"
-                 class="text-eco-400 hover:text-eco-300 font-mono text-xs font-semibold">
-                <?= Security::e($a['ref_no']) ?>
-              </a>
-            </td>
-
-            <td class="px-5 py-3.5">
-              <div class="text-white font-medium"><?= Security::e($a['intern_name']) ?></div>
-              <div class="text-gray-500 text-xs"><?= Security::e($a['intern_email']) ?></div>
-              <?php if (!empty($a['intern_college'])): ?>
-                <div class="text-gray-600 text-[11px] mt-0.5"><?= Security::e($a['intern_college']) ?></div>
-              <?php endif; ?>
-            </td>
-
-            <td class="px-5 py-3.5">
-              <span class="inline-flex items-center gap-2 text-gray-300 text-xs">
-                <i class="fas <?= Security::e($a['track_icon'] ?: 'fa-code') ?> text-eco-400"></i>
-                <?= Security::e($a['track_title']) ?>
-              </span>
-            </td>
-
-            <td class="px-5 py-3.5"><?= statusBadge((string) $a['status']) ?></td>
-
-            <td class="px-5 py-3.5 text-gray-400 text-xs whitespace-nowrap">
-              <?= formatDate((string) $a['created_at'], 'd M Y') ?>
-              <div class="text-gray-600"><?= formatDate((string) $a['created_at'], 'g:i a') ?></div>
-            </td>
-
-            <td class="px-5 py-3.5 text-right whitespace-nowrap">
-              <a href="<?= url('admin/applications/view?id=' . (int) $a['id']) ?>"
-                 class="text-blue-400 hover:text-blue-300 text-xs transition">
-                <i class="fas fa-eye mr-1"></i>Review
-              </a>
-              <a href="<?= url('admin/applications/resume?id=' . (int) $a['id']) ?>"
-                 class="text-gray-400 hover:text-white text-xs transition ml-3">
-                <i class="fas fa-file-arrow-down mr-1"></i>Resume
-              </a>
-              <?php if ($a['status'] === 'approved'): ?>
-                <a href="<?= url('admin/applications/offer?id=' . (int) $a['id']) ?>"
-                   class="text-eco-400 hover:text-eco-300 text-xs transition ml-3">
-                  <i class="fas fa-file-contract mr-1"></i>Offer
-                </a>
-              <?php endif; ?>
-            </td>
-          </tr>
-        <?php endforeach; else: ?>
-          <tr>
-            <td colspan="6" class="text-center py-12 text-gray-500">
-              <i class="fas fa-inbox text-3xl mb-3 block text-gray-600"></i>
-              <?php if ($statusCounts['all'] === 0): ?>
-                No applications have been submitted yet.
-              <?php else: ?>
-                No applications match these filters.
-                <a href="<?= url('admin/applications') ?>" class="text-eco-400 hover:underline">Clear filters</a>
-              <?php endif; ?>
-            </td>
-          </tr>
+  <div class="a-card">
+    <div class="a-card-head">
+      <h2>Applications</h2>
+      <span class="s-num">
+        <?php if ($page['total'] > 0): ?>
+          Showing <?= (int) $page['from'] ?>–<?= (int) $page['to'] ?> of <?= (int) $page['total'] ?>
+        <?php else: ?>
+          No matching applications
         <?php endif; ?>
-      </tbody>
-    </table>
+      </span>
+    </div>
+
+    <div class="a-table-wrap">
+      <table class="a-table">
+        <thead>
+          <tr>
+            <th>Reference</th>
+            <th>Candidate</th>
+            <th>Track</th>
+            <th>Status</th>
+            <th>Applied</th>
+            <th class="a-right">Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <?php if ($applications): foreach ($applications as $a): ?>
+            <tr>
+              <td>
+                <a href="<?= url('admin/applications/view?id=' . (int) $a['id']) ?>" class="s-link s-num">
+                  <?= Security::e($a['ref_no']) ?>
+                </a>
+              </td>
+
+              <td>
+                <div><?= Security::e($a['intern_name']) ?></div>
+                <div class="s-mute text-xs"><?= Security::e($a['intern_email']) ?></div>
+                <?php if (!empty($a['intern_college'])): ?>
+                  <div class="s-mute text-xs mt-0.5"><?= Security::e($a['intern_college']) ?></div>
+                <?php endif; ?>
+              </td>
+
+              <td>
+                <span class="inline-flex items-center gap-2 text-sm">
+                  <i class="fas <?= Security::e($a['track_icon'] ?: 'fa-code') ?> s-mute text-xs"></i>
+                  <?= Security::e($a['track_title']) ?>
+                </span>
+              </td>
+
+              <td><?= statusBadge((string) $a['status']) ?></td>
+
+              <td class="s-num whitespace-nowrap">
+                <?= formatDate((string) $a['created_at'], 'd M Y') ?>
+                <div><?= formatDate((string) $a['created_at'], 'g:i a') ?></div>
+              </td>
+
+              <td class="a-right">
+                <div class="a-row-actions">
+                  <a href="<?= url('admin/applications/view?id=' . (int) $a['id']) ?>" class="a-icon-btn" title="Review" aria-label="Review">
+                    <i class="fas fa-eye"></i>
+                  </a>
+                  <a href="<?= url('admin/applications/resume?id=' . (int) $a['id']) ?>" class="a-icon-btn" title="Download resume" aria-label="Download resume">
+                    <i class="fas fa-file-arrow-down"></i>
+                  </a>
+                  <?php if ($a['status'] === 'approved'): ?>
+                    <a href="<?= url('admin/applications/offer?id=' . (int) $a['id']) ?>" class="a-icon-btn" title="Offer letter" aria-label="Offer letter">
+                      <i class="fas fa-file-contract"></i>
+                    </a>
+                  <?php endif; ?>
+                </div>
+              </td>
+            </tr>
+          <?php endforeach; else: ?>
+            <tr>
+              <td colspan="6" class="a-empty">
+                <?php if ($statusCounts['all'] === 0): ?>
+                  No applications have been submitted yet.
+                <?php else: ?>
+                  No applications match these filters.
+                  <a href="<?= url('admin/applications') ?>" class="s-link">Clear filters</a>
+                <?php endif; ?>
+              </td>
+            </tr>
+          <?php endif; ?>
+        </tbody>
+      </table>
+    </div>
   </div>
 
   <!-- Pagination -->
   <?php if ($page['pages'] > 1): ?>
-    <nav class="flex items-center justify-between gap-4 mt-5" aria-label="Pagination">
-      <p class="text-gray-500 text-xs">
+    <nav class="flex flex-wrap items-center justify-between gap-4 mt-5" aria-label="Pagination">
+      <p class="s-num">
         Page <?= (int) $page['page'] ?> of <?= (int) $page['pages'] ?>
       </p>
 
-      <div class="flex items-center gap-1.5">
+      <div class="a-pager">
         <?php if ($page['page'] > 1): ?>
-          <a href="<?= Security::e(queryUrl('admin/applications', ['page' => $page['page'] - 1])) ?>"
-             class="px-3 py-1.5 rounded-lg bg-gray-900 border border-gray-800 text-gray-400 hover:text-white text-xs transition">
+          <a href="<?= Security::e(queryUrl('admin/applications', ['page' => $page['page'] - 1])) ?>" aria-label="Previous page">
             <i class="fas fa-chevron-left"></i>
           </a>
         <?php endif; ?>
@@ -186,17 +177,13 @@ $statusList = applicationStatuses();
         for ($p = $start; $p <= $end; $p++):
         ?>
           <a href="<?= Security::e(queryUrl('admin/applications', ['page' => $p])) ?>"
-             class="px-3 py-1.5 rounded-lg text-xs font-medium border transition
-                    <?= $p === $page['page']
-                        ? 'bg-eco-500/20 text-eco-400 border-eco-500/30'
-                        : 'bg-gray-900 text-gray-400 border-gray-800 hover:text-white' ?>">
+             class="<?= $p === $page['page'] ? 'is-current' : '' ?>"<?= $p === $page['page'] ? ' aria-current="page"' : '' ?>>
             <?= $p ?>
           </a>
         <?php endfor; ?>
 
         <?php if ($page['page'] < $page['pages']): ?>
-          <a href="<?= Security::e(queryUrl('admin/applications', ['page' => $page['page'] + 1])) ?>"
-             class="px-3 py-1.5 rounded-lg bg-gray-900 border border-gray-800 text-gray-400 hover:text-white text-xs transition">
+          <a href="<?= Security::e(queryUrl('admin/applications', ['page' => $page['page'] + 1])) ?>" aria-label="Next page">
             <i class="fas fa-chevron-right"></i>
           </a>
         <?php endif; ?>
