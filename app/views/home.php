@@ -163,13 +163,21 @@ $asset = static function (string $path): string {
     </div>
 
     <div style="margin-top:1rem">
-      <?php foreach ($cards as $i => $p): ?>
+      <?php foreach ($cards as $i => $p):
+        // Same image rule as the projects page: live screenshot first, uploaded thumbnail as fallback.
+        $fallback = uploadUrl(!empty($p['thumbnail']) ? $p['thumbnail'] : 'project_startup_landing.png');
+        $alt      = ($p['title'] ?? 'Project') . ' — delivered interface';
+        $loading  = $i === 0 ? 'eager' : 'lazy';
+      ?>
       <a class="s-work" href="<?= url('projects/view?slug=' . urlencode($p['slug'] ?? '')) ?>" data-reveal>
         <div class="s-media s-media--16x10">
-          <?php if (!empty($p['thumbnail'])): ?>
-          <img src="<?= url('uploads/' . rawurlencode($p['thumbnail'])) ?>"
-               alt="<?= Security::e($p['title'] ?? 'Project') ?> — delivered interface"
-               width="1280" height="800" loading="<?= $i === 0 ? 'eager' : 'lazy' ?>" decoding="async">
+          <?php if (!empty($p['live_url'])): ?>
+          <img src="//image.thum.io/get/width/1280/crop/800/noanimate/<?= Security::e(rtrim($p['live_url'], '/')) ?>"
+               alt="<?= Security::e($alt) ?>" width="1280" height="800" loading="<?= $loading ?>" decoding="async"
+               onerror="this.onerror=null; this.src='<?= Security::e($fallback) ?>'">
+          <?php else: ?>
+          <img src="<?= Security::e($fallback) ?>"
+               alt="<?= Security::e($alt) ?>" width="1280" height="800" loading="<?= $loading ?>" decoding="async">
           <?php endif; ?>
         </div>
         <div>

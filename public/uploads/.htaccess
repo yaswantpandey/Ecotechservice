@@ -1,12 +1,7 @@
 # Uploaded images are served as static files only.
-# Never hand anything here to an interpreter, even if a script slips in.
-<IfModule mod_php.c>
-    php_flag engine off
-</IfModule>
-RemoveHandler .php .phtml .php3 .php4 .php5 .php7 .php8 .pht .phar
-AddType text/plain .php .phtml .php3 .php4 .php5 .php7 .php8 .pht .phar
-Options -ExecCGI -Indexes
-
+# Kept to directives shared hosts allow in .htaccess: `Options`, handler and
+# php_flag overrides return HTTP 500 on hosts such as InfinityFree.
+# Security::uploadImage() already forces image extensions; this is a backstop.
 <FilesMatch "\.(php|phtml|php\d|pht|phar|cgi|pl|py|sh)$">
     <IfModule mod_authz_core.c>
         Require all denied
