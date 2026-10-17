@@ -76,7 +76,6 @@ In XAMPP:
 ### Admin Credentials
 The seed data in `database/ecotech.sql` creates a default admin account.
 > **⚠️ Change its email and password immediately after first login via Admin → Settings.**
-> Also set `CSRF_SECRET` (a long random string) in `.env` — production will not start without it.
 
 ---
 

@@ -36,12 +36,8 @@ define('DB_CHARSET', 'utf8mb4');
 
 // ── Security ─────────────────────────────────────────────────
 // No hardcoded fallback: a secret committed to the repo is not a secret.
-// Production refuses to boot without one; dev gets a per-process random value.
-if (empty($env['CSRF_SECRET']) && APP_ENV !== 'development' && PHP_SAPI !== 'cli') {
-    error_log('CSRF_SECRET is not set in .env');
-    http_response_code(500);
-    exit('Server misconfigured.');
-}
+// CSRF tokens themselves are per-session random_bytes (Security.php); this
+// constant is reserved, so a missing value only gets a per-process random one.
 define('CSRF_SECRET', $env['CSRF_SECRET'] ?? bin2hex(random_bytes(32)));
 define('SESSION_NAME', 'ecotech_session');
 define('BCRYPT_COST',  12);
