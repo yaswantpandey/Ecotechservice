@@ -77,6 +77,7 @@ $routes = [
     'admin/testimonials/delete' => ['Admin\TestimonialsController','delete'],
     'admin/contacts'    => ['Admin\ContactsController','index'],
     'admin/contacts/view'   => ['Admin\ContactsController','show'],
+    'admin/contacts/reply'  => ['Admin\ContactsController','reply'],
     'admin/contacts/delete' => ['Admin\ContactsController','delete'],
     'admin/settings'    => ['Admin\SettingsController','index'],
     'admin/settings/update' => ['Admin\SettingsController','update'],

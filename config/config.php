@@ -11,6 +11,12 @@ $env = [];
 if (file_exists(ROOT_PATH . '/.env')) {
     $env = parse_ini_file(ROOT_PATH . '/.env') ?: [];
 }
+// Mail credentials live in their own file so the deploy can write them
+// without touching .env (which holds the database login). Raw scanning keeps
+// passwords containing #, !, = etc. intact; values may be wrapped in quotes.
+if (file_exists(ROOT_PATH . '/.env.mail')) {
+    $env = array_merge($env, parse_ini_file(ROOT_PATH . '/.env.mail', false, INI_SCANNER_RAW) ?: []);
+}
 
 // ── Environment ──────────────────────────────────────────────
 define('APP_ENV',  $env['APP_ENV'] ?? 'production'); // 'production' on live server
@@ -47,11 +53,13 @@ define('UPLOAD_PATH',  PUBLIC_PATH . '/uploads');
 define('UPLOAD_URL',   APP_URL . '/uploads');
 
 // ── Email (SMTP) ─────────────────────────────────────────────
-define('SMTP_HOST',     $env['SMTP_HOST'] ?? 'smtp.gmail.com');
-define('SMTP_PORT',     $env['SMTP_PORT'] ?? 587);
-define('SMTP_USER',     $env['SMTP_USER'] ?? 'your_email@gmail.com');
-define('SMTP_PASS',     $env['SMTP_PASS'] ?? 'your_app_password');
-define('SMTP_FROM',     $env['SMTP_FROM'] ?? 'contact@ecotech.com');
+// Defaults target the Hostinger mailbox. Hostinger only relays mail whose
+// From address is the authenticated mailbox, so SMTP_FROM follows SMTP_USER.
+define('SMTP_HOST',     $env['SMTP_HOST'] ?? 'smtp.hostinger.com');
+define('SMTP_PORT',     $env['SMTP_PORT'] ?? 465);
+define('SMTP_USER',     $env['SMTP_USER'] ?? '');
+define('SMTP_PASS',     $env['SMTP_PASS'] ?? '');
+define('SMTP_FROM',     $env['SMTP_FROM'] ?? SMTP_USER);
 define('SMTP_FROM_NAME', $env['SMTP_FROM_NAME'] ?? 'Ecotech Service');
 
 // Encryption: 'ssl' (implicit TLS, port 465) or 'tls' (STARTTLS, port 587).

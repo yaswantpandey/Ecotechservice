@@ -16,6 +16,9 @@ use PHPMailer\PHPMailer\Exception as MailerException;
 
 class Mailer {
 
+    /** Reason the most recent send() failed, for showing to admins. */
+    public static string $lastError = '';
+
     /**
      * Send an HTML email. Returns true only on a confirmed send.
      */
@@ -24,19 +27,31 @@ class Mailer {
         string $toName,
         string $subject,
         string $htmlBody,
-        ?string $replyTo = null
+        ?string $replyTo = null,
+        string $tagline = 'Internship Programme'
     ): bool {
+        self::$lastError = '';
+
         if (!MAIL_ENABLED) {
+            self::$lastError = 'Email is disabled (MAIL_ENABLED is false).';
+            return false;
+        }
+
+        if (SMTP_USER === '' || SMTP_PASS === '') {
+            self::$lastError = 'SMTP is not configured on this server (SMTP_USER / SMTP_PASS missing from .env.mail).';
+            error_log('Mailer: ' . self::$lastError);
             return false;
         }
 
         if (!Security::validEmail($toEmail)) {
+            self::$lastError = 'The recipient address is not valid.';
             error_log('Mailer: refusing to send to invalid address.');
             return false;
         }
 
         $autoload = ROOT_PATH . '/vendor/autoload.php';
         if (!file_exists($autoload)) {
+            self::$lastError = 'PHPMailer is not installed on the server (vendor/autoload.php missing).';
             error_log('Mailer: vendor/autoload.php missing, email skipped.');
             return false;
         }
@@ -66,15 +81,17 @@ class Mailer {
 
             $mail->isHTML(true);
             $mail->Subject = $subject;
-            $mail->Body    = self::wrap($subject, $htmlBody);
+            $mail->Body    = self::wrap($subject, $htmlBody, $tagline);
             $mail->AltBody = trim(html_entity_decode(strip_tags($htmlBody), ENT_QUOTES, 'UTF-8'));
 
             $mail->send();
             return true;
         } catch (MailerException $e) {
+            self::$lastError = $e->getMessage();
             error_log('Mailer error (' . $subject . '): ' . $e->getMessage());
             return false;
         } catch (Throwable $e) {
+            self::$lastError = $e->getMessage();
             error_log('Mailer unexpected error: ' . $e->getMessage());
             return false;
         }
@@ -192,12 +209,37 @@ class Mailer {
         );
     }
 
+    // ── Contact replies ──────────────────────────────────────────────────
+
+    /**
+     * Admin reply to a contact-form message. The reply is plain text typed in
+     * the admin panel; the original message is quoted underneath. Answers
+     * from the customer go back to the site mailbox (SMTP_FROM).
+     */
+    public static function contactReply(
+        string $toEmail,
+        string $toName,
+        string $subject,
+        string $replyText,
+        string $originalMessage,
+        string $originalDate
+    ): bool {
+        $body = '<p style="margin:0 0 16px;">Hello ' . Security::e($toName) . ',</p>'
+            . '<div style="margin:0 0 20px;">' . nl2br(Security::e($replyText)) . '</div>'
+            . '<p style="margin:0 0 6px;color:#9ca3af;font-size:12px;">On '
+            . Security::e($originalDate) . ' you wrote:</p>'
+            . '<blockquote style="margin:0;padding:10px 14px;border-left:2px solid #374151;'
+            . 'color:#9ca3af;font-size:13px;">' . nl2br(Security::e($originalMessage)) . '</blockquote>';
+
+        return self::send($toEmail, $toName, $subject, $body, SMTP_FROM, 'Customer Support');
+    }
+
     // ── Presentation ─────────────────────────────────────────────────────
 
     /**
      * Shared dark email shell matching the site palette.
      */
-    private static function wrap(string $heading, string $inner): string {
+    private static function wrap(string $heading, string $inner, string $tagline = 'Internship Programme'): string {
         $company = Security::e(COMPANY_LEGAL_NAME);
 
         return '<div style="background:#030712;padding:28px 16px;font-family:Inter,Arial,sans-serif;">'
@@ -205,7 +247,7 @@ class Mailer {
             . 'border-radius:14px;overflow:hidden;">'
             . '<div style="padding:22px 28px;border-bottom:1px solid rgba(255,255,255,0.08);">'
             . '<div style="font-size:17px;font-weight:700;color:#f9fafb;letter-spacing:0.2px;">' . $company . '</div>'
-            . '<div style="font-size:12px;color:#22c55e;margin-top:3px;">Internship Programme</div>'
+            . '<div style="font-size:12px;color:#22c55e;margin-top:3px;">' . Security::e($tagline) . '</div>'
             . '</div>'
             . '<div style="padding:28px;color:#d1d5db;font-size:14px;line-height:1.65;">'
             . '<h2 style="margin:0 0 18px;font-size:17px;color:#f9fafb;font-weight:600;">'

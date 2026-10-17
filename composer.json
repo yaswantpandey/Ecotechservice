@@ -5,8 +5,7 @@
   "license": "MIT",
   "require": {
     "php": ">=8.1",
-    "phpmailer/phpmailer": "^6.8",
-    "hostinger/mail-api-php-sdk": "^1.18"
+    "phpmailer/phpmailer": "^6.8"
   },
   "autoload": {
     "psr-4": {

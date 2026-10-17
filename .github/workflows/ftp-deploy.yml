@@ -12,7 +12,40 @@ jobs:
     steps:
       - name: 🚚 Get latest code
         uses: actions/checkout@v4
-      
+
+      # PHPMailer is a Composer dependency and vendor/ is not committed, so
+      # build it here; without it every site email is silently skipped.
+      - name: 🐘 Set up PHP
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: '8.1'
+          tools: composer:v2
+
+      - name: 📦 Install PHP dependencies (PHPMailer)
+        run: composer install --no-dev --no-interaction --prefer-dist --optimize-autoloader
+
+      # Mail credentials come from repository secrets SMTP_USER / SMTP_PASS
+      # and are written to .env.mail (never committed). Skipped when the
+      # secrets are not set, so a hand-made .env.mail on the server survives.
+      - name: ✉️ Write mail settings
+        env:
+          SMTP_USER: ${{ secrets.SMTP_USER }}
+          SMTP_PASS: ${{ secrets.SMTP_PASS }}
+        run: |
+          if [ -n "$SMTP_USER" ] && [ -n "$SMTP_PASS" ]; then
+            {
+              echo 'SMTP_HOST="smtp.hostinger.com"'
+              echo 'SMTP_PORT="465"'
+              echo 'SMTP_ENCRYPTION="ssl"'
+              printf 'SMTP_USER="%s"\n' "$SMTP_USER"
+              printf 'SMTP_PASS="%s"\n' "$SMTP_PASS"
+              printf 'SMTP_FROM="%s"\n' "$SMTP_USER"
+            } > .env.mail
+            echo "Wrote .env.mail for $SMTP_USER"
+          else
+            echo "SMTP_USER / SMTP_PASS secrets not set; leaving server mail settings unchanged."
+          fi
+
       - name: 📂 Sync files to InfinityFree via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
