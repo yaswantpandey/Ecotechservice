@@ -13,17 +13,29 @@ class InternshipsController extends BaseController {
      * Listing of every open track.
      */
     public function index(): void {
-        $stmt = $this->db->query(
-            "SELECT t.*,
-                    (SELECT COUNT(*) FROM applications a WHERE a.track_id = t.id) AS application_count
-             FROM internship_tracks t
-             WHERE t.is_active = 1
-             ORDER BY t.sort_order ASC, t.title ASC"
-        );
-        $tracks = $stmt->fetchAll();
+        // A schema problem (e.g. the internship migration not run on this
+        // database) is logged and shown as "no tracks open", not a 500.
+        try {
+            $stmt = $this->db->query(
+                "SELECT t.*,
+                        (SELECT COUNT(*) FROM applications a WHERE a.track_id = t.id) AS application_count
+                 FROM internship_tracks t
+                 WHERE t.is_active = 1
+                 ORDER BY t.sort_order ASC, t.title ASC"
+            );
+            $tracks = $stmt->fetchAll();
+        } catch (Throwable $e) {
+            $this->logDbFailure('index', $e);
+            $tracks = [];
+        }
 
         // Which tracks has this intern already applied to, so the cards can say so.
-        $applied = $this->appliedTrackIds();
+        try {
+            $applied = $this->appliedTrackIds();
+        } catch (Throwable $e) {
+            $this->logDbFailure('appliedTrackIds', $e);
+            $applied = [];
+        }
 
         $this->view('internships.index', [
             'pageTitle'       => '11 Internship Tracks — Apply Online | ' . APP_NAME,
@@ -218,11 +230,24 @@ class InternshipsController extends BaseController {
         if ($slug === '') {
             return false;
         }
-        $stmt = $this->db->prepare(
-            "SELECT * FROM internship_tracks WHERE slug = ? AND is_active = 1 LIMIT 1"
-        );
-        $stmt->execute([$slug]);
-        return $stmt->fetch();
+        try {
+            $stmt = $this->db->prepare(
+                "SELECT * FROM internship_tracks WHERE slug = ? AND is_active = 1 LIMIT 1"
+            );
+            $stmt->execute([$slug]);
+            return $stmt->fetch();
+        } catch (Throwable $e) {
+            $this->logDbFailure('findTrackBySlug', $e);
+            return false;
+        }
+    }
+
+    /**
+     * Record a database failure with enough detail to fix it (missing table,
+     * missing column, …) without exposing it to visitors.
+     */
+    private function logDbFailure(string $where, Throwable $e): void {
+        error_log(sprintf('[internships:%s] %s: %s', $where, get_class($e), $e->getMessage()));
     }
 
     /**
