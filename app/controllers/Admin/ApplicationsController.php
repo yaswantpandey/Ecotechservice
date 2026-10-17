@@ -307,7 +307,7 @@ class ApplicationsController extends \BaseController {
         fputcsv($out, [
             'Reference', 'Candidate', 'Email', 'Phone', 'College', 'Track', 'Status',
             'Portfolio', 'Applied On', 'Reviewed On', 'Start Date', 'Offer No.', 'Admin Notes',
-        ]);
+        ], ',', '"', '\\');
 
         while ($row = $stmt->fetch(\PDO::FETCH_ASSOC)) {
             fputcsv($out, [
@@ -324,7 +324,7 @@ class ApplicationsController extends \BaseController {
                 $row['start_date'],
                 $row['offer_letter_no'],
                 $row['admin_notes'],
-            ]);
+            ], ',', '"', '\\');
         }
 
         fclose($out);

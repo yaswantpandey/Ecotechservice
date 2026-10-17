@@ -36,5 +36,6 @@ jobs:
             .cortex/**
             .github/**
             README.md
-            *.sql
+            seo_pages.sql
+            global_seo_pages.sql
             reset_password.php

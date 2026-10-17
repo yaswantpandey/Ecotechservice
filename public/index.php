@@ -80,6 +80,8 @@ $routes = [
     'admin/contacts/delete' => ['Admin\ContactsController','delete'],
     'admin/settings'    => ['Admin\SettingsController','index'],
     'admin/settings/update' => ['Admin\SettingsController','update'],
+    'admin/database'        => ['Admin\DatabaseController','index'],
+    'admin/database/repair' => ['Admin\DatabaseController','repair'],
     // Admin Blog
     'admin/blog'            => ['Admin\BlogController','index'],
     'admin/blog/add'        => ['Admin\BlogController','add'],

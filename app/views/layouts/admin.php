@@ -67,6 +67,7 @@
       ['icon' => 'fa-envelope',       'label' => 'Contacts',     'path' => 'admin/contacts'],
       ['icon' => 'fa-pen-nib',        'label' => 'Blog',         'path' => 'admin/blog'],
       ['icon' => 'fa-sliders',        'label' => 'Settings',     'path' => 'admin/settings'],
+      ['icon' => 'fa-database',       'label' => 'Database check', 'path' => 'admin/database'],
   ];
   // Route relative to the app base, same approach as the public layout.
   $rawPath = trim(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '', '/');
