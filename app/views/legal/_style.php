@@ -13,7 +13,10 @@
 .doc-display {
   font-family: var(--f-display, 'Fraunces', Georgia, serif); font-weight: 500;
   line-height: 1.02; letter-spacing: -0.025em; color: var(--ink, #191A17);
+  font-size: 2.4rem;
 }
+@media (min-width: 640px)  { .doc-display { font-size: 3.2rem; } }
+@media (min-width: 1024px) { .doc-display { font-size: 3.8rem; } }
 .doc-spec {
   font-family: var(--f-mono, 'IBM Plex Mono', ui-monospace, monospace); font-size: .6875rem;
   letter-spacing: .08em; text-transform: uppercase; color: var(--ink-3, #6E7066);

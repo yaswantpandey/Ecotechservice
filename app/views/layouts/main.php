@@ -321,43 +321,28 @@
   <link rel="alternate icon" href="<?= url('assets/img/favicon.svg?v=2') ?>">
   <link rel="apple-touch-icon" href="<?= url('assets/img/favicon.svg?v=2') ?>">
 
-  <!-- Type: Fraunces (display) + IBM Plex Sans / Mono (body, figures) -->
+  <!-- Resource hints for external origins -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <link rel="dns-prefetch" href="https://cdnjs.cloudflare.com">
+  <link rel="dns-prefetch" href="https://www.googletagmanager.com">
+  <link rel="dns-prefetch" href="https://image.thum.io">
 
-  <!-- Tailwind (layout utilities only; preflight left on) -->
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          colors: {
-            paper:  { DEFAULT: '#EDEAE2', deep: '#E3DFD5', edge: '#D8D4C8' },
-            ink:    { DEFAULT: '#191A17', soft: '#43453E', mute: '#6E7066' },
-            rule:   { DEFAULT: '#C9C4B6' },
-            signal: { DEFAULT: '#2C5F42', deep: '#234C35' },
-            band:   { DEFAULT: '#1B1C19', 2: '#262823', fg: '#E7E3D8', mute: '#A3A091' },
-          },
-          fontFamily: {
-            sans:    ['"IBM Plex Sans"', 'system-ui', 'sans-serif'],
-            display: ['Fraunces', 'Georgia', 'serif'],
-            mono:    ['"IBM Plex Mono"', 'ui-monospace', 'monospace'],
-          },
-          borderRadius: { DEFAULT: '2px', sm: '1px', md: '2px', lg: '2px', xl: '2px', '2xl': '2px', '3xl': '2px', full: '9999px' },
-        }
-      }
-    }
-  </script>
+  <!-- Design system — loaded first, critical path -->
+  <?php $siteCssV = file_exists(PUBLIC_PATH . '/assets/css/site.css') ? filemtime(PUBLIC_PATH . '/assets/css/site.css') : APP_VERSION; ?>
+  <link rel="preload" href="<?= url('assets/css/site.css') ?>?v=<?= $siteCssV ?>" as="style">
+  <link rel="stylesheet" href="<?= url('assets/css/site.css') ?>?v=<?= $siteCssV ?>">
 
-  <!-- Font Awesome (used sparingly, solid glyphs only) -->
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- Type: Fraunces + IBM Plex Sans / Mono — non-blocking -->
+  <link rel="preload" href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;1,9..144,400;1,9..144,500&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet"></noscript>
 
-  <!-- Design system -->
-  <link rel="stylesheet" href="<?= url('assets/css/site.css') ?>?v=<?= file_exists(PUBLIC_PATH . '/assets/css/site.css') ? filemtime(PUBLIC_PATH . '/assets/css/site.css') : APP_VERSION ?>">
+  <!-- Font Awesome — non-blocking -->
+  <link rel="preload" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" as="style" onload="this.onload=null;this.rel='stylesheet'">
+  <noscript><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"></noscript>
   <script>document.documentElement.classList.add('s-js');</script>
 
-  <!-- Google tag (gtag.js) -->
+  <!-- Google tag (gtag.js) — async, non-blocking -->
   <script async src="https://www.googletagmanager.com/gtag/js?id=G-YDLMY8N3C4"></script>
   <script>
     window.dataLayer = window.dataLayer || [];
@@ -419,7 +404,7 @@
     <div class="s-shell s-nav-in">
       <a href="<?= url() ?>" class="s-logo" aria-label="Ecotech Service — home">
         <img src="<?= url('assets/img/logo.png') ?>?v=<?= file_exists(PUBLIC_PATH . '/assets/img/logo.png') ? filemtime(PUBLIC_PATH . '/assets/img/logo.png') : '3' ?>"
-             alt="Ecotech Service" width="160" height="44" loading="eager">
+             alt="Ecotech Service" width="160" height="44" loading="eager" fetchpriority="high">
       </a>
 
       <nav aria-label="Main">

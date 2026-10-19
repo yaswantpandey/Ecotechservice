@@ -29,8 +29,8 @@ require __DIR__ . '/_style.php';
 <div class="doc">
   <div class="doc-shell pt-12 lg:pt-20 pb-12 lg:pb-16">
     <p class="doc-spec mb-5"><?= Security::e($company) ?> — legal</p>
-    <h1 class="doc-display text-[2.4rem] sm:text-[3.2rem] lg:text-[3.8rem] max-w-[20ch] mb-6">Terms of Service</h1>
-    <p class="text-[1.0625rem] max-w-[68ch]" style="color:var(--ink-2)">
+    <h1 class="doc-display mb-6" style="max-width:20ch">Terms of Service</h1>
+    <p style="font-size:1.0625rem;max-width:68ch;color:var(--ink-2)">
       These terms govern engineering engagements with <?= Security::e($company) ?> and use of
       this website. They are written in plain language on purpose — if a clause here would
       surprise you in a dispute, it has been written badly.
