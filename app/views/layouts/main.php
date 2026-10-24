@@ -392,19 +392,36 @@
       return $currentRoute === $path || str_starts_with($currentRoute, $path . '/');
   };
 
-  $siteEmail = setting('site_email') ?: 'ecotech.internships@gmail.com';
-  $sitePhone = setting('site_phone') ?: '+91 7398301184';
-  $siteAddr  = setting('site_address') ?: 'Lucknow, Uttar Pradesh, India';
-  $siteHours = setting('business_hours') ?: 'Mon – Sat, 09:00 – 18:00 IST';
-  $waNumber  = preg_replace('/\D+/', '', (string) (setting('whatsapp_number') ?: WHATSAPP_NUMBER));
+  $siteEmail    = setting('site_email')    ?: 'ecotech.internships@gmail.com';
+  $sitePhone    = setting('site_phone')    ?: '+91 7398301184';
+  $siteAddr     = setting('site_address')  ?: 'Lucknow, Uttar Pradesh, India';
+  $siteHours    = setting('business_hours') ?: 'Mon – Sat, 09:00 – 18:00 IST';
+  $waNumber     = preg_replace('/\D+/', '', (string) (setting('whatsapp_number') ?: WHATSAPP_NUMBER));
+  $linkedinUrl  = setting('linkedin_url',  '');
+  $twitterUrl   = setting('twitter_url',   '');
+  $instagramUrl = setting('instagram_url', '');
+  $githubUrl    = setting('github_url',    '');
   ?>
 
   <!-- ══ Header ════════════════════════════════════════════════════════ -->
   <header id="navbar" class="s-nav">
     <div class="s-shell s-nav-in">
       <a href="<?= url() ?>" class="s-logo" aria-label="Ecotech Service — home">
-        <img src="<?= url('assets/img/logo.png') ?>?v=<?= file_exists(PUBLIC_PATH . '/assets/img/logo.png') ? filemtime(PUBLIC_PATH . '/assets/img/logo.png') : '3' ?>"
-             alt="Ecotech Service" width="160" height="44" loading="eager" fetchpriority="high">
+        <?php /* Inline SVG logo — no HTTP request, crisp at all resolutions */ ?>
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="40" height="40" aria-hidden="true" focusable="false">
+          <path d="M6 28C4 22 7 14 13 9L23 5C27 3 32 6 33 12C34 18 31 24 25 29L16 34C11 36 7 34 6 28Z" fill="#2C5F42"/>
+          <line x1="7" y1="32" x2="32" y2="9" stroke="#6ee7b7" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M13 25L10 20L14 13" fill="none" stroke="#6ee7b7" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M20 18L18 13L23 9" fill="none" stroke="#6ee7b7" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M21 27L26 27L29 22" fill="none" stroke="#6ee7b7" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="14" cy="13" r="1.8" fill="#fff"/>
+          <circle cx="23" cy="9"  r="1.8" fill="#fff"/>
+          <circle cx="29" cy="22" r="1.8" fill="#fff"/>
+        </svg>
+        <span class="s-logo-text">
+          <span class="s-logo-name">Ecotech</span>
+          <span class="s-logo-tag">Service</span>
+        </span>
       </a>
 
       <nav aria-label="Main">
@@ -416,7 +433,9 @@
       </nav>
 
       <div class="s-nav-end">
-        <a href="<?= url('search') ?>" class="s-nav-search" aria-label="Search the site"><i class="fas fa-magnifying-glass"></i></a>
+        <a href="<?= url('search') ?>" class="s-nav-search" aria-label="Search the site">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" width="17" height="17" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+        </a>
         <?php if (function_exists('isIntern') && isIntern()): ?>
           <a href="<?= url('internships/dashboard') ?>" class="s-btn--line s-btn--sm s-nav-cta">My dashboard</a>
         <?php endif; ?>
@@ -431,7 +450,20 @@
   <aside id="mobileDrawer" aria-label="Menu" aria-hidden="true">
     <div class="s-drawer-head">
       <a href="<?= url() ?>" class="s-logo" aria-label="Ecotech Service — home">
-        <img src="<?= url('assets/img/logo.png') ?>" alt="" width="140" height="38" style="height:38px">
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="36" height="36" aria-hidden="true" focusable="false">
+          <path d="M6 28C4 22 7 14 13 9L23 5C27 3 32 6 33 12C34 18 31 24 25 29L16 34C11 36 7 34 6 28Z" fill="#2C5F42"/>
+          <line x1="7" y1="32" x2="32" y2="9" stroke="#6ee7b7" stroke-width="1.8" stroke-linecap="round"/>
+          <path d="M13 25L10 20L14 13" fill="none" stroke="#6ee7b7" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M20 18L18 13L23 9" fill="none" stroke="#6ee7b7" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <path d="M21 27L26 27L29 22" fill="none" stroke="#6ee7b7" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+          <circle cx="14" cy="13" r="1.8" fill="#fff"/>
+          <circle cx="23" cy="9"  r="1.8" fill="#fff"/>
+          <circle cx="29" cy="22" r="1.8" fill="#fff"/>
+        </svg>
+        <span class="s-logo-text">
+          <span class="s-logo-name">Ecotech</span>
+          <span class="s-logo-tag">Service</span>
+        </span>
       </a>
       <button id="mobileDrawerClose" type="button" class="s-burger" style="display:inline-flex">Close</button>
     </div>
@@ -477,7 +509,7 @@
   <footer class="s-foot">
     <div class="s-shell">
       <div class="s-grid" style="align-items:end">
-        <p class="s-foot-big" style="grid-column:span 8;margin:0">Send us the repo, the URL, or the page that&rsquo;s slow.</p>
+        <p class="s-foot-big" style="grid-column:span 8;margin:0">A platform to build, a product to ship, or a system that needs fixing &mdash; let&rsquo;s talk.</p>
         <div style="grid-column:span 4" class="s-actions lg:justify-end">
           <a href="<?= url('contact') ?>" class="s-btn--light">Start a project</a>
           <a href="mailto:<?= Security::e($siteEmail) ?>" class="s-btn--line" style="color:var(--band-fg);border-color:var(--band-fg)">Email us</a>
@@ -486,13 +518,51 @@
 
       <div class="s-foot-cols">
         <div>
-          <a href="<?= url() ?>" aria-label="Ecotech Service — home">
-            <img src="<?= url('assets/img/logo.png') ?>" alt="Ecotech Service" width="150" height="40" style="height:40px;width:auto">
+          <a href="<?= url() ?>" class="s-logo" aria-label="Ecotech Service — home" style="display:inline-flex">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 40 40" width="36" height="36" aria-hidden="true" focusable="false">
+              <path d="M6 28C4 22 7 14 13 9L23 5C27 3 32 6 33 12C34 18 31 24 25 29L16 34C11 36 7 34 6 28Z" fill="#2C5F42"/>
+              <line x1="7" y1="32" x2="32" y2="9" stroke="#6ee7b7" stroke-width="1.8" stroke-linecap="round"/>
+              <path d="M13 25L10 20L14 13" fill="none" stroke="#6ee7b7" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M20 18L18 13L23 9" fill="none" stroke="#6ee7b7" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              <path d="M21 27L26 27L29 22" fill="none" stroke="#6ee7b7" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/>
+              <circle cx="14" cy="13" r="1.8" fill="#fff"/>
+              <circle cx="23" cy="9"  r="1.8" fill="#fff"/>
+              <circle cx="29" cy="22" r="1.8" fill="#fff"/>
+            </svg>
+            <span class="s-logo-text">
+              <span class="s-logo-name" style="color:var(--band-fg)">Ecotech</span>
+              <span class="s-logo-tag" style="color:var(--band-mute)">Service</span>
+            </span>
           </a>
           <p class="s-small" style="color:var(--band-mute);margin-top:1rem;max-width:34ch">
             Software engineering studio in Lucknow. We build web platforms, mobile apps and
             serverless systems, then maintain them.
           </p>
+          <!-- Social links -->
+          <?php
+          $socials = array_filter([
+            'LinkedIn'  => $linkedinUrl,
+            'Twitter'   => $twitterUrl,
+            'Instagram' => $instagramUrl,
+            'GitHub'    => $githubUrl,
+            'WhatsApp'  => $waNumber ? "https://wa.me/{$waNumber}" : '',
+          ]);
+          $socialIcons = [
+            'LinkedIn'  => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M16 8a6 6 0 0 1 6 6v7h-4v-7a2 2 0 0 0-4 0v7h-4v-7a6 6 0 0 1 6-6z"/><rect width="4" height="12" x="2" y="9"/><circle cx="4" cy="4" r="2"/></svg>',
+            'Twitter'   => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 4s-.7 2.1-2 3.4c1.6 10-9.4 17.3-18 11.6 2.2.1 4.4-.6 6-2C3 15.5.5 9.6 3 5c2.2 2.6 5.6 4.1 9 4-.9-4.2 4-6.6 7-3.8 1.1 0 3-1.2 3-1.2z"/></svg>',
+            'Instagram' => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect width="20" height="20" x="2" y="2" rx="5"/><path d="M16 11.37A4 4 0 1 1 12.63 8 4 4 0 0 1 16 11.37z"/><line x1="17.5" y1="6.5" x2="17.51" y2="6.5"/></svg>',
+            'GitHub'    => '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 22v-4a4.8 4.8 0 0 0-1-3.5c3 0 6-2 6-5.5.08-1.25-.27-2.48-1-3.5.28-1.15.28-2.35 0-3.5 0 0-1 0-3 1.5-2.64-.5-5.36-.5-8 0C6 2 5 2 5 2c-.3 1.15-.3 2.35 0 3.5A5.4 5.4 0 0 0 4 9c0 3.5 3 5.5 6 5.5-.39.49-.68 1.05-.85 1.65-.17.6-.22 1.23-.15 1.85v4"/><path d="M9 18c-4.51 2-5-2-7-2"/></svg>',
+            'WhatsApp'  => '<svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 0 1-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 0 1-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 0 1 2.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0 0 12.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 0 0 5.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 0 0-3.48-8.413Z"/></svg>',
+          ]);
+          if ($socials): ?>
+          <div class="s-foot-social">
+            <?php foreach ($socials as $name => $href): ?>
+            <a href="<?= Security::e($href) ?>" target="_blank" rel="noopener noreferrer" aria-label="<?= Security::e($name) ?>" title="<?= Security::e($name) ?>">
+              <?= $socialIcons[$name] ?? '' ?>
+            </a>
+            <?php endforeach; ?>
+          </div>
+          <?php endif; ?>
         </div>
         <div>
           <h2>Services</h2>
@@ -545,16 +615,22 @@
 
   <!-- ══ Mobile bottom bar ═════════════════════════════════════════════ -->
   <nav id="mobileBottomNav" class="s-bottom" aria-label="Quick links">
-    <?php foreach ([
-        ['',            'Home',     'fa-house'],
-        ['services',    'Services', 'fa-layer-group'],
-        ['projects',    'Work',     'fa-folder'],
-        ['contact',     'Contact',  'fa-envelope'],
-    ] as [$route, $label, $icon]): ?>
-    <a href="<?= url($route) ?>"<?= $isCurrent($route) ? ' aria-current="page"' : '' ?>>
-      <i class="fas <?= $icon ?>" aria-hidden="true"></i><?= Security::e($label) ?>
+    <a href="<?= url('') ?>"<?= $isCurrent('') ? ' aria-current="page"' : '' ?>>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="m3 9 9-7 9 7v11a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+      Home
     </a>
-    <?php endforeach; ?>
+    <a href="<?= url('services') ?>"<?= $isCurrent('services') ? ' aria-current="page"' : '' ?>>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polygon points="12 2 2 7 12 12 22 7 12 2"/><polyline points="2 17 12 22 22 17"/><polyline points="2 12 12 17 22 12"/></svg>
+      Services
+    </a>
+    <a href="<?= url('projects') ?>"<?= $isCurrent('projects') ? ' aria-current="page"' : '' ?>>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 19a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h5l2 3h9a2 2 0 0 1 2 2z"/></svg>
+      Work
+    </a>
+    <a href="<?= url('contact') ?>"<?= $isCurrent('contact') ? ' aria-current="page"' : '' ?>>
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/></svg>
+      Contact
+    </a>
   </nav>
 
   <script src="<?= url('assets/js/app.js') ?>?v=<?= file_exists(PUBLIC_PATH . '/assets/js/app.js') ? filemtime(PUBLIC_PATH . '/assets/js/app.js') : APP_VERSION ?>"></script>
