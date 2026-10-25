@@ -3,7 +3,6 @@
 -- does not exist in your ecotech_service database yet.
 -- ============================================================
 
-USE `ecotech_service`;
 
 CREATE TABLE IF NOT EXISTS `blog_posts` (
   `id`           INT UNSIGNED NOT NULL AUTO_INCREMENT,

@@ -30,7 +30,7 @@ $protocol = (
 ) ? "https://" : "http://";
 $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
 $base_dir = ($host === 'localhost') ? '/Ecotechservice/public' : '';
-define('APP_URL',  $protocol . $host . $base_dir);
+define('APP_URL',  rtrim($env['APP_URL'] ?? ($protocol . $host . $base_dir), '/'));
 define('APP_VERSION', '1.0.0');
 
 // ── Database ─────────────────────────────────────────────────
