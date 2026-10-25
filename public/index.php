@@ -17,6 +17,11 @@ $base = trim(parse_url(APP_URL, PHP_URL_PATH) ?? '', '/');
 if ($base && str_starts_with($uri, $base)) {
     $uri = trim(substr($uri, strlen($base)), '/');
 }
+// The hosting document root contains the project wrapper, so root requests
+// are internally rewritten to /public/. Do not treat that wrapper as a route.
+if ($uri === 'public' || str_starts_with($uri, 'public/')) {
+    $uri = trim(substr($uri, strlen('public')), '/');
+}
 
 // Route map  [uri_pattern => [controller, method]]
 $routes = [
