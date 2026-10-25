@@ -4,7 +4,6 @@
 !/public/uploads/.htaccess
 /logs/*
 !/logs/.gitkeep
-/config/database.php
 .env
 .env.mail
 .DS_Store
