@@ -123,16 +123,36 @@ spl_autoload_register(function (string $class): void {
 });
 
 // Dispatch
-if (isset($routes[$uri])) {
-    [$controllerClass, $method] = $routes[$uri];
-    $controller = new $controllerClass();
-    $controller->$method();
-} elseif (str_starts_with($uri, 'services/') && str_contains($uri, '-in-')) {
-    // Programmatic SEO Route Fallback
-    $controller = new SeoController();
-    $controller->show($uri);
-} else {
-    // 404
-    http_response_code(404);
-    require_once ROOT_PATH . '/app/views/errors/404.php';
+try {
+    if (isset($routes[$uri])) {
+        [$controllerClass, $method] = $routes[$uri];
+        $controller = new $controllerClass();
+        $controller->$method();
+    } elseif (str_starts_with($uri, 'services/') && str_contains($uri, '-in-')) {
+        // Programmatic SEO Route Fallback
+        $controller = new SeoController();
+        $controller->show($uri);
+    } else {
+        // 404
+        http_response_code(404);
+        require_once ROOT_PATH . '/app/views/errors/404.php';
+    }
+} catch (Throwable $e) {
+    error_log(sprintf('[%s] %s in %s:%d', get_class($e), $e->getMessage(), $e->getFile(), $e->getLine()));
+    http_response_code(500);
+
+    if (defined('APP_ENV') && APP_ENV === 'development') {
+        echo '<h1>500 - Application Error</h1>';
+        echo '<p><strong>' . htmlspecialchars($e->getMessage()) . '</strong></p>';
+        echo '<pre>' . htmlspecialchars($e->getTraceAsString()) . '</pre>';
+    } else {
+        $isDatabaseError = ($e instanceof PDOException);
+        $error500 = ROOT_PATH . '/app/views/errors/500.php';
+        if (file_exists($error500)) {
+            require $error500;
+        } else {
+            echo '<h1>500 - Internal Server Error</h1>';
+            echo '<p>Temporary system maintenance. Please try again shortly.</p>';
+        }
+    }
 }
