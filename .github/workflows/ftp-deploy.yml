@@ -46,12 +46,64 @@ jobs:
             echo "SMTP_USER / SMTP_PASS secrets not set; leaving server mail settings unchanged."
           fi
 
+      - name: 📁 Ensure remote directories exist
+        env:
+          FTP_SERVER: ${{ secrets.FTP_SERVER }}
+          FTP_USERNAME: ${{ secrets.FTP_USERNAME }}
+          FTP_PASSWORD: ${{ secrets.FTP_PASSWORD }}
+        run: |
+          php -r '
+            $server = getenv("FTP_SERVER");
+            $user   = getenv("FTP_USERNAME");
+            $pass   = getenv("FTP_PASSWORD");
+            $target = "ecotechservices.tech/htdocs";
+
+            echo "Connecting to FTP: $server ...\n";
+            $conn = @ftp_connect($server, 21, 30);
+            if (!$conn) {
+                echo "Warning: Could not connect to FTP server: $server\n";
+                exit(0);
+            }
+            if (!@ftp_login($conn, $user, $pass)) {
+                echo "Warning: FTP login failed for user: $user\n";
+                exit(0);
+            }
+            ftp_pasv($conn, true);
+
+            echo "\n=== Remote FTP Root Listing ===\n";
+            $items = ftp_nlist($conn, ".") ?: [];
+            foreach ($items as $item) {
+                echo " - " . basename($item) . "\n";
+            }
+            echo "================================\n\n";
+
+            // Recursively create target folder if missing
+            $parts = explode("/", trim($target, "/"));
+            $path = "";
+            foreach ($parts as $p) {
+                $path .= ($path ? "/" : "") . $p;
+                if (@ftp_chdir($conn, $path)) {
+                    echo "Directory confirmed: $path\n";
+                    ftp_cdup($conn);
+                } else {
+                    echo "Directory missing: $path. Attempting to create...\n";
+                    if (@ftp_mkdir($conn, $path)) {
+                        echo "Created directory: $path\n";
+                    } else {
+                        echo "Notice: Could not create $path directly via FTP.\n";
+                    }
+                }
+            }
+            ftp_close($conn);
+          '
+
       - name: 📂 Sync files to InfinityFree via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
           server: ${{ secrets.FTP_SERVER }}
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
+          log-level: verbose
           # Set the local directory you want to upload ('.' means the whole repository)
           local-dir: ./
           # Set the destination directory on the server
@@ -63,7 +115,6 @@ jobs:
             **/node_modules/**
             **/logs/**
             **/public/uploads/**
-            !public/uploads/.htaccess
             database/**
             scratch/**
             .cortex/**
