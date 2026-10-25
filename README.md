@@ -58,20 +58,10 @@ If you skip this step, contact form emails won't be sent but form submissions wi
 
 ## Step 5 — Enable Apache mod_rewrite
 
-In XAMPP:
-1. Open **Apache** → **Config** → **httpd.conf**
-2. Find `#LoadModule rewrite_module` → remove the `#`
-3. Find `AllowOverride None` (for htdocs) → change to `AllowOverride All`
-4. Restart Apache
+
 
 ---
 
-## Step 6 — Access the Website
-
-| Page | URL |
-|------|-----|
-| Homepage | `http://localhost/Ecotechservice/public/` |
-| Admin Panel | `http://localhost/Ecotechservice/public/admin` |
 
 ### Admin Credentials
 The seed data in `database/ecotech.sql` creates a default admin account.
