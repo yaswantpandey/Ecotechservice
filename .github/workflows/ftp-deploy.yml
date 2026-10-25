@@ -54,8 +54,8 @@ jobs:
           password: ${{ secrets.FTP_PASSWORD }}
           # Set the local directory you want to upload ('.' means the whole repository)
           local-dir: ./
-          # Set the destination directory on the server (usually 'htdocs/' for InfinityFree)
-          server-dir: ./ecotechservices.tech/htdocs/
+          # Set the destination directory on the server
+          server-dir: ecotechservices.tech/htdocs/
           # Exclude files/folders you don't want to override on the server
           exclude: |
             **/.git*
