@@ -10,16 +10,27 @@ require_once __DIR__ . '/../app/helpers/Security.php';
 require_once __DIR__ . '/../app/helpers/Helpers.php';
 
 // ── Simple Router ─────────────────────────────────────────────
-$uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH), '/');
+$uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '', '/');
 
-// Strip the project sub-folder prefix if running under XAMPP
+// Strip the project sub-folder prefix if running under XAMPP / WAMP
 $base = trim(parse_url(APP_URL, PHP_URL_PATH) ?? '', '/');
-if ($base && str_starts_with($uri, $base)) {
+if ($base && str_starts_with(strtolower($uri), strtolower($base))) {
     $uri = trim(substr($uri, strlen($base)), '/');
 }
+
+// Also strip base folder name (e.g. Ecotechservice/public or Ecotechservice) if accessed directly
+$scriptDir = trim(str_replace('\\', '/', dirname($_SERVER['SCRIPT_NAME'] ?? '')), '/');
+if ($scriptDir && $scriptDir !== '.' && str_starts_with(strtolower($uri), strtolower($scriptDir))) {
+    $uri = trim(substr($uri, strlen($scriptDir)), '/');
+}
+$parentDir = trim(str_replace('\\', '/', dirname(dirname($_SERVER['SCRIPT_NAME'] ?? ''))), '/');
+if ($parentDir && $parentDir !== '.' && str_starts_with(strtolower($uri), strtolower($parentDir))) {
+    $uri = trim(substr($uri, strlen($parentDir)), '/');
+}
+
 // The hosting document root contains the project wrapper, so root requests
 // are internally rewritten to /public/. Do not treat that wrapper as a route.
-if ($uri === 'public' || str_starts_with($uri, 'public/')) {
+if (strtolower($uri) === 'public' || str_starts_with(strtolower($uri), 'public/')) {
     $uri = trim(substr($uri, strlen('public')), '/');
 }
 

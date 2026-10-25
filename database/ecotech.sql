@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `users` (
 
 -- Default admin: admin@ecotech.com / Admin@123
 INSERT INTO `users` (`name`,`email`,`password`,`role`) VALUES
-('Super Admin','admin@ecotech.com','$2y$12$A1GhTxqJ3rXs2yWkP9DlCeH5nM7vQbZ8uFj4iKwN6oR0sTcVpXgDm','admin');
+('Super Admin','admin@ecotech.com','$2y$12$UuROBJzD6PlJHg8EU38CbexQMLVjGZ8vzKtnk2V/4yUALYP/r8qsW','admin');
 
 -- -----------------------------------------------------------
 -- Table: services

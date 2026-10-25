@@ -29,15 +29,37 @@ $protocol = (
     || ($_SERVER['SERVER_PORT'] ?? null) == 443
 ) ? "https://" : "http://";
 $host = $_SERVER['HTTP_HOST'] ?? 'localhost';
-$base_dir = ($host === 'localhost') ? '/Ecotechservice/public' : '';
-define('APP_URL',  rtrim($env['APP_URL'] ?? ($protocol . $host . $base_dir), '/'));
+$hostName = strtolower(explode(':', $host)[0]);
+$isLocalhost = in_array($hostName, ['localhost', '127.0.0.1', '::1']);
+$base_dir = $isLocalhost ? '/Ecotechservice/public' : '';
+
+// If accessed on localhost but APP_URL in .env points to a remote domain, prioritize local URL
+$envAppUrl = $env['APP_URL'] ?? null;
+if ($isLocalhost && $envAppUrl && !str_contains($envAppUrl, 'localhost') && !str_contains($envAppUrl, '127.0.0.1')) {
+    $envAppUrl = null;
+}
+
+define('APP_URL',  rtrim($envAppUrl ?? ($protocol . $host . $base_dir), '/'));
 define('APP_VERSION', '1.0.0');
 
 // ── Database ─────────────────────────────────────────────────
-define('DB_HOST',    $env['DB_HOST'] ?? 'localhost');
-define('DB_NAME',    $env['DB_NAME'] ?? 'ecotech_service');
-define('DB_USER',    $env['DB_USER'] ?? 'root');
-define('DB_PASS',    $env['DB_PASS'] ?? '');
+$dbHost = $env['DB_HOST'] ?? '127.0.0.1';
+$dbName = $env['DB_NAME'] ?? 'ecotech_service';
+$dbUser = $env['DB_USER'] ?? 'root';
+$dbPass = $env['DB_PASS'] ?? '';
+
+// Fallback if production placeholders were left in local .env
+if ($dbUser === 'your_database_user') {
+    $dbUser = 'root';
+}
+if ($dbPass === 'your_database_password') {
+    $dbPass = '';
+}
+
+define('DB_HOST',    $dbHost);
+define('DB_NAME',    $dbName);
+define('DB_USER',    $dbUser);
+define('DB_PASS',    $dbPass);
 define('DB_CHARSET', 'utf8mb4');
 
 // ── Security ─────────────────────────────────────────────────

@@ -72,7 +72,11 @@
   // Route relative to the app base, same approach as the public layout.
   $rawPath = trim(parse_url($_SERVER['REQUEST_URI'] ?? '/', PHP_URL_PATH) ?: '', '/');
   $appPath = trim(parse_url(APP_URL, PHP_URL_PATH) ?: '', '/');
-  $curPage = ($appPath && str_starts_with($rawPath, $appPath)) ? trim(substr($rawPath, strlen($appPath)), '/') : $rawPath;
+  $curPage = $rawPath;
+  if ($appPath && str_starts_with(strtolower($curPage), strtolower($appPath))) {
+      $curPage = trim(substr($curPage, strlen($appPath)), '/');
+  }
+  $curPage = preg_replace('~^ecotechservice(?:/public)?(?:/|$)~i', '', $curPage);
   ?>
   <div class="a-app">
     <aside id="sidebar" class="a-side" aria-label="Admin navigation">

@@ -26,21 +26,35 @@ C:\xampp\htdocs\Ecotechservice\
 
 ---
 
-## Step 3 — Configure the Application
+## Step 3 — Configure the Environment (.env)
 
-Open `config/config.php` and update:
+Copy `.env.example` to `.env` (if not already created) and adjust settings for your environment:
 
-```php
-// Database (if using a password)
-define('DB_USER', 'root');
-define('DB_PASS', '');          // your MySQL password
+```ini
+; Application Environment
+APP_ENV=development
+APP_URL=http://localhost/Ecotechservice/public
 
-// Email (Gmail SMTP example)
-define('SMTP_USER', 'your_email@gmail.com');
-define('SMTP_PASS', 'your_app_password');   // Gmail App Password
+; Database Credentials
+DB_HOST=127.0.0.1
+DB_NAME=ecotech_service
+DB_USER=root
+DB_PASS=
 
-// WhatsApp (digits only, no + or spaces)
-define('WHATSAPP_NUMBER', '918001234567');
+; Security Secret
+CSRF_SECRET=your_random_secret_token
+
+; Outbound SMTP Settings (Optional, e.g. Hostinger or Gmail)
+SMTP_HOST=smtp.hostinger.com
+SMTP_PORT=465
+SMTP_USER=your_email@domain.com
+SMTP_PASS=your_email_password
+SMTP_FROM=your_email@domain.com
+SMTP_FROM_NAME=Ecotech Service
+SMTP_ENCRYPTION=ssl
+
+; WhatsApp Support Number (Country code + digits, no + or spaces)
+WHATSAPP_NUMBER=917398301184
 ```
 
 ---
@@ -73,7 +87,7 @@ The seed data in `database/ecotech.sql` creates a default admin account.
 
 1. Go to your Google Account → Security → 2-Step Verification (enable it)
 2. Search for "App Passwords" → Create one for "Mail" + "Windows Computer"
-3. Copy the 16-character password → paste into `config/config.php` as `SMTP_PASS`
+3. Copy the 16-character password → paste into `.env` as `SMTP_PASS`
 
 ---
 
