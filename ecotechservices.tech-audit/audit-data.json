@@ -1,0 +1,172 @@
+{
+  "summary": {
+    "domain": "ecotechservices.tech",
+    "health_score": 91,
+    "grade": "A",
+    "business_type": "B2B Technology Services & Software Consultancy",
+    "audit_timestamp": "2026-10-26T13:05:00Z",
+    "top_findings": [
+      {
+        "title": "Production SSL / TLS handshake requires verification on live host",
+        "severity": "Critical",
+        "category": "Technical SEO"
+      },
+      {
+        "title": "Sitemap & robots.txt local disk cache overwrite safeguard needed",
+        "severity": "High",
+        "category": "Crawlability & Indexation"
+      },
+      {
+        "title": "Missing llms.txt standard for Generative AI search engine indexing",
+        "severity": "Medium",
+        "category": "AI Search / Agent Readiness"
+      },
+      {
+        "title": "Meta description length exceeds 160 character limit (182 chars)",
+        "severity": "Low",
+        "category": "On-Page Metadata"
+      }
+    ],
+    "quick_wins": [
+      "Add public/llms.txt with core business services and technical capability summaries",
+      "Trim homepage meta description from 182 to 155 characters",
+      "Explicitly allow AI search crawlers (GPTBot, PerplexityBot, ClaudeBot) in robots.txt",
+      "Deploy public/82568927e2e0467eac3f26e8e621ea0a.txt to activate instant IndexNow submissions"
+    ]
+  },
+  "categories": [
+    {
+      "name": "Technical SEO",
+      "score": 88,
+      "what_works": [
+        "High performance response time under Apache 2.4 and PHP 8.3",
+        "Clean semantic HTML5 structure with no heavy JS client shells",
+        "Far-future browser caching for static assets (1-year headers)",
+        "GZIP / Deflate compression enabled for text, CSS, JS, and SVG",
+        "Security headers enabled (X-Frame-Options, X-Content-Type-Options, Referrer-Policy)"
+      ],
+      "findings": [
+        {
+          "title": "Production SSL Handshake Abrupt Termination",
+          "severity": "Critical",
+          "description": "During direct TLS probe to https://ecotechservices.tech, the server closed the connection abruptly without close_notify. This indicates an SSL chain or CDN forwarding issue on port 443.",
+          "recommendation": "Verify SSL certificate installation in Hostinger/Cloudflare panel and ensure Full (Strict) SSL encryption mode is active."
+        },
+        {
+          "title": "Missing Strict-Transport-Security (HSTS) Header",
+          "severity": "Medium",
+          "description": "The response does not send HSTS header, leaving users and search bots vulnerable to downgrade attacks.",
+          "recommendation": "Add 'Header always set Strict-Transport-Security \"max-age=31536000; includeSubDomains; preload\"' to .htaccess."
+        }
+      ]
+    },
+    {
+      "name": "Structured Data & Schema.org",
+      "score": 96,
+      "what_works": [
+        "Extensive JSON-LD graph combining ProfessionalService, Organization, and WebSite",
+        "Accurate local coordinates (26.8467, 80.9462) and full postal address for Lucknow",
+        "OfferCatalog with 6 granular tech services and anchor links",
+        "Dynamic BreadcrumbList auto-generated from route segments",
+        "SearchAction potentialAction included on WebSite entity"
+      ],
+      "findings": [
+        {
+          "title": "Review / AggregateRating Schema Expansion",
+          "severity": "Low",
+          "description": "The Schema graph does not yet include verified client reviews or an aggregate rating score.",
+          "recommendation": "Add AggregateRating markup once verified client testimonials are compiled to win rich review stars in Google SERPs."
+        }
+      ]
+    },
+    {
+      "name": "Content Quality & E-E-A-T",
+      "score": 95,
+      "what_works": [
+        "Tested 96/100 on QRG Content Quality Scorer with 0 filler and 1.0 information density",
+        "Named Founder & Technical Director (Yaswant Kumar) establishing strong authoritativeness",
+        "Authentic portfolio case studies with verified live external links",
+        "Clear 5-stage engineering delivery process demonstrating direct domain expertise"
+      ],
+      "findings": [
+        {
+          "title": "Homepage Meta Description Truncation",
+          "severity": "Low",
+          "description": "Homepage meta description is 182 characters, which gets truncated by Google at ~155-160 characters on desktop and mobile.",
+          "recommendation": "Condense description to ~155 characters focused on core value proposition and primary keywords."
+        }
+      ]
+    },
+    {
+      "name": "AI Search Readiness & Agentic SEO (GEO)",
+      "score": 76,
+      "what_works": [
+        "Server-rendered static HTML with 716 words easily extracted without JavaScript execution",
+        "Proper semantic hierarchy for LLM embedding extraction"
+      ],
+      "findings": [
+        {
+          "title": "Missing llms.txt Discovery Document",
+          "severity": "Medium",
+          "description": "Emerging AI search engines (ChatGPT Search, Perplexity, Claude, Apple Intelligence) look for /llms.txt to ingest clean, token-efficient summaries.",
+          "recommendation": "Publish /public/llms.txt detailing Ecotech Services capabilities, offerings, tech stack, and portfolio."
+        },
+        {
+          "title": "Robots.txt AI User-Agent Whitelisting",
+          "severity": "Low",
+          "description": "Robots.txt does not explicitly mention AI search user agents (GPTBot, PerplexityBot, ClaudeBot).",
+          "recommendation": "Add explicit allow rules for major AI search engines to maximize AI Overviews citation probability."
+        }
+      ]
+    },
+    {
+      "name": "Search Engine Indexing & Sitemaps",
+      "score": 95,
+      "what_works": [
+        "IndexNow API key and host verification file configured (82568927e2e0467eac3f26e8e621ea0a)",
+        "Dynamic XML sitemap controller with core pages, blog posts, projects, and programmatic SEO routes",
+        "PHP helper submitIndexNow() available for instant programmatic pings"
+      ],
+      "findings": [
+        {
+          "title": "SitemapController Disk Cache Environment Guard",
+          "severity": "High",
+          "description": "SitemapController currently writes generated sitemap.xml to disk even in development, which risks committing localhost URLs.",
+          "recommendation": "Guard file_put_contents with 'if (APP_ENV === \"production\")' in SitemapController."
+        }
+      ]
+    }
+  ],
+  "action_plan": {
+    "phases": [
+      {
+        "name": "Phase 1: Immediate & Critical Fixes",
+        "timeframe": "Week 1",
+        "items": [
+          "Verify production SSL certificate and ensure strict HTTPS forwarding on live server",
+          "Deploy IndexNow verification file (82568927e2e0467eac3f26e8e621ea0a.txt) to production root",
+          "Guard SitemapController disk caching so localhost URLs are never committed",
+          "Trim homepage meta description to 155 characters"
+        ]
+      },
+      {
+        "name": "Phase 2: AI Search & GEO Optimization",
+        "timeframe": "Weeks 2-3",
+        "items": [
+          "Create and publish /public/llms.txt and /public/llms-full.txt",
+          "Update robots.txt to explicitly welcome GPTBot, PerplexityBot, and ClaudeBot",
+          "Add HSTS (Strict-Transport-Security) header in public/.htaccess"
+        ]
+      },
+      {
+        "name": "Phase 3: Programmatic SEO & Authority",
+        "timeframe": "Month 2",
+        "items": [
+          "Execute database migration for global_seo_pages.sql to activate 300+ geo-targeted landing pages",
+          "Add localized FAQs and client testimonials to programmatic templates to strengthen E-E-A-T",
+          "Submit all newly generated pages to Bing, Yandex, and Naver via submitIndexNow()"
+        ]
+      }
+    ]
+  }
+}

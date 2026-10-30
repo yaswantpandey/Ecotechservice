@@ -42,10 +42,10 @@ if ($typeFilter === 'free') {
         <div class="s-media s-media--16x10">
           <?php if (!empty($t['preview_url'])): ?>
           <img src="//image.thum.io/get/width/800/crop/500/noanimate/<?= Security::e(rtrim($t['preview_url'], '/')) ?>"
-               alt="<?= Security::e($t['title']) ?>" width="800" height="500" loading="lazy"
+               alt="<?= Security::e($t['title']) ?>" width="800" height="500" loading="lazy" decoding="async"
                onerror="this.onerror=null;this.src='<?= Security::e(uploadUrl(!empty($t['thumbnail']) ? $t['thumbnail'] : 'template_business_pro.png')) ?>'">
           <?php elseif (!empty($t['thumbnail'])): ?>
-          <img src="<?= uploadUrl($t['thumbnail']) ?>" alt="<?= Security::e($t['title']) ?>" width="800" height="500" loading="lazy">
+          <img src="<?= uploadUrl($t['thumbnail']) ?>" alt="<?= Security::e($t['title']) ?>" width="800" height="500" loading="lazy" decoding="async">
           <?php endif; ?>
         </div>
         <div>

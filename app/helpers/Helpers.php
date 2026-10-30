@@ -287,3 +287,105 @@ function stars(int $rating): string {
     }
     return $html;
 }
+
+/**
+ * Compute an aggregate rating from the active testimonials table for use in
+ * Schema.org structured data. Unlocks review star snippets in Google SERPs.
+ *
+ * @return array{name:string,ratingValue:float,reviewCount:int,bestRating:int,worstRating:int}|null
+ */
+function aggregateRating(): ?array {
+    static $cache = null;
+    if ($cache !== null) {
+        return $cache;
+    }
+    try {
+        $db   = Database::getInstance();
+        $stmt = $db->prepare(
+            "SELECT COUNT(*) AS cnt, COALESCE(AVG(rating), 0) AS avg
+             FROM testimonials
+             WHERE is_active = 1 AND rating BETWEEN 1 AND 5"
+        );
+        $stmt->execute();
+        $row = $stmt->fetch();
+        $count = (int) ($row['cnt'] ?? 0);
+        if ($count < 1) {
+            return null;
+        }
+        $cache = [
+            'name'        => 'Customer Reviews',
+            'ratingValue' => round((float) $row['avg'], 1),
+            'reviewCount' => $count,
+            'bestRating'  => 5,
+            'worstRating' => 1,
+        ];
+        return $cache;
+    } catch (Throwable $e) {
+        return null;
+    }
+}
+
+/**
+ * Submit one or multiple URLs to the IndexNow protocol (Bing, Yandex, Naver, Seznam).
+ *
+ * @param string|array $urls Single URL or array of URLs.
+ * @return array ['success' => bool, 'statusCode' => int, 'message' => string]
+ */
+function submitIndexNow(string|array $urls): array {
+    $key = defined('INDEXNOW_KEY') ? INDEXNOW_KEY : '';
+    if (empty($key)) {
+        return ['success' => false, 'statusCode' => 0, 'message' => 'INDEXNOW_KEY is not configured'];
+    }
+
+    $urlList = is_array($urls) ? $urls : [$urls];
+    if (empty($urlList)) {
+        return ['success' => false, 'statusCode' => 0, 'message' => 'No URLs provided'];
+    }
+
+    $firstUrl = $urlList[0];
+    $host = parse_url($firstUrl, PHP_URL_HOST);
+    if (!$host) {
+        $host = parse_url(APP_URL, PHP_URL_HOST) ?: 'ecotechservices.tech';
+    }
+
+    $keyLocation = defined('INDEXNOW_KEY_LOCATION') && !empty(INDEXNOW_KEY_LOCATION)
+        ? INDEXNOW_KEY_LOCATION
+        : "https://{$host}/{$key}.txt";
+
+    $payload = json_encode([
+        'host'        => $host,
+        'key'         => $key,
+        'keyLocation' => $keyLocation,
+        'urlList'     => array_values($urlList)
+    ], JSON_UNESCAPED_SLASHES);
+
+    $endpoint = 'https://api.indexnow.org/indexnow';
+    $ch = curl_init($endpoint);
+    curl_setopt_array($ch, [
+        CURLOPT_POST           => true,
+        CURLOPT_POSTFIELDS     => $payload,
+        CURLOPT_HTTPHEADER     => [
+            'Content-Type: application/json; charset=utf-8',
+            'User-Agent: EcotechService-IndexNow/1.0'
+        ],
+        CURLOPT_RETURNTRANSFER => true,
+        CURLOPT_TIMEOUT        => 10,
+    ]);
+
+    $response = curl_exec($ch);
+    $httpCode = curl_getinfo($ch, CURLINFO_HTTP_CODE);
+    $curlErr  = curl_error($ch);
+    curl_close($ch);
+
+    if ($curlErr) {
+        return ['success' => false, 'statusCode' => $httpCode, 'message' => "cURL error: {$curlErr}"];
+    }
+
+    // 200 = OK, 202 = Accepted
+    $isOk = in_array($httpCode, [200, 202], true);
+    return [
+        'success'    => $isOk,
+        'statusCode' => $httpCode,
+        'message'    => $isOk ? 'URLs submitted successfully to IndexNow' : "IndexNow returned HTTP {$httpCode}: {$response}"
+    ];
+}

@@ -57,7 +57,7 @@ class HomeController extends BaseController {
             'testimonials'     => $testimonials,
             'templates'        => $templates,
             'pageTitle'        => APP_NAME . ' — Web Development, Web Security & Digital Solutions',
-            'metaDescription'  => 'Ecotech Service delivers high-performance website development, ethical cybersecurity & penetration testing, custom mobile apps, and data-driven digital marketing for ambitious businesses.',
+            'metaDescription'  => 'Ecotech Service builds high-performance web platforms, secure mobile apps, and enterprise cloud solutions. Certified engineering based in Lucknow, India.',
             'metaKeywords'     => 'web development company, web security audit, penetration testing services, mobile app development, digital marketing agency, custom software company lucknow, ecotech service',
             'canonicalPath'    => '',
         ]);

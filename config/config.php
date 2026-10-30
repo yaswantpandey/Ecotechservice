@@ -94,6 +94,11 @@ define('SMTP_ENCRYPTION', strtolower(
 // ── WhatsApp ─────────────────────────────────────────────────
 define('WHATSAPP_NUMBER', $env['WHATSAPP_NUMBER'] ?? '7398301184');
 
+// ── Search Engine Indexing (IndexNow / Bing Webmaster) ────────
+define('BING_WEBMASTER_API_KEY', $env['BING_WEBMASTER_API_KEY'] ?? '');
+define('INDEXNOW_KEY',            $env['INDEXNOW_KEY'] ?? '');
+define('INDEXNOW_KEY_LOCATION',   $env['INDEXNOW_KEY_LOCATION'] ?? '');
+
 // ── Upload Limits ─────────────────────────────────────────────
 define('MAX_FILE_SIZE',  5 * 1024 * 1024); // 5 MB
 define('ALLOWED_IMAGE_TYPES', ['image/jpeg','image/png','image/webp','image/gif']);

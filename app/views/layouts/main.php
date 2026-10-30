@@ -271,6 +271,19 @@
         ]
     ];
 
+    // Aggregate rating from client testimonials — unlocks review star snippets
+    // in Google SERPs. Injected into the Organization node once reviews exist.
+    if (function_exists('aggregateRating') && ($agg = aggregateRating()) !== null) {
+        $schemaGraph[0]['aggregateRating'] = [
+            "@type"       => "AggregateRating",
+            "name"        => $agg['name'],
+            "ratingValue" => $agg['ratingValue'],
+            "reviewCount" => $agg['reviewCount'],
+            "bestRating"  => $agg['bestRating'],
+            "worstRating" => $agg['worstRating'],
+        ];
+    }
+
     if (!empty($post) && ($ogType ?? '') === 'article') {
         $schemaGraph[] = [
             "@type" => "BlogPosting",
@@ -320,6 +333,11 @@
   <link rel="icon" type="image/svg+xml" href="<?= url('assets/img/favicon.svg?v=2') ?>">
   <link rel="alternate icon" href="<?= url('assets/img/favicon.svg?v=2') ?>">
   <link rel="apple-touch-icon" href="<?= url('assets/img/favicon.svg?v=2') ?>">
+
+  <!-- Social profile links (rel="me" — verified identity signal) -->
+  <link rel="me" href="<?= Security::e(setting('linkedin_url', 'https://linkedin.com/company/ecotechservice')) ?>">
+  <link rel="me" href="<?= Security::e(setting('twitter_url', 'https://twitter.com/ecotechservice')) ?>">
+  <link rel="me" href="<?= Security::e(setting('github_url', 'https://github.com/ecotechservice')) ?>">
 
   <!-- Resource hints for external origins -->
   <link rel="preconnect" href="https://fonts.googleapis.com">

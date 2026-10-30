@@ -22,6 +22,23 @@ RewriteRule ^(.*)$ index.php [QSA,L]
   Header always set X-Content-Type-Options "nosniff"
   Header always set Referrer-Policy "strict-origin-when-cross-origin"
   Header always set Permissions-Policy "camera=(), microphone=(), geolocation=()"
+
+  # HSTS — force HTTPS for 1 year, include subdomains, allow preloading.
+  # Only meaningful once SSL is confirmed working on the live domain.
+  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+
+  # COOP — isolates the browsing context (defense-in-depth against XSS/Spectre).
+  Header always set Cross-Origin-Opener-Policy "same-origin"
+</IfModule>
+
+# ── Brotli compression (better ratio than gzip; falls back to mod_deflate) ──
+<IfModule mod_brotli.c>
+  AddOutputFilterByType BROTLI_COMPRESS text/html text/plain text/xml text/css
+  AddOutputFilterByType BROTLI_COMPRESS application/javascript application/x-javascript text/javascript
+  AddOutputFilterByType BROTLI_COMPRESS application/json application/xml application/xhtml+xml
+  AddOutputFilterByType BROTLI_COMPRESS image/svg+xml
+  AddOutputFilterByType BROTLI_COMPRESS font/woff font/woff2 application/font-woff application/font-woff2
+  AddOutputFilterByType BROTLI_COMPRESS application/vnd.ms-fontobject font/ttf font/otf
 </IfModule>
 
 # ── GZIP / Deflate compression ─────────────────────────────────────────────

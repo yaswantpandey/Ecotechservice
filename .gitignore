@@ -9,6 +9,10 @@
 .DS_Store
 Thumbs.db
 
+# Editor & third-party tooling
+.vscode/
+.agents/
+
 # Candidate resumes are personal data — never commit them.
 # Keep the directory (and its deny rules) but not its contents.
 /storage/resumes/*

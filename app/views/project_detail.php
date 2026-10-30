@@ -74,9 +74,10 @@ $fallback = uploadUrl(!empty($project['thumbnail']) ? $project['thumbnail'] : 'p
           <?php if (!empty($project['live_url'])): ?>
           <img src="//image.thum.io/get/width/1200/crop/750/noanimate/<?= Security::e(rtrim($project['live_url'], '/')) ?>"
                alt="<?= $heroAlt ?>" width="1200" height="750" loading="eager"
+               fetchpriority="high" decoding="async"
                onerror="this.onerror=null; this.src='<?= Security::e($fallback) ?>'">
           <?php else: ?>
-          <img src="<?= Security::e($fallback) ?>" alt="<?= $heroAlt ?>" width="1200" height="750" loading="eager">
+          <img src="<?= Security::e($fallback) ?>" alt="<?= $heroAlt ?>" width="1200" height="750" loading="eager" fetchpriority="high" decoding="async">
           <?php endif; ?>
         </div>
 

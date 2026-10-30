@@ -107,10 +107,12 @@ if ($totalPublished > 0) {
           <img src="//image.thum.io/get/width/800/crop/500/noanimate/<?= Security::e(rtrim($p['live_url'], '/')) ?>"
                alt="<?= Security::e($p['title']) ?>" width="800" height="500"
                loading="<?= $i === 0 ? 'eager' : 'lazy' ?>"
+               fetchpriority="<?= $i === 0 ? 'high' : 'low' ?>" decoding="async"
                onerror="this.onerror=null; this.src='<?= Security::e($fallback) ?>'">
           <?php else: ?>
           <img src="<?= Security::e($fallback) ?>" alt="<?= Security::e($p['title']) ?>" width="800" height="500"
-               loading="<?= $i === 0 ? 'eager' : 'lazy' ?>">
+               loading="<?= $i === 0 ? 'eager' : 'lazy' ?>"
+               fetchpriority="<?= $i === 0 ? 'high' : 'low' ?>" decoding="async">
           <?php endif; ?>
         </a>
 

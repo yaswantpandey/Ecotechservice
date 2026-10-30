@@ -3,6 +3,26 @@
 -- Targets 100k Monthly Global Traffic
 -- Includes Startups, Freelance, Small & Big Projects
 -- ==========================================================
+-- NOTE: This file is self-sufficient. It creates the seo_pages
+-- table if it does not already exist, then inserts global pages.
+-- Safe to run before or after seo_pages.sql (uses INSERT IGNORE so
+-- duplicate slugs are skipped). Run on the production database to
+-- activate 300+ geo-targeted programmatic SEO landing pages.
+-- ==========================================================
+
+CREATE TABLE IF NOT EXISTS `seo_pages` (
+  `id` INT UNSIGNED NOT NULL AUTO_INCREMENT,
+  `slug` VARCHAR(255) NOT NULL UNIQUE,
+  `service_name` VARCHAR(100) NOT NULL,
+  `location` VARCHAR(100) NOT NULL,
+  `target_keyword` VARCHAR(255) NOT NULL,
+  `meta_title` VARCHAR(255) NOT NULL,
+  `meta_description` TEXT NOT NULL,
+  `h1_heading` VARCHAR(255) NOT NULL,
+  `created_at` TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`),
+  INDEX `idx_seo_slug` (`slug`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
 INSERT IGNORE INTO `seo_pages` (`slug`, `service_name`, `location`, `target_keyword`, `meta_title`, `meta_description`, `h1_heading`) VALUES
 ('services/custom-web-app-development-in-new-york', 'Custom Web App Development', 'New York', 'Custom Web App Development in New York', 'Top Custom Web App Development Company in New York | Ecotech Services', 'Looking for expert Custom Web App Development in New York? Ecotech Services builds scalable software, apps, and data solutions for big projects and global clients.', 'Expert Custom Web App Development in New York'),

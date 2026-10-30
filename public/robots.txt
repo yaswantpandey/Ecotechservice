@@ -10,5 +10,18 @@ Disallow: /vendor/
 Disallow: /*?*cat=*
 Disallow: /*?*page=*
 
+# AI Search Engines
+User-agent: GPTBot
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
 # Sitemap
-Sitemap: http://localhost/Ecotechservice/public/sitemap.xml
+Sitemap: https://ecotechservices.tech/sitemap.xml

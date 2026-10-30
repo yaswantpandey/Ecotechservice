@@ -23,7 +23,7 @@
     <?php if ($post['thumbnail']): ?>
     <figure class="s-media s-media--16x10 mt-12">
       <img src="<?= url('uploads/' . Security::e($post['thumbnail'])) ?>"
-           alt="<?= Security::e($post['title']) ?>" width="1200" height="750" loading="lazy">
+           alt="<?= Security::e($post['title']) ?>" width="1200" height="750" loading="lazy" decoding="async">
     </figure>
     <?php endif; ?>
 

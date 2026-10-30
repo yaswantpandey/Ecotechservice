@@ -29,7 +29,7 @@
         <div class="s-media s-media--16x10">
           <?php if ($post['thumbnail']): ?>
           <img src="<?= url('uploads/' . Security::e($post['thumbnail'])) ?>"
-               alt="<?= Security::e($post['title']) ?>" width="800" height="500" loading="lazy">
+               alt="<?= Security::e($post['title']) ?>" width="800" height="500" loading="lazy" decoding="async">
           <?php endif; ?>
         </div>
         <div>

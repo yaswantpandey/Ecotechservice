@@ -9,6 +9,46 @@ require_once __DIR__ . '/../config/database.php';
 require_once __DIR__ . '/../app/helpers/Security.php';
 require_once __DIR__ . '/../app/helpers/Helpers.php';
 
+// ── HTML minification in production ─────────────────────────────
+// Collapses whitespace and strips comments to reduce transfer size
+// without touching <pre>, <textarea>, <script>, <style> content.
+if (defined('APP_ENV') && APP_ENV !== 'development') {
+    ob_start(static function (string $buffer): string {
+        if ($buffer === '' || strncasecmp($buffer, '<?xml', 5) === 0) {
+            return $buffer; // don't touch XML sitemaps / non-HTML output
+        }
+
+        // Protect blocks that must preserve their whitespace/formatting.
+        $saved = [];
+        $buffer = preg_replace_callback(
+            '#<(pre|textarea|script|style|code)\b[^>]*>.*?</\1>#is',
+            static function (array $m) use (&$saved): string {
+                $key = "\x00P" . count($saved) . "\x00";
+                $saved[$key] = $m[0];
+                return $key;
+            },
+            $buffer
+        );
+
+        // Strip HTML comments (the site uses no IE conditionals).
+        $buffer = preg_replace('#<!--.*?-->#s', '', $buffer);
+
+        // Collapse whitespace runs to a single space.
+        $buffer = preg_replace('#[ \t]+#', ' ', $buffer);
+        $buffer = preg_replace('#\s*\n\s*#', "\n", $buffer);
+        $buffer = preg_replace('#\n{2,}#', "\n", $buffer);
+
+        // Tidy inter-tag spacing.
+        $buffer = preg_replace('#>\s+#', '> ', $buffer);
+        $buffer = preg_replace('#\s+<#', ' <', $buffer);
+
+        // Restore protected blocks.
+        $buffer = strtr($buffer, $saved);
+
+        return trim($buffer);
+    });
+}
+
 // ── Simple Router ─────────────────────────────────────────────
 $uri = trim(parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH) ?? '', '/');
 
