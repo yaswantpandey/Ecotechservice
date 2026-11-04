@@ -99,6 +99,59 @@ class DatabaseController extends \BaseController {
     // ── Internals ────────────────────────────────────────────────────────
 
     /**
+     * Run the template migration: update existing templates with thumbnails
+     * and prices, insert new template rows. Safe to run more than once.
+     */
+    public function migrateTemplates(): void {
+        requireAdmin();
+        if ($_SERVER['REQUEST_METHOD'] !== 'POST') redirect(url('admin/database'));
+        $this->validateCsrf();
+
+        $results = [];
+        $sql = is_readable(ROOT_PATH . '/app/schema/template_migration.sql')
+            ? (string) file_get_contents(ROOT_PATH . '/app/schema/template_migration.sql')
+            : '';
+
+        if ($sql === '') {
+            $_SESSION['db_repair_results'] = [['error', 'Template migration file not found on the server.']];
+            redirect(url('admin/database'));
+        }
+
+        // Split on semicolons that end a statement (ignoring those inside strings)
+        $statements = array_filter(array_map('trim', explode(';', $sql)), fn($s) => $s !== '' && !str_starts_with($s, '--'));
+
+        foreach ($statements as $stmt) {
+            $stmt = preg_replace('/^--[^\n]*\n/', '', $stmt);
+            $stmt = trim($stmt);
+            if ($stmt === '' || str_starts_with($stmt, '--')) continue;
+
+            try {
+                $this->db->exec($stmt);
+                if (preg_match('/UPDATE\s+`?templates`?\s+.*WHERE\s+`?slug`?\s*=\s*[\'"]([^\'"]+)[\'"]/i', $stmt, $m)) {
+                    $results[] = ['ok', "Updated template: {$m[1]}."];
+                } elseif (preg_match('/INSERT\s+INTO\s+`?templates`?/i', $stmt)) {
+                    $count = (int) $this->db->query('SELECT COUNT(*) FROM templates')->fetchColumn();
+                    $results[] = ['ok', "Inserted new templates (total now {$count})."];
+                }
+            } catch (\Throwable $e) {
+                $results[] = ['error', 'Migration step failed: ' . $e->getMessage()];
+            }
+        }
+
+        if ($results === []) {
+            $results[] = ['ok', 'No migration statements to run.'];
+        }
+
+        foreach ($results as [$kind, $msg]) {
+            error_log('[admin-database:migrate-templates] ' . strtoupper($kind) . ' ' . $msg);
+        }
+        $_SESSION['db_repair_results'] = $results;
+        redirect(url('admin/database'));
+    }
+
+    // ── Internals ────────────────────────────────────────────────────────
+
+    /**
      * Current state of every expected table/column.
      *
      * @return array<string, array{exists:bool, missing:string[], rows:?int}>

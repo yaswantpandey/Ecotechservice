@@ -89,6 +89,14 @@ function uploadUrl(string $path): string {
 }
 
 /**
+ * Return URL for a static asset bundled with the codebase (not a user upload).
+ * Assets live under public/assets/ and are deployed via FTP, unlike uploads/.
+ */
+function assetUrl(string $path): string {
+    return APP_URL . '/assets/' . ltrim($path, '/');
+}
+
+/**
  * Fetch a site setting from the database.
  */
 function setting(string $key, string $default = ''): string {

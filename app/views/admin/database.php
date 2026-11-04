@@ -97,5 +97,20 @@ $tracksRows = $report['internship_tracks']['rows'] ?? null;
         <button type="submit" class="s-btn s-btn--block"<?= $report ? '' : ' disabled' ?>>Repair database</button>
       </form>
     </div>
+
+    <div class="a-card a-card-pad" style="margin-top:1.25rem">
+      <h2 class="s-h3" style="margin-bottom:.6rem">Template migration</h2>
+      <p class="s-small" style="color:var(--ink-2)">Updates existing templates with preview images and prices, and adds new template entries:</p>
+      <ul class="s-small" style="list-style:none;margin:.5rem 0 1rem;padding:0;color:var(--ink-2)">
+        <li style="padding:.3rem 0">&mdash; adds thumbnail paths and prices to existing templates</li>
+        <li style="padding:.3rem 0">&mdash; inserts 5 new templates (Startup Folio, Minimal Blog, Agency Studio, E-commerce Lite, Portfolio Pro)</li>
+      </ul>
+      <p class="s-small s-mute">Safe to run more than once. Existing rows are updated, not duplicated.</p>
+      <form method="POST" action="<?= url('admin/database/migrate-templates') ?>" style="margin-top:1rem"
+            onsubmit="return confirm('Run the template migration now?');">
+        <?= Security::csrfField() ?>
+        <button type="submit" class="s-btn s-btn--block">Migrate templates</button>
+      </form>
+    </div>
   </div>
 </div>

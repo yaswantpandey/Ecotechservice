@@ -139,6 +139,7 @@ $routes = [
     'admin/settings/update' => ['Admin\SettingsController','update'],
     'admin/database'        => ['Admin\DatabaseController','index'],
     'admin/database/repair' => ['Admin\DatabaseController','repair'],
+    'admin/database/migrate-templates' => ['Admin\DatabaseController','migrateTemplates'],
     // Admin Blog
     'admin/blog'            => ['Admin\BlogController','index'],
     'admin/blog/add'        => ['Admin\BlogController','add'],

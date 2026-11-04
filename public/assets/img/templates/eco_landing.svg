@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" font-family="'Segoe UI',system-ui,sans-serif">
+  <!-- Browser chrome -->
+  <rect width="800" height="500" fill="#EDEAE2"/>
+  <rect width="800" height="36" fill="#1B1C19"/>
+  <circle cx="18" cy="18" r="4" fill="#8A2D1F"/>
+  <circle cx="32" cy="18" r="4" fill="#C9C4B6"/>
+  <circle cx="46" cy="18" r="4" fill="#2C5F42"/>
+  <rect x="70" y="10" width="200" height="16" rx="2" fill="#262823"/>
+  <text x="80" y="22" fill="#A3A091" font-size="9" font-family="monospace">greenwave.example.com</text>
+
+  <!-- Nav bar -->
+  <rect y="36" width="800" height="44" fill="#EDEAE2"/>
+  <rect y="79" width="800" height="1" fill="#C9C4B6"/>
+  <text x="40" y="64" fill="#191A17" font-size="16" font-weight="600">GreenWave</text>
+  <text x="580" y="64" fill="#43453E" font-size="10">Mission</text>
+  <text x="630" y="64" fill="#43453E" font-size="10">Impact</text>
+  <text x="675" y="64" fill="#43453E" font-size="10">Stories</text>
+  <rect x="720" y="50" width="50" height="16" rx="2" fill="#2C5F42"/>
+  <text x="730" y="61" fill="#EDEAE2" font-size="9">Donate</text>
+
+  <!-- Hero -->
+  <rect x="0" y="80" width="800" height="200" fill="#2C5F42"/>
+  <rect x="0" y="80" width="800" height="200" fill="#234C35"/>
+  <!-- Leaf pattern -->
+  <ellipse cx="680" cy="130" rx="40" ry="60" fill="#2C5F42" opacity="0.5"/>
+  <ellipse cx="720" cy="180" rx="35" ry="50" fill="#2C5F42" opacity="0.4"/>
+  <ellipse cx="650" cy="220" rx="30" ry="45" fill="#2C5F42" opacity="0.3"/>
+
+  <text x="40" y="130" fill="#E7E3D8" font-size="9" font-family="monospace">FOR THE PLANET</text>
+  <rect x="40" y="145" width="360" height="14" rx="1" fill="#E7E3D8"/>
+  <rect x="40" y="167" width="300" height="14" rx="1" fill="#E7E3D8"/>
+  <rect x="40" y="195" width="260" height="5" rx="1" fill="#A3A091"/>
+  <rect x="40" y="206" width="220" height="5" rx="1" fill="#A3A091"/>
+  <rect x="40" y="225" width="100" height="26" rx="2" fill="#E7E3D8"/>
+  <text x="60" y="242" fill="#191A17" font-size="9">Join us</text>
+
+  <!-- Stats row -->
+  <rect y="280" width="800" height="1" fill="#C9C4B6"/>
+  <rect x="40" y="295" width="160" height="60" fill="#EDEAE2"/>
+  <text x="50" y="318" fill="#2C5F42" font-size="28" font-weight="600">2.4M</text>
+  <text x="50" y="340" fill="#6E7066" font-size="9">Trees planted</text>
+  <rect x="210" y="295" width="160" height="60" fill="#E3DFD5"/>
+  <text x="220" y="318" fill="#2C5F42" font-size="28" font-weight="600">180+</text>
+  <text x="220" y="340" fill="#6E7066" font-size="9">Communities</text>
+  <rect x="380" y="295" width="160" height="60" fill="#EDEAE2"/>
+  <text x="390" y="318" fill="#2C5F42" font-size="28" font-weight="600">45K</text>
+  <text x="390" y="340" fill="#6E7066" font-size="9">Volunteers</text>
+  <rect x="550" y="295" width="210" height="60" fill="#E3DFD5"/>
+  <text x="560" y="318" fill="#2C5F42" font-size="28" font-weight="600">12</text>
+  <text x="560" y="340" fill="#6E7066" font-size="9">Countries reached</text>
+
+  <!-- Content section -->
+  <text x="40" y="390" fill="#6E7066" font-size="9" font-family="monospace">OUR MISSION</text>
+  <rect x="40" y="405" width="360" height="10" rx="1" fill="#191A17"/>
+  <rect x="40" y="423" width="280" height="10" rx="1" fill="#191A17"/>
+  <rect x="40" y="448" width="300" height="4" rx="1" fill="#6E7066"/>
+  <rect x="40" y="458" width="260" height="4" rx="1" fill="#6E7066"/>
+  <rect x="40" y="468" width="240" height="4" rx="1" fill="#6E7066"/>
+
+  <!-- Image block -->
+  <rect x="430" y="380" width="330" height="90" fill="#E3DFD5" stroke="#C9C4B6"/>
+  <rect x="450" y="400" width="60" height="50" fill="#2C5F42" opacity="0.3"/>
+  <rect x="520" y="395" width="50" height="55" fill="#2C5F42" opacity="0.2"/>
+  <rect x="580" y="405" width="55" height="45" fill="#2C5F42" opacity="0.25"/>
+  <rect x="645" y="398" width="50" height="52" fill="#2C5F42" opacity="0.15"/>
+  <rect x="705" y="410" width="40" height="40" fill="#2C5F42" opacity="0.3"/>
+</svg>
