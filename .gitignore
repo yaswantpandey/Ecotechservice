@@ -8,7 +8,7 @@
 .env.mail
 .DS_Store
 Thumbs.db
-
+live_pages/*
 # Editor & third-party tooling
 .vscode/
 .agents/

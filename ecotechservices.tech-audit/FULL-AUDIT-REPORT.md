@@ -1,143 +1,138 @@
-# Full Website SEO & GEO Audit Report: Ecotech Services
-
-**Target Domain:** `ecotechservices.tech`  
-**Business Classification:** B2B Technology Services, Software Consultancy & Career Portal  
-**Audit Date:** October 26, 2026  
-**Auditor Engine:** Claude SEO (Antigravity Suite)  
-**Overall SEO Health Score:** **91 / 100** (Grade: **A**)
+# Full SEO Audit — ecotechservices.tech
+**Audit date:** 2026-11-01 (re-audit; previous 2026-10-26 scored 91)
+**Method:** Full crawl of all 473 sitemap URLs + UA-specific crawler-access probes + per-page on-page parsing
+**Business type:** B2B Technology Services & Software Consultancy with a 460-page programmatic service×city grid
 
 ---
 
 ## Executive Summary
 
-Ecotech Services possesses an exceptionally strong technical and on-page SEO foundation. The site avoids common modern web pitfalls by rendering clean, server-side semantic HTML rather than bloated JavaScript single-page application shells. The content quality tested at **96/100** under Google Search Quality Evaluator (QRG) algorithms with zero detectable filler phrases and maximum information density.
+### SEO Health Score: **68 / 100 (C+)**
 
-Furthermore, the schema structured data implementation is best-in-class, featuring an integrated JSON-LD graph linking `ProfessionalService`, `Organization`, `WebSite`, `OfferCatalog`, and dynamic `BreadcrumbList`. 
+| Category | Weight | Score | Weighted |
+|---|---|---|---|
+| Technical SEO | 22% | 55 | 12.2 |
+| Content Quality & E-E-A-T | 23% | 78 | 17.9 |
+| On-Page SEO | 20% | 62 | 12.4 |
+| Schema & Structured Data | 10% | 95 | 9.5 |
+| Performance (CWV) | 10% | 78 | 7.8 |
+| AI Search Readiness | 10% | 35 | 3.5 |
+| Images | 5% | 95 | 4.8 |
+| **Total** | 100% | | **68** |
 
-The primary opportunities for rapid organic growth and citation dominance lie in **Generative Engine Optimization (GEO)**—namely publishing an `llms.txt` document, explicitly allowing AI crawlers in `robots.txt`, verifying production SSL handshake on port 443, and activating the programmatic SEO database callset in `global_seo_pages.sql`.
+**Why the score fell from 91 to 68:** the previous audit flagged an SSL/probe anomaly as a "verify on production" item; this re-audit completed the production probes and confirmed it as an active **JS anti-bot challenge wall on InfinityFree free hosting** that blocks every crawler except Googlebot and Bingbot. The 2026-10-26 quick wins were, however, largely executed — HSTS is live, llms.txt is published, robots.txt welcomes AI crawlers, the IndexNow key deploys, and the homepage meta description is trimmed. The new 473-page programmatic grid adds a fresh wave of measurable, mechanical title/description overlength issues.
 
----
+### Top 5 critical issues
+1. **JS challenge wall (Critical):** cookie-less sessions get an 847-byte JS interstitial or dropped connection. Only Googlebot/Bingbot are whitelisted; GPTBot/DuckDuckBot/Applebot get the stub, YandexBot gets **HTTP 403**. Root cause: hosting layer, not site code or certs.
+2. **AI engines can't cite the site (Critical):** robots.txt explicitly allows GPTBot/PerplexityBot/ClaudeBot/Applebot-Extended and /llms.txt exists — but the challenge blocks those bots on 100% of paths including static files.
+3. **379/473 titles > 60 chars (High):** template `Best [Service] Company in [City] | Ecotech Services` truncates in SERPs on most city names.
+4. **216/473 descriptions > 160 chars (High):** closing sales phrase severed on 211 of 420 non-web-dev city pages.
+5. **/blog indexed but empty (High):** renders "No posts yet"; zero posts in sitemap.
 
-## Category Scorecard
-
-| Category | Score | Status | Key Highlights |
-| :--- | :---: | :---: | :--- |
-| **1. Technical Architecture & Speed** | 88/100 | **Strong** | Fast server response, GZIP compression, 1-year asset caching, security headers. |
-| **2. Structured Data (Schema.org)** | 96/100 | **Exceptional** | Comprehensive JSON-LD graph: Organization, LocalBusiness, OfferCatalog, Breadcrumbs. |
-| **3. Content Quality & E-E-A-T** | 95/100 | **Exceptional** | Tested 96/100 QRG score. Zero fluff. Authentic portfolio case studies & named founder. |
-| **4. On-Page Metadata & Semantics** | 90/100 | **Strong** | Clean H1/H2/H3 hierarchy, descriptive alt tags, Open Graph + Twitter cards. |
-| **5. Search Engine Indexing & Sitemaps** | 95/100 | **Exceptional** | IndexNow host key configured (`82568927e2e0467eac3f26e8e621ea0a`), dynamic XML sitemaps. |
-| **6. AI Search & Agent Readiness (GEO)** | 76/100 | **Opportunity** | Server-rendered content extracts cleanly; missing `llms.txt` and explicit AI bot policies. |
-| **7. Search Experience (SXO) & Mobile** | 92/100 | **Strong** | High-contrast dark mode UX, accessible touch targets, clear call-to-actions. |
-
----
-
-## Detailed Category Deep Dives
-
-### 1. Technical Architecture & Speed (Score: 88/100)
-
-#### What Works
-- **Fast TTFB:** Clean PHP 8.3 & Apache 2.4 stack delivers sub-50ms server response times.
-- **Far-Future Caching:** Static assets (CSS, JavaScript, WebP images, fonts) carry `access plus 1 year` `ExpiresByType` headers and `max-age=31536000, immutable` flags.
-- **Compression:** GZIP/Deflate is enabled across all text, JSON, XML, and SVG MIME types.
-- **Security Headers:** `X-Frame-Options: SAMEORIGIN`, `X-Content-Type-Options: nosniff`, `Referrer-Policy: strict-origin-when-cross-origin`, and `Permissions-Policy` are enforced via `.htaccess`.
-
-#### Findings & Required Fixes
-1. **Production SSL / TLS Handshake Issue (`Critical`):**  
-   Direct probe to `https://ecotechservices.tech` closed abruptly on port 443 (`missing close_notify`). This usually happens when an SSL certificate is missing an intermediate bundle or when Cloudflare/Hostinger SSL mode is set to flexible instead of Full/Strict.
-2. **Missing HSTS Header (`Medium`):**  
-   Add `Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"` in `public/.htaccess` to prevent man-in-the-middle downgrade attacks.
+### Top 5 quick wins
+1. One-line title template change → `[Service] in [City] | Ecotech Services` (fixes 379 titles at once)
+2. Trim description template to ≤155 chars (fixes 216)
+3. Publish a 3-5 post starter batch — or noindex /blog until populated
+4. Add 301 redirects for `http://` and `www.` variants (5 minutes of .htaccess)
+5. After hosting migration: resubmit sitemap + all URLs via IndexNow, re-probe AI-bot UAs
 
 ---
 
-### 2. Structured Data (Schema.org JSON-LD) (Score: 96/100)
+## 1. Technical SEO (55/100)
 
-#### What Works
-The layout file (`app/views/layouts/main.php`) emits a complete, interconnected Schema graph:
-- **`ProfessionalService` & `Organization`**: Contains exact coordinates (`26.8467, 80.9462`), full postal address, business phone, email, and social profiles (`sameAs`).
-- **`OfferCatalog`**: Enumerates 6 core service offerings (`Web Development`, `Web Security & Penetration Testing`, `Mobile App Development`, `Cloud & DevOps`, `UI/UX Design`, `Digital Marketing`).
-- **`BreadcrumbList`**: Automatically constructed from URI segments with position counting.
-- **`WebSite`**: Includes `SearchAction` markup linking to the site search query handler.
+### Crawl availability (the dominant issue)
+The live host is InfinityFree free shared hosting (`Server: openresty`, IP 185.27.134.149). Observed with real UAs:
 
-#### Recommendation
-- **AggregateRating:** Once client reviews are published, inject an `AggregateRating` node to unlock review star snippets in Google search results.
+| UA | Result |
+|---|---|
+| Googlebot | ✅ full content, 3/3 |
+| bingbot | ✅ full content |
+| GPTBot | ❌ JS challenge, 3/3 |
+| DuckDuckBot | ❌ JS challenge |
+| Applebot | ❌ JS challenge |
+| YandexBot | ❌ HTTP 403 |
+| Chrome, no cookies | ❌ 5/5 dropped TLS connections (curl 56, missing close_notify) — then interstitial with `?i=1` |
 
----
+The prior audit's "SSL handshake abrupt termination" is now root-caused to this hosting layer. The certificate chain itself is valid (Let's Encrypt, openssl-verified), the site's own server responses are fast (avg 1.55s, p95 2.32s once through), and the application code produces crawler-clean output once fetched.
 
-### 3. Content Quality & E-E-A-T (Score: 95/100)
+### Fixed since last audit
+- ✅ HSTS `max-age=31536000; includeSubDomains; preload` — live
+- ✅ llms.txt — live (2.8KB, high quality)
+- ✅ robots.txt AI-crawler allow blocks — live (rules accurate; ineffective until the challenge wall is gone)
+- ✅ IndexNow key file — live, content matches
+- ✅ Homepage meta description — trimmed and inside the limit
 
-#### Quality Scoring (claude-seo `content_quality.py`):
-```json
-{
-  "overall_quality": 96,
-  "filler_score": 0,
-  "ai_pattern_score": 0,
-  "information_density": 1.0,
-  "tokens": 4690,
-  "unique_tokens": 899
-}
-```
-
-#### E-E-A-T Signals:
-- **Experience:** Real production deliverables with live portfolio previews (Pandey Reality, Apna Cleaning, Kranti Furniture).
-- **Expertise:** Concrete 5-stage engineering methodology (Discovery, Architecture, Secure Build, CI/CD, Maintenance).
-- **Authoritativeness:** Explicit internship tracks with mentor review and verifiable certificate identification.
-- **Trustworthiness:** Transparent company contact details, registered address in Lucknow, UP, and direct WhatsApp contact.
-
-#### Recommendation
-- **Meta Description Length:** The homepage meta description is currently 182 characters:
-  > *"Ecotech Service delivers high-performance website development, ethical cybersecurity & penetration testing, custom mobile apps, and data-driven digital marketing for ambitious businesses."*
-  
-  **Optimized (154 characters):**
-  > *"Ecotech Service builds high-performance web platforms, secure mobile apps, and enterprise cloud solutions. Certified engineering based in Lucknow, India."*
+### Still open
+- JS challenge wall (Critical — hosting migration)
+- No 301s for `http://` and `www.` host variants (Medium)
+- No Content-Security-Policy header (Low)
+- Single outlier 16.3s crawl response (Info — likely hosting congestion)
 
 ---
 
-### 4. IndexNow & Search Engine Connectivity (Score: 95/100)
+## 2. Content Quality & E-E-A-T (78/100)
 
-#### What Works
-- **IndexNow Key:** `82568927e2e0467eac3f26e8e621ea0a` successfully stored in `.env`, `.env.example`, and Claude SEO plugin configuration.
-- **Verification File:** `public/82568927e2e0467eac3f26e8e621ea0a.txt` created with the exact host key content.
-- **PHP Programmatic Dispatch:** `submitIndexNow()` helper created in `app/helpers/Helpers.php`, allowing instant indexing notifications on post, service, or project publication.
+**Strengths:** named Technical Director across all surfaces (llms.txt, about, schema), portfolio links to four live client sites, core pages 314–953 words, geo pages ~330 words with structure.
 
-#### Recommendation
-- **Sitemap Disk Cache Guard:** In `SitemapController.php`, ensure `file_put_contents` is guarded so local requests during development do not write `http://localhost/...` into `public/sitemap.xml`.
-
----
-
-### 5. Generative Engine Optimization (GEO) & Agent Readiness (Score: 76/100)
-
-#### Current State
-- `agentic_check.py` confirmed clean content extraction (716 words without JS execution).
-- However, AI search engines (ChatGPT, Perplexity, Claude, Apple Intelligence) are accelerating adoption of the `llms.txt` standard.
-
-#### Action Items:
-1. **Create `/public/llms.txt`:** Provide a concise Markdown file introducing the company, core competencies, tech stack, and primary URLs.
-2. **AI Crawler Allowances in `robots.txt`:** Add explicit allow statements for `GPTBot`, `PerplexityBot`, and `ClaudeBot`.
+**Open issues:**
+1. **/blog empty but indexed** (High) — "No posts yet", 178 words, no post URLs in sitemap. Fix: starter posts or noindex until populated.
+2. **Scaled-content risk on the 460-page grid** (Medium) — one interchangeable copy template across 23 service types × 36 cities ("We provide X for businesses in Y — fast, scalable and secure solutions…"). This matches what Google's scaled-content-abuse policy targets. Fix: per-city intros, 3-4 unique FAQs, one local proof point, prioritizing primary-service × largest-city pages.
+3. **/internships live but not sitemapped** (Low) — it's header/footer-linked and in llms.txt.
 
 ---
 
-## Action Plan: Priority Matrix
+## 3. On-Page SEO (62/100)
 
-```mermaid
-graph TD
-    A[Audit Completed: 91/100] --> B[Phase 1: Week 1]
-    A --> C[Phase 2: Weeks 2-3]
-    A --> D[Phase 3: Month 2]
+**Site-wide fundamentals are clean:** 0 duplicate titles, 0 duplicate descriptions, 1 H1/page on 473/473, self-canonical on 473/473, 34/34 images with alt, no noindex, no canonical mismatches, accurate 404 handling.
 
-    B --> B1[Verify Live SSL Certificate]
-    B --> B2[Deploy IndexNow Key File]
-    B --> B3[Trim Meta Description to 155 Chars]
+The entire downside is the programmatic template:
+- Titles >60: 358/420 other-service pages, 20/20 mobile pages (only web-dev pages were trimmed: 1/20)
+- Descriptions >160: 211/420 other-service pages, 4/20 mobile, 1 core
+- Project descriptions very short (~67 chars) — the inverse problem, little keyword surface
 
-    C --> C1[Publish public/llms.txt]
-    C --> C2[Update robots.txt for AI Crawlers]
-    C --> C3[Add HSTS Header]
-
-    D --> D1[Execute global_seo_pages.sql Migration]
-    D --> D2[Bulk Ping IndexNow with 300+ URLs]
-    D --> D3[Add AggregateRating Schema]
-```
+Both fixes are single-line changes in the shared service-page controller — no per-page editing needed.
 
 ---
 
-*Generated by Claude SEO Multi-Agent Engine under Antigravity IDE.*
+## 4. Schema & Structured Data (95/100)
+
+Valid JSON-LD on every page: Organization + ProfessionalService + WebSite + ItemList + BreadcrumbList on 473/473, Service on the 460 service pages, zero parse errors. Outstanding items are both Low:
+- AggregateRating/Review still absent (needs verified client reviews) — highest-value missing rich result for 460 service pages
+- FAQPage markup to be added when per-city FAQs ship
+
+---
+
+## 5. Performance (78/100 — crawl-estimate only)
+
+No CrUX/GSC/Lighthouse data available in this environment (no Google API credentials configured); figures are directional from the full crawl. Avg 1.55s / p95 2.32s response totals, gzip active, lean server-rendered HTML, one CDN dependency. The measurable penalty is the first-hit challenge interstitial + `?i=1` redirect for new visitors. After hosting migration, pull CrUX CWV from GSC for the 7 core pages.
+
+---
+
+## 6. AI Search Readiness (35/100 — down from 76)
+
+All infrastructural wins are live — llms.txt (excellent: identity, 6 anchored services, 4 portfolio links, stack, internships), robots.txt explicitly allowing the 4 major AI crawlers, IndexNow key. But AI crawlers receive the challenge on every tested path, so **citing engines cannot read any of it**. This is why the score dropped despite the previous audit's fixes shipping: the fixes are correct but dead-lettered by the host layer. One migration restores the entire category.
+
+---
+
+## 7. Images (95/100)
+
+34 images, 0 missing alt. Only items: a third-party thumbnail dependency (image.thum.io) and the absence of images on geo templates (fine today; ship with local alt text when local proof content is added).
+
+---
+
+## Deployment context notes
+- CI/CD via GitHub Actions FTP-Deploy to `ecotechservices.tech/htdocs/` (InfinityFree); PHPMailer vendor built in CI; SMTP targets `smtp.hostinger.com` — the infrastructure preference for a paid-host migration already exists
+- Sitemap lastmods: grid pages 2026-10-25 (grid deployment date), core pages 2026-11-01 — deploys are current
+- Local audit tooling: `audit_scripts/` (crawl, analyze, stats, sample) and `live_pages/` (raw corpus) are working data generated by this audit
+
+---
+
+## Scoring rationale
+- Technical SEO 55: everything on-page/headers/sitemap is right; the score collapses on crawl availability for non-Google/Bing crawlers, which is a hosting-layer property
+- Content 78: strong core E-E-A-T minus empty blog and genuine scaled-content risk on 95%+ of the corpus
+- On-Page 62: clean fundamentals, 80% title truncation on the programmatic grid
+- Schema 95, Images 95: essentially done
+- Performance 78: unmeasured field data; lab signals good modulo challenge
+- AI Readiness 35: infrastructure all correct, zero effective reach
+
+**Total: 68 / 100 (C+).** The path back to 90+ is short because almost every issue is a template change or a hosting move: hosting migration (+~15-20 across two categories), title/description template fix (+~6), blog decision (+~2), redirects/CSP (+~2) → ~92-94 potential.

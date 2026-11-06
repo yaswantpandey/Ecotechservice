@@ -1,138 +1,218 @@
 {
   "summary": {
     "domain": "ecotechservices.tech",
-    "health_score": 91,
-    "grade": "A",
-    "business_type": "B2B Technology Services & Software Consultancy",
-    "audit_timestamp": "2026-10-26T13:05:00Z",
+    "health_score": 68,
+    "grade": "C+",
+    "previous_audit_score": 91,
+    "previous_audit_date": "2026-10-26",
+    "business_type": "B2B Technology Services & Software Consultancy (Programmatic local service pages)",
+    "audit_timestamp": "2026-11-01",
+    "audit_method": "Full crawl of all 473 sitemap URLs via simulated browser session (JS-challenge pass-through), per-page on-page parsing, UA-specific crawler-access probes for Googlebot, Bingbot, GPTBot, DuckDuckBot, YandexBot, Applebot",
     "top_findings": [
       {
-        "title": "Production SSL / TLS handshake requires verification on live host",
+        "title": "Hosting anti-bot JS challenge blocks every crawler except Googlebot/Bingbot",
         "severity": "Critical",
-        "category": "Technical SEO"
+        "category": "Technical SEO / Crawl Availability"
       },
       {
-        "title": "Sitemap & robots.txt local disk cache overwrite safeguard needed",
+        "title": "379 of 473 page titles exceed 60 characters (programmatic template)",
         "severity": "High",
-        "category": "Crawlability & Indexation"
+        "category": "On-Page SEO"
       },
       {
-        "title": "Missing llms.txt standard for Generative AI search engine indexing",
+        "title": "216 of 473 meta descriptions exceed 160 characters",
+        "severity": "High",
+        "category": "On-Page SEO"
+      },
+      {
+        "title": "/blog is indexed in the sitemap but contains zero posts (renders 'No posts yet')",
+        "severity": "High",
+        "category": "Content Quality"
+      },
+      {
+        "title": "Near-identical templated copy across 460 programmatic service×city pages",
         "severity": "Medium",
-        "category": "AI Search / Agent Readiness"
-      },
-      {
-        "title": "Meta description length exceeds 160 character limit (182 chars)",
-        "severity": "Low",
-        "category": "On-Page Metadata"
+        "category": "Content Quality / Scaled Content Risk"
       }
     ],
     "quick_wins": [
-      "Add public/llms.txt with core business services and technical capability summaries",
-      "Trim homepage meta description from 182 to 155 characters",
-      "Explicitly allow AI search crawlers (GPTBot, PerplexityBot, ClaudeBot) in robots.txt",
-      "Deploy public/82568927e2e0467eac3f26e8e621ea0a.txt to activate instant IndexNow submissions"
+      "Shorten title template for 460 geo pages: drop 'Best' and 'Company', or move brand out of the pattern (e.g. 'Mobile App Development in Lucknow — Ecotech Services')",
+      "Trim 216 geo-page meta descriptions to ≤155 characters by cutting the second sentence",
+      "Populate the /blog with at least one real post or remove /blog from the sitemap until it has content",
+      "Add 301 redirects: http:// → https:// and www → non-www (canonical tags currently mask duplicate hosts)",
+      "After hosting fix, resubmit all 473 URLs via IndexNow and verify AI-crawler access to /llms.txt"
     ]
   },
   "categories": [
     {
       "name": "Technical SEO",
-      "score": 88,
+      "weight": 22,
+      "score": 55,
       "what_works": [
-        "High performance response time under Apache 2.4 and PHP 8.3",
-        "Clean semantic HTML5 structure with no heavy JS client shells",
-        "Far-future browser caching for static assets (1-year headers)",
-        "GZIP / Deflate compression enabled for text, CSS, JS, and SVG",
-        "Security headers enabled (X-Frame-Options, X-Content-Type-Options, Referrer-Policy)"
+        "All 473 sitemap URLs return HTTP 200 in a full crawl (0 errors, 0 redirects-in-sitemap)",
+        "HSTS now live: Strict-Transport-Security max-age=31536000; includeSubDomains; preload (previous audit finding fixed)",
+        "Full security header set: X-Frame-Options SAMEORIGIN, X-Content-Type-Options nosniff, Referrer-Policy strict-origin-when-cross-origin, Permissions-Policy, X-XSS-Protection",
+        "Gzip compression confirmed working (42KB page → 7KB wire size)",
+        "True 404 status codes for nonexistent URLs (no soft-404s)",
+        "Googlebot (3/3 probes) and Bingbot (1/1) receive full 40.5KB pages, no challenge",
+        "Self-referencing canonicals correct on all 473 pages; no robots-meta noindex anywhere"
       ],
       "findings": [
         {
-          "title": "Production SSL Handshake Abrupt Termination",
+          "title": "JS anti-bot challenge wall serves crawlers a 847-891-byte stub",
           "severity": "Critical",
-          "description": "During direct TLS probe to https://ecotechservices.tech, the server closed the connection abruptly without close_notify. This indicates an SSL chain or CDN forwarding issue on port 443.",
-          "recommendation": "Verify SSL certificate installation in Hostinger/Cloudflare panel and ensure Full (Strict) SSL encryption mode is active."
+          "description": "Live host is InfinityFree free shared hosting (IP 185.27.134.149, Server: openresty). First-time cookie-less sessions receive a JavaScript cookie challenge (aes.js / __test). Probes: GPTBot 3/3 challenge-page, DuckDuckBot challenge, Applebot challenge, YandexBot HTTP 403; with a desktop-browser UA, 5/5 initial requests dropped the TLS connection entirely (curl 56, missing close_notify) and the rest returned the challenge stub. Content is only reachable after executing JS and carrying the __test cookie. This also explains the 'SSL handshake abrupt termination' flagged in the 2026-10-26 audit — the root cause is the hosting layer, not the certificate (Let's Encrypt chain verified valid).",
+          "recommendation": "Move to paid hosting (the codebase already targets Hostinger SMTP; a basic Hostinger/shared paid plan removes the challenge layer entirely). Alternative minimum mitigation: any CDN/proxy in front that serves content without the challenge. After migration, verify with GSC URL Inspection and re-probe all six crawler UAs."
         },
         {
-          "title": "Missing Strict-Transport-Security (HSTS) Header",
-          "severity": "Medium",
-          "description": "The response does not send HSTS header, leaving users and search bots vulnerable to downgrade attacks.",
-          "recommendation": "Add 'Header always set Strict-Transport-Security \"max-age=31536000; includeSubDomains; preload\"' to .htaccess."
-        }
-      ]
-    },
-    {
-      "name": "Structured Data & Schema.org",
-      "score": 96,
-      "what_works": [
-        "Extensive JSON-LD graph combining ProfessionalService, Organization, and WebSite",
-        "Accurate local coordinates (26.8467, 80.9462) and full postal address for Lucknow",
-        "OfferCatalog with 6 granular tech services and anchor links",
-        "Dynamic BreadcrumbList auto-generated from route segments",
-        "SearchAction potentialAction included on WebSite entity"
-      ],
-      "findings": [
+          "title": "AI search engines receive the challenge and cannot index anything — including /llms.txt and /sitemap.xml",
+          "severity": "Critical",
+          "description": "robots.txt explicitly allows GPTBot, PerplexityBot, ClaudeBot, Applebot-Extended, and /llms.txt (2.8KB, well-structured) is published — but YandexBot gets 403, GPTBot/DuckDuckBot/Applebot get the JS challenge on every path tested, including static text files. AI crawlers do not execute JavaScript, so llms.txt is currently unreachable server-side despite returning 200 with correct content to humans.",
+          "recommendation": "Fixed automatically by the hosting migration; verify afterwards by probing /llms.txt with GPTBot/PerplexityBot UAs. Until then AI Search Readiness is effectively zero despite compliant robots.txt."
+        },
         {
-          "title": "Review / AggregateRating Schema Expansion",
+          "title": "No 301 redirects for http:// and www host variants",
+          "severity": "Medium",
+          "description": "http://ecotechservices.tech and https://www.ecotechservices.tech return 200 directly (no redirect to the canonical host). Self-canonical tags mitigate duplicate-host indexing, but link equity across host variants is split and any canonical-tag parsing error creates genuine duplicates.",
+          "recommendation": "Add 301 redirects for both variants at the web root after migration (InfinityFree htdocs .htaccess supports RewriteRule)."
+        },
+        {
+          "title": "No Content-Security-Policy header",
           "severity": "Low",
-          "description": "The Schema graph does not yet include verified client reviews or an aggregate rating score.",
-          "recommendation": "Add AggregateRating markup once verified client testimonials are compiled to win rich review stars in Google SERPs."
+          "description": "All other security headers are present; CSP is the missing one. Not a ranking factor but a security and Page-Experience hygiene item.",
+          "recommendation": "Add (e.g.) 'Content-Security-Policy: default-src 'self'; cdnjs.allow' tuned to the existing cdnjs.cloudflare.com dependencies."
         }
       ]
     },
     {
       "name": "Content Quality & E-E-A-T",
-      "score": 95,
+      "weight": 23,
+      "score": 78,
       "what_works": [
-        "Tested 96/100 on QRG Content Quality Scorer with 0 filler and 1.0 information density",
-        "Named Founder & Technical Director (Yaswant Kumar) establishing strong authoritativeness",
-        "Authentic portfolio case studies with verified live external links",
-        "Clear 5-stage engineering delivery process demonstrating direct domain expertise"
+        "Named Technical Director (Yaswant Kumar) and technical-contact identity present sitewide (llms.txt + about)",
+        "Portfolio pages link to verified live client sites (pandeyreality.com, apnacleanig.in, krantifurniture.in, yaswant.co.in)",
+        "Core page content depth: /templates 953 words, /about 562, /contact 477, /services 374, /projects 314, homepage ~600",
+        "Programmatic geo pages average 329-338 words with clear H1/H2/breadcrumb structure and 56 internal links each",
+        "llms.txt is accurate, token-efficient and matches on-page claims"
       ],
       "findings": [
         {
-          "title": "Homepage Meta Description Truncation",
-          "severity": "Low",
-          "description": "Homepage meta description is 182 characters, which gets truncated by Google at ~155-160 characters on desktop and mobile.",
-          "recommendation": "Condense description to ~155 characters focused on core value proposition and primary keywords."
-        }
-      ]
-    },
-    {
-      "name": "AI Search Readiness & Agentic SEO (GEO)",
-      "score": 76,
-      "what_works": [
-        "Server-rendered static HTML with 716 words easily extracted without JavaScript execution",
-        "Proper semantic hierarchy for LLM embedding extraction"
-      ],
-      "findings": [
-        {
-          "title": "Missing llms.txt Discovery Document",
-          "severity": "Medium",
-          "description": "Emerging AI search engines (ChatGPT Search, Perplexity, Claude, Apple Intelligence) look for /llms.txt to ingest clean, token-efficient summaries.",
-          "recommendation": "Publish /public/llms.txt detailing Ecotech Services capabilities, offerings, tech stack, and portfolio."
+          "title": "/blog indexed in sitemap, zero posts",
+          "severity": "High",
+          "description": "/blog (178 words) renders the heading 'No posts yet'. No /blog/post URLs exist in the sitemap. An empty indexed section signals site neglect to both users and quality raters and wastes crawl budget.",
+          "recommendation": "Either publish a starter batch (3-5 posts reusing existing geo-page research topics) and only then keep /blog in the sitemap, or drop /blog from the sitemap and noindex it until real posts exist."
         },
         {
-          "title": "Robots.txt AI User-Agent Whitelisting",
-          "severity": "Low",
-          "description": "Robots.txt does not explicitly mention AI search user agents (GPTBot, PerplexityBot, ClaudeBot).",
-          "recommendation": "Add explicit allow rules for major AI search engines to maximize AI Overviews citation probability."
+          "title": "Templated copy across 460 service×city pages",
+          "severity": "Medium",
+          "description": "The 460/473 programmatic pages (23 service types × up-to-36-city grid) share near-identical copy — e.g. 'We provide [Service] for businesses in [City] — fast, scalable and secure solutions built around how your business actually works.' — with only the entity swap. Google's scaled-content-abuse guidance explicitly targets search-first-generated pages created to manipulate rankings; average 338 words of interchangeable text is a live risk for the whole grid.",
+          "recommendation": "Differentiate at minimum: per-city intro paragraph referencing a real local project/market fact, 3-4 unique FAQs per city, one local proof point (testimonial, delivered project, or response-time SLA). Prioritise the 36 × primary-service pages, then roll out."
         }
       ]
     },
     {
-      "name": "Search Engine Indexing & Sitemaps",
-      "score": 95,
+      "name": "On-Page SEO",
+      "weight": 20,
+      "score": 62,
       "what_works": [
-        "IndexNow API key and host verification file configured (82568927e2e0467eac3f26e8e621ea0a)",
-        "Dynamic XML sitemap controller with core pages, blog posts, projects, and programmatic SEO routes",
-        "PHP helper submitIndexNow() available for instant programmatic pings"
+        "Zero duplicate titles and zero duplicate descriptions across all 473 pages",
+        "Exactly one H1 per page on all 473 pages",
+        "Self-referencing canonical on 473/473 pages, no mismatches",
+        "34 images crawled, 0 missing alt attributes",
+        "Title/meta present on 100% of pages"
       ],
       "findings": [
         {
-          "title": "SitemapController Disk Cache Environment Guard",
+          "title": "379 titles exceed the 60-character truncation limit",
           "severity": "High",
-          "description": "SitemapController currently writes generated sitemap.xml to disk even in development, which risks committing localhost URLs.",
-          "recommendation": "Guard file_put_contents with 'if (APP_ENV === \"production\")' in SitemapController."
+          "description": "Distribution: 358/420 'other service' city pages (avg 67.7 chars), 20/20 mobile-app pages (avg 65), 1/20 web-dev pages, 3/7 core pages. Typical offender: 'Best Mobile App Development Company in Bangalore | Ecotech Services' (67 chars → '…| Ecotech Services' is cut in SERPs). Truncation removes the brand and CTA word and gives full SERP control to Google's rewrite.",
+          "recommendation": "Change the title template to '[Service] in [City] | Ecotech Services' (drops 'Best' and 'Company': Bangalore example 67→48 chars). One-line change in the shared per-service controller."
+        },
+        {
+          "title": "216 meta descriptions exceed 160 characters",
+          "severity": "High",
+          "description": "211/420 other-service pages (avg 161.6 chars) plus 4/20 mobile pages plus 1 core page. Google truncates at ~155-160 desktop / ~120 mobile, so the closing sales phrase is consistently severed.",
+          "recommendation": "Shorten template to ≤155 chars: keep '[Service] for [City] businesses' + one differentiator, delete the second sentence."
+        }
+      ]
+    },
+    {
+      "name": "Schema & Structured Data",
+      "weight": 10,
+      "score": 95,
+      "what_works": [
+        "Valid JSON-LD on 473/473 pages (0 parse errors)",
+        "Organization + ProfessionalService + WebSite + BreadcrumbList + ItemList on every page",
+        "Service schema on the 460 service pages (correctly omitted on projects/portfolio)",
+        "LocalBusiness identity (coordinates, address, founder) consistent with llms.txt"
+      ],
+      "findings": [
+        {
+          "title": "AggregateRating / Review markup still absent",
+          "severity": "Low",
+          "description": "Unchanged from the previous audit: no verified reviews anywhere, so no rich-result stars. Now locally relevant on 460 service pages where review stars would differentiate SERPs.",
+          "recommendation": "Collect 5-6 verified client reviews, then add AggregateRating + review arrays to the ProfessionalService node with a politeness policy per city page."
+        },
+        {
+          "title": "FAQPage schema absent on programmatic pages",
+          "severity": "Low",
+          "description": "If per-city FAQs are added (Content finding), pairing them with FAQPage JSON-LD gives the tiles a second rich-result surface.",
+          "recommendation": "Add FAQPage JSON-LD alongside the per-city FAQ copy when it ships."
+        }
+      ]
+    },
+    {
+      "name": "Performance (Core Web Vitals)",
+      "weight": 10,
+      "score": 78,
+      "what_works": [
+        "Crawl-measured response times: avg 1.55s, p95 2.32s, incl. network + TLS from a single client (no CrUX field data available in this audit)",
+        "Gzip active; lean server-rendered HTML (no client framework hydration)",
+        "Only 1 CDN dependency (cdnjs.cloudflare.com) per page; minimal third-party JS",
+        "Long-cache static assets noted in previous audit remain in place"
+      ],
+      "findings": [
+        {
+          "title": "First-hit UX penalty from anti-bot challenge, outliers above 16s",
+          "severity": "Medium",
+          "description": "A real first-time visitor's first request frequently returns the JS interstitial plus an extra redirect (?i=1), which delays LCP and consumes a hop before content; single worst observed crawl time 16.3s. Field CWV (CrUX) could not be measured in this audit.",
+          "recommendation": "Resolves with the hosting migration; after migration, measure LCP/INP/CLS in CrUX via GSC for the 7 core pages first, then template pages."
+        }
+      ]
+    },
+    {
+      "name": "AI Search Readiness & Agentic",
+      "weight": 10,
+      "score": 35,
+      "what_works": [
+        "/llms.txt published (2.8KB, 34 lines) with company identity, 6 services anchored to /services, 4 live portfolio links, tech stack, internship program",
+        "robots.txt explicitly allows GPTBot, PerplexityBot, ClaudeBot, Applebot-Extended",
+        "Server-rendered HTML rewards anything that does get in: no JS needed to read content",
+        "IndexNow key file live at /82568927e2e0467eac3f26e8e621ea0a.txt"
+      ],
+      "findings": [
+        {
+          "title": "AI crawlers receive the JS challenge on 100% of tested paths",
+          "severity": "Critical",
+          "description": "GPTBot: challenge page on /, /llms.txt, /sitemap.xml, service pages (3/3 and 4/4). DuckDuckBot, Applebot: challenge. YandexBot: HTTP 403. AI answers therefore cannot cite this site even though robots.txt welcomes the same bots — the allow rules are dead letters at the application layer.",
+          "recommendation": "Host migration (see Technical SEO). After migration, probe / and /llms.txt with GPTBot/PerplexityBot/ClaudeBot UAs and confirm 200 + real content, then resubmit via IndexNow."
+        }
+      ]
+    },
+    {
+      "name": "Images",
+      "weight": 5,
+      "score": 95,
+      "what_works": [
+        "34 images across crawled pages, 0 missing alt text",
+        "Heaviest visual content is on portfolio pages where it carries real meaning"
+      ],
+      "findings": [
+        {
+          "title": "Third-party screenshot service (image.thum.io) referenced",
+          "severity": "Low",
+          "description": "A blog/portfolio link points to image.thum.io, an external thumbnail-rendering service — an availability and latency dependency for visual content.",
+          "recommendation": "Render portfolio thumbnails to local WebP/AVIF files instead of calling the third-party thumbnail service at view time."
         }
       ]
     }
@@ -140,31 +220,42 @@
   "action_plan": {
     "phases": [
       {
-        "name": "Phase 1: Immediate & Critical Fixes",
+        "name": "Phase 1: Crawl Availability & Template Fixes",
         "timeframe": "Week 1",
         "items": [
-          "Verify production SSL certificate and ensure strict HTTPS forwarding on live server",
-          "Deploy IndexNow verification file (82568927e2e0467eac3f26e8e621ea0a.txt) to production root",
-          "Guard SitemapController disk caching so localhost URLs are never committed",
-          "Trim homepage meta description to 155 characters"
+          "Migrate off InfinityFree to paid shared hosting (Hostinger base plan) — removes the JS challenge for every crawler at once (Critical)",
+          "Verify post-migration: GSC URL Inspection on /, plus UA probes for GPTBot, PerplexityBot, DuckDuckBot, YandexBot on / and /llms.txt",
+          "One-line title template fix on 460 geo pages: '[Service] in [City] | Ecotech Services' (fixes 379 truncated titles)",
+          "Description template trim to ≤155 chars (fixes 216)"  
         ]
       },
       {
-        "name": "Phase 2: AI Search & GEO Optimization",
+        "name": "Phase 2: Programmatic Pages & Indexing",
         "timeframe": "Weeks 2-3",
         "items": [
-          "Create and publish /public/llms.txt and /public/llms-full.txt",
-          "Update robots.txt to explicitly welcome GPTBot, PerplexityBot, and ClaudeBot",
-          "Add HSTS (Strict-Transport-Security) header in public/.htaccess"
+          "Add per-city uniqueness to the 36 primary-service pages: unique intro, 3 FAQs (with FAQPage schema), one local proof point; then roll the pattern to the 20-city secondary services",
+          "Decide /blog: publish 3-5 posts or noindex it and drop from sitemap until populated",
+          "Add 301 redirects http→https and www→apex; resubmit sitemap + all 473 URLs via submitIndexNow()",
+          "Add Content-Security-Policy header"
         ]
       },
       {
-        "name": "Phase 3: Programmatic SEO & Authority",
+        "name": "Phase 3: Authority & Rich Results",
         "timeframe": "Month 2",
         "items": [
-          "Execute database migration for global_seo_pages.sql to activate 300+ geo-targeted landing pages",
-          "Add localized FAQs and client testimonials to programmatic templates to strengthen E-E-A-T",
-          "Submit all newly generated pages to Bing, Yandex, and Naver via submitIndexNow()"
+          "Collect verified client reviews; add AggregateRating/Review to ProfessionalService",
+          "Cover-ship the /internships page into the sitemap (live but unlisted; it has inbound portfolio/footer links)",
+          "Replace image.thum.io dependencies with locally-cached WebP thumbnails",
+          "Measure CrUX CWV in GSC for core pages; fix whatever misses thresholds"
+        ]
+      },
+      {
+        "name": "Phase 4: Monitoring",
+        "timeframe": "Ongoing",
+        "items": [
+          "Monthly re-crawl of the 473-URL sitemap with per-UA crawler probes (rerun this audit)",
+          "AI-citation spot checks: ask ChatGPT/Perplexity 'best [service] in [city]' for the 36 priority pages",
+          "Watch GSC coverage for the service×city grid; remove permanently unindexable combos from the sitemap"
         ]
       }
     ]

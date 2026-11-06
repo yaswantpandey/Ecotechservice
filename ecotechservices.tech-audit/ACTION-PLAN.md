@@ -1,98 +1,53 @@
-# Prioritized SEO Action Plan: Ecotech Services
+# Prioritized Action Plan — ecotechservices.tech
+**Generated:** 2026-11-01 · from FULL-AUDIT-REPORT.md (Health Score 68/100)
 
-This action plan categorizes every audit recommendation by urgency and business impact. Follow this implementation sequence to maximize organic rankings and AI search visibility.
-
----
-
-## Phase 1: Immediate & Critical Fixes (Week 1)
-
-### 1. Verify Production SSL / TLS Configuration
-- **Severity:** Critical
-- **Impact:** Eliminates security warnings and prevents search engine indexing drops.
-- **Action:**
-  1. Log into your hosting control panel (Hostinger / cPanel) or Cloudflare dashboard.
-  2. If using Cloudflare, set the SSL/TLS encryption mode to **Full (Strict)**.
-  3. Ensure the SSL certificate is auto-renewed and the certificate chain includes the intermediate CA certificates.
-
-### 2. Deploy IndexNow Key File to Live Root
-- **Severity:** High
-- **Impact:** Enables instant automated indexing across Bing, Yandex, Naver, and Seznam.
-- **Action:**
-  - Push the newly created `public/82568927e2e0467eac3f26e8e621ea0a.txt` to the `main` branch so GitHub Actions deploys it via FTP to `https://ecotechservices.tech/82568927e2e0467eac3f26e8e621ea0a.txt`.
-  - Once deployed, test retrieval in your browser to confirm HTTP 200 with text content `82568927e2e0467eac3f26e8e621ea0a`.
-
-### 3. Guard SitemapController Disk Caching
-- **Severity:** High
-- **Impact:** Prevents committing or caching `http://localhost/...` inside `public/sitemap.xml` and `public/robots.txt`.
-- **Action:**
-  - In `app/controllers/SitemapController.php`, wrap `@file_put_contents` with `if (APP_ENV === 'production')`.
-
-### 4. Trim Homepage Meta Description
-- **Severity:** Low
-- **Impact:** Prevents SERP truncation and improves click-through rate (CTR).
-- **Target:** 150-160 characters.
-- **Recommended Text:**
-  > *"Ecotech Service builds high-performance web platforms, secure mobile apps, and enterprise cloud solutions. Certified engineering based in Lucknow, India."*
+Legend: **Critical** = blocks indexing/citations now · **High** = fix ≤1 week · **Medium** = ≤1 month · **Low** = backlog
 
 ---
 
-## Phase 2: AI Search Readiness & Generative Optimization (Weeks 2-3)
+## Phase 1 — Crawl Availability & Truncation Fixes (Week 1)
 
-### 1. Publish `/public/llms.txt` for AI Answer Engines
-- **Severity:** Medium
-- **Impact:** Positions Ecotech Services for inclusion and citations in ChatGPT Search, Perplexity, Claude, and Google AI Overviews.
-- **Action:** Create `public/llms.txt` following the standard llms.txt format with an executive summary, services list, and technology stack.
+| # | Priority | Action | Effort | Owner note |
+|---|---|---|---|---|
+| 1 | **Critical** | Migrate hosting off InfinityFree (free hosting enforce a JS cookie challenge). The deploy pipeline + SMTP already target Hostinger — a base paid plan completes the stack. Verify: GSC URL Inspection on `/`; re-probe GPTBot/DuckDuckBot/Applebot/YandexBot on `/` and `/llms.txt` | ~half day incl. verification | codebase unchanged; DNS + FTP redeploy |
+| 2 | **Critical** | Post-migration: confirm AI crawlers receive 200 + real content for `/`, `/llms.txt`, `/sitemap.xml`; then resubmit sitemap and run `submitIndexNow()` for all 473 URLs | 1 hour | the existing PHP helper already does this |
+| 3 | High | Title template: `Best [Service] Company in [City] \| Ecotech Services` → `[Service] in [City] \| Ecotech Services`. Fixes 379 of 473 titles >60 chars | ~1 hour | one shared per-service controller; spot check 3 city pages after deploy |
+| 4 | High | Description template: cut second sentence, ≤155 chars. Fixes 216 overlength descriptions | ~1 hour | same controller |
+| 5 | High | Decide /blog: publish 3-5 starter posts (topics can be lifted from existing geo-page research) **or** drop `/blog` from sitemap + noindex until populated | 1-3 days | one editorial decision |
 
-### 2. Update `robots.txt` with AI Bot Directives
-- **Severity:** Low
-- **Impact:** Eliminates ambiguity for AI crawlers while maintaining protection for private paths.
-- **Add to `public/robots.txt`:**
-  ```txt
-  User-agent: GPTBot
-  Allow: /
+## Phase 2 — Programmatic Grid Quality & Indexing Hygiene (Weeks 2-3)
 
-  User-agent: PerplexityBot
-  Allow: /
+| # | Priority | Action | Effort | Owner note |
+|---|---|---|---|---|
+| 6 | Medium | De-templatize the 460 service×city pages, starting with primary-service × largest-city (36-60 pages): unique intro (local project/market fact), 3-4 unique FAQs + FAQPage JSON-LD, one local proof point. Then roll the pattern outward | ~1 hr/page first batch | strongest lever against scaled-content risk |
+| 7 | Medium | Add 301 redirects: `http://` → `https://` and `www.` → apex. Currently both serve 200 with only canonical tags masking the duplicates | 30 min | root `.htaccess` |
+| 8 | Low | Add `Content-Security-Policy` header aligned to the existing cdnjs.cloudflare.com dependency | 30 min | expect 1-2 iterations with browser console |
+| 9 | Low | Output project pages longer descriptions (currently avg 67 chars) for portfolio keyword surface | 1-2 hrs | 6 pages, hand-written |
 
-  User-agent: ClaudeBot
-  Allow: /
+## Phase 3 — Authority & Rich Results (Month 2)
 
-  User-agent: Applebot-Extended
-  Allow: /
-  ```
+| # | Priority | Action | Effort |
+|---|---|---|---|
+| 10 | Medium | Collect 5-6 verified client reviews; add `aggregateRating` + `review` to the ProfessionalService node → review-stars eligibility on 460 service pages | 1 hr + chasing reviews |
+| 11 | Medium | Add `/internships` to the sitemap (live, header/footer-linked, present in llms.txt, but unlisted) | 15 min |
+| 12 | Low | Replace image.thum.io thumbnail calls with locally cached WebP/AVIF | 2-3 hrs |
+| 13 | Low | Pull CrUX CWV from GSC for the 7 core pages after migration; log first baselines for LCP/INP/CLS | 1 hr (needs GSC access) |
 
-### 3. Enforce HSTS (Strict-Transport-Security)
-- **Severity:** Medium
-- **Impact:** Tells browsers to only connect over HTTPS.
-- **Add to `public/.htaccess`:**
-  ```apache
-  Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
-  ```
+## Phase 4 — Monitoring (Ongoing)
 
----
-
-## Phase 3: Programmatic SEO & Traffic Acceleration (Month 2)
-
-### 1. Run Database Migration for Programmatic SEO Pages
-- **Severity:** High
-- **Impact:** Unlocks 300+ geo-targeted long-tail search landing pages (targeting US, UK, Canada, UAE, Singapore, Australia, India, and European tech hubs).
-- **Action:** Execute `global_seo_pages.sql` on the production database.
-
-### 2. Batch Submit New Pages via IndexNow
-- **Severity:** Medium
-- **Impact:** Gets newly migrated programmatic pages crawled within hours instead of weeks.
-- **Action:**
-  Call `submitIndexNow()` in PHP or run `indexnow_submit.py` with the list of generated URLs.
+- Monthly: rerun this audit's crawl + UA probes (scripts: `audit_scripts/crawl.php` + UA-probe loop) — watch for regressions in crawler access
+- Monthly: AI citation spot checks — ChatGPT/Perplexity "best [service] in [city]" for the priority-city pages
+- GSC coverage watch on the service×city grid — permanently unindexable combos should be pruned from the sitemap, not left to soft-fail
+- Sitemap lastmod hygiene on every deploy (already correct today)
 
 ---
 
-## Checklist Summary
+## Projected impact
+| State | Score driver |
+|---|---|
+| Current | **68** |
+| After Phase 1 only | ~84-86 (crawl availability + template fixes + blog) |
+| After Phase 2 | ~90-92 (de-templatized grid + redirects) |
+| After Phase 3 | ~93-95 (rich results + field-verified CWV) |
 
-- [x] Integrate Bing & IndexNow API key (`82568927e2e0467eac3f26e8e621ea0a`)
-- [x] Create `public/82568927e2e0467eac3f26e8e621ea0a.txt`
-- [x] Implement `submitIndexNow()` helper in PHP
-- [ ] Verify production SSL certificate on `ecotechservices.tech`
-- [ ] Create `public/llms.txt` for GEO / AI search
-- [ ] Update `robots.txt` to welcome AI search bots
-- [ ] Apply `APP_ENV === 'production'` guard in `SitemapController`
-- [ ] Import `global_seo_pages.sql` to live database
+**Single highest-leverage action: #1 (hosting migration).** It unblocks Phase items 2, 13, and the entire AI Search Readiness category at once, with zero codebase work.
