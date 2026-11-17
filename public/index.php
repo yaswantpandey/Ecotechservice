@@ -87,10 +87,13 @@ $routes = [
     'blog'              => ['BlogController',         'index'],
     'blog/post'         => ['BlogController',         'post'],
     'search'            => ['SearchController',       'index'],
+    // Events
+    'events/hack2skill-x-sudarshan' => ['EventController', 'hack2skillXSudarshan'],
     'privacy'           => ['LegalController',        'privacy'],
     'terms'             => ['LegalController',        'terms'],
     'sitemap.xml'       => ['SitemapController',      'index'],
     'robots.txt'        => ['SitemapController',      'robots'],
+    'llms.txt'          => ['SitemapController',      'llms'],
     // Internship Portal (public)
     'internships'               => ['InternshipsController',    'index'],
     'internships/track'         => ['InternshipsController',    'show'],

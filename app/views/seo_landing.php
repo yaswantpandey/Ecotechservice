@@ -61,6 +61,34 @@
   </div>
 </section>
 
+<!-- FAQ Section -->
+<section class="s-sec">
+  <div class="s-shell">
+    <div class="s-grid">
+      <div style="grid-column:span 5">
+        <p class="s-eyebrow">Frequently Asked Questions</p>
+        <h2 class="s-h2 mt-4"><?= Security::e($page['service_name']) ?> in <?= Security::e($page['location']) ?> FAQs</h2>
+      </div>
+      <div style="grid-column:span 7">
+        <div class="s-faq-list">
+          <div class="s-panel mb-4">
+            <h3 class="s-h4">What is the turnaround time for <?= Security::e($page['service_name']) ?> in <?= Security::e($page['location']) ?>?</h3>
+            <p class="s-mute mt-2">Project timelines vary based on scope. Typical custom web applications and mobile apps are delivered in 2 to 6 weeks with agile milestone reviews and transparent communication.</p>
+          </div>
+          <div class="s-panel mb-4">
+            <h3 class="s-h4">How much does <?= Security::e($page['service_name']) ?> cost for businesses in <?= Security::e($page['location']) ?>?</h3>
+            <p class="s-mute mt-2">We work with fixed-price milestone contracts tailored to your exact project specifications, guaranteeing predictable budgeting with zero hidden fees.</p>
+          </div>
+          <div class="s-panel">
+            <h3 class="s-h4">Do you provide post-launch maintenance and security support?</h3>
+            <p class="s-mute mt-2">Yes. Every build includes dedicated post-launch support, security patch management, performance monitoring, and ongoing maintenance.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <!-- CTA -->
 <section class="s-sec s-band">
   <div class="s-shell">

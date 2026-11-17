@@ -1,17 +1,23 @@
 RewriteEngine On
 # RewriteBase not needed and breaks subfolder deployments (e.g. /Ecotechservice/public/)
 
+# Canonical HTTPS and Apex domain enforcement (Production only)
+RewriteCond %{HTTP_HOST} ^www\.ecotechservices\.tech$ [NC,OR]
+RewriteCond %{HTTPS} off
+RewriteCond %{HTTP_HOST} ^(www\.)?ecotechservices\.tech$ [NC]
+RewriteRule ^(.*)$ https://ecotechservices.tech/$1 [L,R=301]
+
 # Block access to sensitive directories
 RewriteRule ^(config|app|database|logs|vendor|storage)/ - [F,L]
 
 # Dynamic SEO routes (always routed through controller)
-RewriteRule ^(sitemap\.xml|robots\.txt)$ index.php [QSA,L]
+RewriteRule ^(sitemap\.xml|robots\.txt|llms\.txt)$ index.php [QSA,L]
 
 # Serve existing files/directories directly
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d
 # InfinityFree Fix: Prevent static assets from being sent to the router if !-f fails due to pathing
-RewriteCond %{REQUEST_URI} !\.(css|js|jpe?g|png|gif|svg|woff2?|ttf|eot|ico|webp)$ [NC]
+RewriteCond %{REQUEST_URI} !\.(css|js|jpe?g|png|gif|svg|woff2?|ttf|eot|ico|webp|txt)$ [NC]
 # Route everything else through front controller
 RewriteRule ^(.*)$ index.php [QSA,L]
 

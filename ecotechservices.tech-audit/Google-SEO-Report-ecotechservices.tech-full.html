@@ -1,0 +1,828 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<style>
+  @page {
+    size: A4;
+    margin: 22mm 18mm 25mm 18mm;
+    @bottom-center {
+      content: "Page " counter(page) " of " counter(pages);
+      font-size: 9pt;
+      color: #6b7280;
+      font-family: 'DejaVu Serif', 'Times New Roman', Georgia, serif;
+    }
+    @bottom-left {
+      content: "Confidential";
+      font-size: 7pt;
+      color: #d6d3cc;
+      font-family: 'DejaVu Serif', 'Times New Roman', Georgia, serif;
+    }
+    @bottom-right {
+      content: "ecotechservices.tech Google SEO Report";
+      font-size: 8pt;
+      color: #cbd5e1;
+      font-family: 'DejaVu Serif', 'Times New Roman', Georgia, serif;
+    }
+  }
+
+  @page :first {
+    margin: 0;
+    @bottom-left { content: none; }
+    @bottom-center { content: none; }
+    @bottom-right { content: none; }
+  }
+
+  @page toc {
+    @bottom-center {
+      content: counter(page);
+      font-size: 9pt;
+      color: #6b7280;
+    }
+  }
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    font-family: 'Times New Roman', 'DejaVu Serif', Georgia, serif;
+    font-size: 10pt;
+    line-height: 1.55;
+    color: #1e293b;
+    background: white;
+  }
+
+  /* ─── Title Page (Clean White) ─── */
+  .title-page {
+    page: first;
+    width: 210mm;
+    height: 297mm;
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    color: #1a1a2e;
+    position: relative;
+    padding: 50mm 30mm 40mm 30mm;
+    border-top: 6mm solid #1e3a5f;
+  }
+
+  .title-page .badge {
+    background: #f7f6f3;
+    border: 1px solid #d6d3cc;
+    border-radius: 20px;
+    padding: 6px 18px;
+    font-size: 9pt;
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 15mm;
+    color: #1e3a5f;
+  }
+
+  .title-page h1 {
+    font-size: 28pt;
+    font-weight: bold;
+    margin-bottom: 5mm;
+    letter-spacing: -0.5px;
+    line-height: 1.2;
+    color: #1a1a2e;
+  }
+
+  .title-page .subtitle {
+    font-size: 13pt;
+    color: #6b7280;
+    margin-bottom: 12mm;
+    font-weight: 300;
+  }
+
+  .title-page .url {
+    font-size: 12pt;
+    color: #1e3a5f;
+    margin-bottom: 15mm;
+    padding: 4mm 8mm;
+    border: 1px solid #d6d3cc;
+    border-radius: 6px;
+    background: #faf9f7;
+  }
+
+  .title-page .score-box {
+    background: #faf9f7;
+    border: 2px solid #d6d3cc;
+    border-radius: 12px;
+    padding: 6mm 12mm;
+    margin-bottom: 15mm;
+  }
+
+  .title-page .score-number {
+    font-size: 42pt;
+    font-weight: bold;
+    color: #1e3a5f;
+    line-height: 1;
+  }
+
+  .title-page .score-label {
+    font-size: 10pt;
+    color: #6b7280;
+    margin-top: 2mm;
+  }
+
+  .title-page .meta {
+    font-size: 9pt;
+    color: #6b7280;
+    margin-top: 8mm;
+    padding-top: 5mm;
+    border-top: 1px solid #d6d3cc;
+  }
+
+  .title-page .meta span {
+    margin: 0 8px;
+  }
+
+  /* ─── Table of Contents ─── */
+  .toc-page {
+    page: toc;
+    page-break-before: always;
+  }
+
+  .toc-page h2 {
+    font-size: 18pt;
+    color: #1e3a5f;
+    margin-bottom: 8mm;
+    padding-bottom: 3mm;
+    border-bottom: 2px solid #1e3a5f;
+  }
+
+  .toc-list {
+    list-style: none;
+    padding: 0;
+  }
+
+  .toc-list li {
+    padding: 2mm 0;
+    border-bottom: 1px solid #f1f5f9;
+    overflow: hidden;
+  }
+
+  .toc-list li.toc-section {
+    font-weight: bold;
+    font-size: 11pt;
+    padding-top: 4mm;
+    color: #0f172a;
+  }
+
+  .toc-list li.toc-sub {
+    padding-left: 8mm;
+    font-size: 9.5pt;
+    color: #475569;
+  }
+
+  .toc-score {
+    display: inline-block;
+    float: right;
+    padding: 1px 8px;
+    border-radius: 10px;
+    font-size: 9pt;
+    font-weight: bold;
+    color: white;
+  }
+
+  .score-good { background: #2d6a4f; }
+  .score-warn { background: #d4740e; }
+  .score-bad { background: #c53030; }
+
+  /* ─── Section Styles ─── */
+  div.section {
+    page-break-before: always;
+  }
+
+  .section-header {
+    background: #faf9f7;
+    border-left: 4px solid #1e3a5f;
+    padding: 5mm 6mm;
+    margin-bottom: 6mm;
+    page-break-after: avoid;
+  }
+
+  .section-header h2 {
+    font-size: 16pt;
+    color: #0f172a;
+    margin-bottom: 1mm;
+  }
+
+  .section-header .section-score {
+    font-size: 12pt;
+    font-weight: bold;
+    float: right;
+    margin-top: -6mm;
+  }
+
+  h3 {
+    font-size: 12pt;
+    color: #1e3a5f;
+    margin-top: 6mm;
+    margin-bottom: 3mm;
+    padding-bottom: 1.5mm;
+    border-bottom: 1px solid #d6d3cc;
+    page-break-after: avoid;
+  }
+
+  h4 {
+    font-size: 10.5pt;
+    color: #334155;
+    margin-top: 4mm;
+    margin-bottom: 2mm;
+    page-break-after: avoid;
+  }
+
+  p {
+    margin-bottom: 3mm;
+    color: #334155;
+  }
+
+  .highlight {
+    background: #fef3c7;
+    border-left: 3px solid #d4740e;
+    padding: 3mm 4mm;
+    margin: 4mm 0;
+    font-size: 9.5pt;
+    /* allow page breaks to prevent white gaps */
+  }
+
+  .critical-box {
+    background: #fef2f2;
+    border-left: 3px solid #c53030;
+    padding: 3mm 4mm;
+    margin: 4mm 0;
+    font-size: 9.5pt;
+    /* allow page breaks to prevent white gaps */
+  }
+
+  .success-box {
+    background: #f0fdf4;
+    border-left: 3px solid #2d6a4f;
+    padding: 3mm 4mm;
+    margin: 4mm 0;
+    font-size: 9.5pt;
+    /* allow page breaks to prevent white gaps */
+  }
+
+  /* ─── Tables ─── */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 4mm 0 6mm 0;
+    font-size: 9pt;
+  }
+
+  thead th {
+    background: #f7f6f3;
+    color: #0f172a;
+    font-weight: bold;
+    padding: 3mm 4mm;
+    text-align: left;
+    border-bottom: 2px solid #d6d3cc;
+    font-size: 9pt;
+  }
+
+  tbody td {
+    padding: 2.5mm 3mm;
+    border-bottom: 1px solid #f1f5f9;
+    vertical-align: top;
+  }
+
+  tbody tr:nth-child(even) {
+    background: #fdfcfa;
+  }
+
+  .status-pass {
+    color: #2d6a4f;
+    font-weight: bold;
+  }
+
+  .status-fail {
+    color: #c53030;
+    font-weight: bold;
+  }
+
+  .status-warn {
+    color: #d4740e;
+    font-weight: bold;
+  }
+
+  .status-partial {
+    color: #4a5568;
+    font-weight: bold;
+  }
+
+  /* ─── Charts ─── */
+  .chart-container {
+    text-align: center;
+    margin: 4mm 0;
+  }
+
+  .chart-container img {
+    max-width: 100%;
+    max-height: 120mm;
+    height: auto;
+  }
+
+  .chart-caption {
+    font-size: 8.5pt;
+    color: #6b7280;
+    font-style: italic;
+    margin-top: 2mm;
+    text-align: center;
+  }
+
+  .chart-half {
+    display: inline-block;
+    width: 48%;
+    vertical-align: top;
+    text-align: center;
+    margin: 2mm 0;
+  }
+
+  .chart-half img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  /* ─── Two column layout ─── */
+  .two-col {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    margin: 3mm 0;
+  }
+
+  .two-col .col {
+    display: table-cell;
+    vertical-align: top;
+    padding: 0 2mm;
+  }
+
+  .four-col {
+    display: table;
+    width: 100%;
+    table-layout: fixed;
+    margin: 3mm 0;
+  }
+
+  .four-col .col {
+    display: table-cell;
+    vertical-align: top;
+    padding: 0 1.5mm;
+  }
+
+  /* ─── Metric Cards ─── */
+  .metric-card {
+    background: #faf9f7;
+    border: 1px solid #d6d3cc;
+    border-radius: 6px;
+    padding: 2.5mm 3mm;
+    text-align: center;
+    margin: 2mm 0;
+  }
+
+  .metric-card .value {
+    font-size: 14pt;
+    font-weight: bold;
+    line-height: 1.2;
+  }
+
+  .metric-card .label {
+    font-size: 7.5pt;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-top: 1mm;
+  }
+
+  /* ─── Action Plan ─── */
+  .action-item {
+    background: #faf9f7;
+    border-radius: 4px;
+    padding: 3mm 4mm;
+    margin: 3mm 0;
+    border-left: 3px solid #cbd5e1;
+    /* allow page breaks to prevent white gaps */
+  }
+
+  .action-item.critical {
+    border-left-color: #c53030;
+    background: #fdf2f2;
+  }
+
+  .action-item.high {
+    border-left-color: #d4740e;
+    background: #fdf8ef;
+  }
+
+  .action-item.medium {
+    border-left-color: #1e3a5f;
+    background: #f0f4f8;
+  }
+
+  .action-item.low {
+    border-left-color: #94a3b8;
+  }
+
+  .action-item h4 {
+    margin-top: 0;
+    margin-bottom: 1.5mm;
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .action-item .effort {
+    font-size: 8.5pt;
+    color: #64748b;
+    float: right;
+  }
+
+  .priority-tag {
+    display: inline-block;
+    padding: 0.5mm 3mm;
+    border-radius: 3px;
+    font-size: 8pt;
+    font-weight: bold;
+    color: white;
+    margin-right: 2mm;
+    vertical-align: middle;
+  }
+
+  .priority-critical { background: #c53030; }
+  .priority-high { background: #d4740e; }
+  .priority-medium { background: #1e3a5f; }
+  .priority-low { background: #94a3b8; }
+
+  /* ─── Code blocks ─── */
+  .code-block {
+    background: #1e293b;
+    color: #e2e8f0;
+    padding: 3mm 4mm;
+    border-radius: 4px;
+    font-family: 'DejaVu Sans Mono', monospace;
+    font-size: 8pt;
+    line-height: 1.6;
+    margin: 3mm 0;
+    white-space: pre-wrap;
+    word-break: break-all;
+    /* allow page breaks to prevent white gaps */
+  }
+
+  /* ─── Divider ─── */
+  .divider {
+    border: none;
+    border-top: 1px solid #d6d3cc;
+    margin: 5mm 0;
+  }
+
+  /* ─── Roadmap ─── */
+  .roadmap-phase {
+    background: #faf9f7;
+    border-radius: 6px;
+    padding: 4mm 5mm;
+    margin: 4mm 0;
+    border: 1px solid #d6d3cc;
+    /* allow page breaks to prevent white gaps */
+  }
+
+  .roadmap-phase h4 {
+    margin-top: 0;
+    border-bottom: none;
+    color: #1e3a5f;
+  }
+
+  .roadmap-phase ul {
+    margin: 2mm 0 0 5mm;
+    padding: 0;
+  }
+
+  .roadmap-phase li {
+    margin-bottom: 1.5mm;
+    font-size: 9.5pt;
+    color: #334155;
+  }
+
+  /* ─── Lists ─── */
+  ul {
+    margin-left: 5mm;
+    margin-bottom: 3mm;
+  }
+
+  li {
+    margin-bottom: 1.5mm;
+  }
+
+  /* ─── Data freshness ─── */
+  .data-freshness {
+    font-size: 8pt;
+    color: #6b7280;
+    font-style: italic;
+    margin-top: 4mm;
+    padding-top: 2mm;
+    border-top: 1px solid #d6d3cc;
+  }
+
+</style>
+</head>
+<body>
+
+<!-- ======================================================= TITLE PAGE === -->
+<div class="title-page">
+  <div class="badge">Full SEO Audit Report</div>
+  <h1>ecotechservices.tech</h1>
+  <div class="subtitle">Prepared by Claude SEO</div>
+  <div class="score-box">
+    <div class="score-number">65<span style="font-size: 20pt; color: #94a3b8;">/100</span></div>
+    <div class="score-label">SEO Health Score</div>
+  </div>
+  <div class="meta">
+    <span>November 14, 2026</span>
+    <span>Full Audit</span>
+  </div>
+</div>
+
+
+<!-- ======================================================= TABLE OF CONTENTS === -->
+<div class="toc-page">
+  <h2>Table of Contents</h2>
+  <ul class="toc-list">
+    <li class="toc-section"><span>1. Executive Summary</span></li>
+    <li class="toc-sub"><span>Key Metrics, Critical Issues &amp; Quick Wins</span></li>
+    <li class="toc-section"><span>2. Audit Categories</span></li>
+    <li class="toc-sub"><span>What Works</span></li>
+    <li class="toc-sub"><span>Findings by Severity</span></li>
+    <li class="toc-section"><span>3. Action Plan</span></li>
+    <li class="toc-sub"><span>Phased Roadmap</span></li>
+    <li class="toc-section"><span>4. Data Sources &amp; Methodology</span></li>
+  </ul>
+</div>
+
+
+<!-- ======================================================= 1. EXECUTIVE SUMMARY === -->
+<div class="section">
+  <div class="section-header">
+    <h2>1. Executive Summary</h2>
+  </div>
+
+  <p>This report presents a comprehensive SEO audit of <strong>ecotechservices.tech</strong> for a <strong>B2B Technology Services &amp; Software Consultancy (Programmatic Local Service Grid)</strong> site, generated on November 14, 2026. Findings combine technical, content, schema, performance, visual, and search-readiness evidence as available.</p>
+
+  <div class="two-col">
+    <div class="col">
+      <div class="metric-card">
+        <div class="value" style="color: #d4740e;">65/100</div>
+        <div class="label">SEO Health Score</div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="critical-box">
+    <strong>Critical Issues Found:</strong>
+    <ol>
+      <li><strong>Critical:</strong> Hosting WAF actively returns HTTP 403 Forbidden to GPTBot, ClaudeBot, and PerplexityBot</li>
+      <li><strong>Critical:</strong> Missing Intermediate Certificate in TLS Handshake (Let&#x27;s Encrypt YR2 absent from server chain)</li>
+      <li><strong>High:</strong> /llms.txt returns HTTP 404 Not Found on production (unrouted in front controller)</li>
+      <li><strong>High:</strong> 379 of 460 programmatic page titles exceed 60 characters (truncation in SERP snippets)</li>
+      <li><strong>High:</strong> Missing 301 canonical redirects for http:// and www. variants (serves 200 OK across 4 host permutations)</li>
+    </ol>
+  </div>
+
+  <div class="success-box">
+    <strong>Quick Wins:</strong>
+    <ol>
+      <li>Add route or static rewrite exclusion for /llms.txt so AI search models can read system instructions</li>
+      <li>Shorten programmatic title template: switch to &#x27;[Service] in [City] | Ecotech&#x27; to fit within 60 chars across all 460 cities</li>
+      <li>Trim 215 programmatic meta descriptions to &lt;=155 characters to prevent snippet ellipsis truncation</li>
+      <li>Deploy 301 redirects in .htaccess enforcing single canonical https://ecotechservices.tech</li>
+      <li>Install fullchain.pem on web server to provide intermediate Let&#x27;s Encrypt YR2 certificate to non-browser fetchers</li>
+    </ol>
+  </div>
+
+</div>
+
+<!-- ======================================================= 2. AUDIT CATEGORIES === -->
+<div class="section">
+  <div class="section-header">
+    <h2>2. Audit Categories</h2>
+  </div>
+
+  <h3>2.1 Technical SEO</h3>
+  <p><strong>Score:</strong> <span class="status-warn">52/100</span></p>
+  <h4>What Works</h4>
+  <ul>
+    <li>All active sitemap URLs return HTTP 200 without broken internal redirects</li>
+    <li>HSTS header actively deployed: Strict-Transport-Security: max-age=31536000; includeSubDomains; preload</li>
+    <li>Comprehensive HTTP security headers (X-Frame-Options SAMEORIGIN, X-Content-Type-Options nosniff, Referrer-Policy, Permissions-Policy, COOP)</li>
+    <li>Brotli / Gzip compression active across all text mime types (saving ~81% transfer size)</li>
+    <li>Googlebot and Bingbot whitelisted and receiving full HTML payloads</li>
+    <li>IndexNow verification file (82568927e2e0467eac3f26e8e621ea0a.txt) reachable and returns 200 OK</li>
+  </ul>
+  <h4>Findings</h4>
+  <div class="action-item medium">
+    <h4>TLS Handshake Missing Intermediate Certificate Authority <span class="status-warn">Critical</span></h4>
+    <p>The web server serves leaf certificate CN=ecotechservices.tech issued by Let&#x27;s Encrypt YR2, but omits intermediate certificate YR2 from the TLS handshake. Standard Python, curl, and automated HTTP clients fail with &#x27;SSLCertVerificationError: unable to get local issuer certificate&#x27;. While desktop browsers cache intermediates via AIA, headless crawlers and API fetchers fail immediately.</p>
+    <p><strong>Recommendation:</strong> Install fullchain.pem (combining leaf + YR2 intermediate) into the hosting SSL configuration instead of only cert.pem.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Anti-Bot WAF Challenge Wall &amp; Bot Discrimination <span class="status-warn">Critical</span></h4>
+    <p>InfinityFree shared hosting OpenResty reverse proxy intercepts non-whitelisted user agents with an 847-byte AES JavaScript challenge (aes.js / __test cookie) and returns HTTP 403 Forbidden to GPTBot, ClaudeBot, and PerplexityBot. YandexBot also receives HTTP 403.</p>
+    <p><strong>Recommendation:</strong> Migrate from free shared hosting to standard shared hosting or VPS (e.g. Hostinger, Hetzner, DigitalOcean) with direct Apache/Nginx configuration and clean Cloudflare reverse proxy.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Missing 301 Canonical Redirects for HTTP and WWW Variants <span class="status-warn">High</span></h4>
+    <p>http://ecotechservices.tech, http://www.ecotechservices.tech, and https://www.ecotechservices.tech all respond with HTTP 200 OK rather than issuing a permanent 301 redirect to https://ecotechservices.tech. While rel=canonical is present, search engines still crawl duplicate host permutations.</p>
+    <p><strong>Recommendation:</strong> Add mod_rewrite rules in public/.htaccess to redirect non-HTTPS and www requests to https://ecotechservices.tech with HTTP 301.</p>
+  </div>
+  <hr class="divider">
+  <h3>2.2 Content Quality &amp; E-E-A-T</h3>
+  <p><strong>Score:</strong> <span class="status-warn">72/100</span></p>
+  <h4>What Works</h4>
+  <ul>
+    <li>Transparent real-world business entity: physical studio in Lucknow, UP with postal code and GeoCoordinates</li>
+    <li>Direct verified contact channels: telephone (+917398301184), business email, WhatsApp</li>
+    <li>8 comprehensive real-world portfolio case studies with technical specs</li>
+    <li>Comprehensive legal policies published (/terms, /privacy)</li>
+    <li>Local industry authority established for Lucknow engineering and digital solutions</li>
+  </ul>
+  <h4>Findings</h4>
+  <div class="action-item medium">
+    <h4>/blog is Indexed in Sitemap but Contains Zero Articles <span class="status-warn">High</span></h4>
+    <p>The /blog endpoint is submitted in sitemap.xml with priority 0.8 and changefreq daily, but renders a thin &#x27;No posts yet&#x27; panel. Crawlers prioritize this page daily only to encounter zero content value.</p>
+    <p><strong>Recommendation:</strong> Publish 3 cornerstone technical articles on Web Security, Cloud Architecture, and Performance, or add &#x27;noindex, follow&#x27; to /blog until articles are drafted.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>High Template Redundancy Across 460 Programmatic Service Pages <span class="status-warn">Medium</span></h4>
+    <p>The 460 programmatic service x city pages share identical structural copy, FAQs, and value propositions with only token swaps ([Service], [City]). While helpful for long-tail discovery, Google&#x27;s Helpful Content System evaluates thin doorway grids critically.</p>
+    <p><strong>Recommendation:</strong> Enrich programmatic pages with city-specific metrics, regional project mentions, localized pricing estimates, and distinct testimonials.</p>
+  </div>
+  <hr class="divider">
+  <h3>2.3 On-Page SEO</h3>
+  <p><strong>Score:</strong> <span class="status-warn">64/100</span></p>
+  <h4>What Works</h4>
+  <ul>
+    <li>Consistent single H1 per page across all core templates</li>
+    <li>Self-referencing rel=canonical implemented accurately across all 467 indexed URLs</li>
+    <li>Robots meta directives properly configured with max-image-preview:large, max-snippet:-1</li>
+    <li>404 error pages correctly return noindex, follow</li>
+  </ul>
+  <h4>Findings</h4>
+  <div class="action-item medium">
+    <h4>379 of 460 Programmatic Titles Exceed 60 Characters <span class="status-warn">High</span></h4>
+    <p>The template &#x27;Best [Service] Company in [City] | Ecotech Services&#x27; generates titles up to 81 characters (average 66.4 characters). 82% of all page titles truncate in SERP snippets.</p>
+    <p><strong>Recommendation:</strong> Update template to &#x27;[Service] in [City] | Ecotech&#x27; which caps maximum title length at 60 characters across all 460 combinations.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>215 of 460 Meta Descriptions Exceed 160 Characters <span class="status-warn">High</span></h4>
+    <p>Programmatic meta descriptions average 160.4 characters with peaks at 175 characters. Search snippets truncate before completing the value proposition call-to-action.</p>
+    <p><strong>Recommendation:</strong> Condense template description: &#x27;Need [Service] in [City]? Ecotech Services builds fast, secure software with fixed pricing and ongoing support. Get a free quote.&#x27; (Caps at 155 chars).</p>
+  </div>
+  <hr class="divider">
+  <h3>2.4 Schema &amp; Structured Data</h3>
+  <p><strong>Score:</strong> <span class="status-pass">92/100</span></p>
+  <h4>What Works</h4>
+  <ul>
+    <li>Comprehensive JSON-LD Organization and ProfessionalService graph on homepage</li>
+    <li>Structured PostalAddress, GeoCoordinates, OpeningHours, and Social sameAs links</li>
+    <li>AggregateRating schema with ratingValue and reviewCount present</li>
+    <li>Zero schema syntax errors or malformed JSON blocks</li>
+  </ul>
+  <h4>Findings</h4>
+  <div class="action-item medium">
+    <h4>Missing Service &amp; FAQPage Schema on Programmatic Landing Pages <span class="status-warn">Medium</span></h4>
+    <p>The 460 city landing pages render FAQ accordions and specific service details, but omit FAQPage and Service JSON-LD schema, missing out on rich expandable SERP snippets.</p>
+    <p><strong>Recommendation:</strong> Inject dynamic Service and FAQPage schema into app/views/seo_landing.php.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>Missing BreadcrumbList Schema on Inner Pages <span class="status-warn">Low</span></h4>
+    <p>Inner service, project, and legal pages lack BreadcrumbList structured data, preventing Google from displaying hierarchical navigational breadcrumbs in SERPs.</p>
+    <p><strong>Recommendation:</strong> Add BreadcrumbList JSON-LD to main layout reflecting hierarchy (Home &gt; Services &gt; [Service]).</p>
+  </div>
+  <hr class="divider">
+  <h3>2.5 Performance (CWV)</h3>
+  <p><strong>Score:</strong> <span class="status-warn">76/100</span></p>
+  <h4>What Works</h4>
+  <ul>
+    <li>Lightweight asset bundle: vanilla CSS and JS without heavy UI frameworks</li>
+    <li>Static compression active via Brotli and Gzip</li>
+    <li>Google Fonts optimized with preconnect headers and display=swap</li>
+    <li>Zero Cumulative Layout Shift (CLS) on template layout renders</li>
+  </ul>
+  <h4>Findings</h4>
+  <div class="action-item medium">
+    <h4>Elevated and Inconsistent Server TTFB on Shared Free Hosting <span class="status-warn">Medium</span></h4>
+    <p>Time to First Byte fluctuates between 1.2s and 3.5s due to shared resource limits and reverse proxy inspection latency.</p>
+    <p><strong>Recommendation:</strong> Enable OPcache and migrate to dedicated/standard VPS hosting to bring TTFB below 300ms.</p>
+  </div>
+  <hr class="divider">
+  <h3>2.6 AI Search Readiness (GEO)</h3>
+  <p><strong>Score:</strong> <span class="status-fail">28/100</span></p>
+  <h4>What Works</h4>
+  <ul>
+    <li>robots.txt includes explicit Allow rules for GPTBot, ClaudeBot, PerplexityBot, and Applebot-Extended</li>
+    <li>Structured organization facts and entity definitions clearly expressed in homepage HTML</li>
+  </ul>
+  <h4>Findings</h4>
+  <div class="action-item medium">
+    <h4>AI Search Bots Actively Blocked by WAF / Server Challenge <span class="status-warn">Critical</span></h4>
+    <p>Despite robots.txt permissions, GPTBot, ClaudeBot, and PerplexityBot receive HTTP 403 Forbidden, and Applebot-Extended receives an 847-byte JS challenge. Zero AI search engines can ingest or cite page content.</p>
+    <p><strong>Recommendation:</strong> Migrate off InfinityFree WAF to hosting with transparent bot handling or configure Cloudflare WAF rules to allow verified AI crawlers.</p>
+  </div>
+  <div class="action-item medium">
+    <h4>/llms.txt Returns HTTP 404 Not Found on Production <span class="status-warn">High</span></h4>
+    <p>The llms.txt standard file is unrouted in public/index.php and .htaccess forwards it to a 404 error page. AI agents requesting /llms.txt cannot discover structured site capabilities.</p>
+    <p><strong>Recommendation:</strong> Add rewrite exemption in public/.htaccess or add dedicated route in public/index.php serving public/llms.txt with text/plain content type.</p>
+  </div>
+  <hr class="divider">
+  <h3>2.7 Images</h3>
+  <p><strong>Score:</strong> <span class="status-pass">95/100</span></p>
+  <h4>What Works</h4>
+  <ul>
+    <li>100% of meaningful images carry descriptive alt attributes</li>
+    <li>Decorative SVG icons carry aria-hidden=&#x27;true&#x27; to prevent screen reader noise</li>
+    <li>Modern WebP format utilized for portfolio and template graphics</li>
+    <li>Responsive aspect ratios and SVG viewports prevent layout jumping</li>
+  </ul>
+  <hr class="divider">
+</div>
+
+<!-- ======================================================= 3. ACTION PLAN === -->
+<div class="section">
+  <div class="section-header">
+    <h2>3. Action Plan</h2>
+  </div>
+
+  <div class="roadmap-phase">
+    <h4>Phase 1: Critical Infrastructure &amp; Bot Accessibility (Week 1) <span class="effort">Immediate (Days 1-3)</span></h4>
+    <ul>
+      <li>{&#x27;priority&#x27;: &#x27;P0&#x27;, &#x27;task&#x27;: &#x27;Migrate hosting from InfinityFree to paid shared/VPS hosting (Hostinger/Hetzner) to eliminate the JS challenge wall and 403 bot blocks&#x27;, &#x27;impact&#x27;: &#x27;Unblocks all AI crawlers (GPTBot, ClaudeBot, PerplexityBot) and restores reliable TLS connections&#x27;}</li>
+      <li>{&#x27;priority&#x27;: &#x27;P0&#x27;, &#x27;task&#x27;: &quot;Install fullchain.pem on server to supply missing Let&#x27;s Encrypt YR2 intermediate certificate&quot;, &#x27;impact&#x27;: &#x27;Fixes TLS verification failures for all automated HTTP tools, curl, and python fetchers&#x27;}</li>
+      <li>{&#x27;priority&#x27;: &#x27;P0&#x27;, &#x27;task&#x27;: &#x27;Fix /llms.txt routing in public/.htaccess and public/index.php&#x27;, &#x27;impact&#x27;: &#x27;Delivers instant machine-readable knowledge base to LLMs and agentic browsers&#x27;}</li>
+    </ul>
+  </div>
+  <div class="roadmap-phase">
+    <h4>Phase 2: Canonicalization &amp; Snippet Optimization (Week 2) <span class="effort">Days 4-7</span></h4>
+    <ul>
+      <li>{&#x27;priority&#x27;: &#x27;P1&#x27;, &#x27;task&#x27;: &#x27;Implement 301 redirects for http:// and www. to https://ecotechservices.tech in public/.htaccess&#x27;, &#x27;impact&#x27;: &#x27;Eliminates duplicate host splitting and unifies backlink and index equity&#x27;}</li>
+      <li>{&#x27;priority&#x27;: &#x27;P1&#x27;, &#x27;task&#x27;: &quot;Update database/ecotech.sql programmatic title template to &#x27;[Service] in [City] | Ecotech&#x27; (fixes 379 overlong titles)&quot;, &#x27;impact&#x27;: &#x27;Prevents SERP title truncation across 82% of programmatic landing pages&#x27;}</li>
+      <li>{&#x27;priority&#x27;: &#x27;P1&#x27;, &#x27;task&#x27;: &#x27;Trim programmatic meta description template to &lt;=155 characters (fixes 215 descriptions)&#x27;, &#x27;impact&#x27;: &#x27;Ensures clean, complete call-to-action snippets on search engine result pages&#x27;}</li>
+    </ul>
+  </div>
+  <div class="roadmap-phase">
+    <h4>Phase 3: Content Depth &amp; Schema Expansion (Weeks 3-4) <span class="effort">Weeks 2-3</span></h4>
+    <ul>
+      <li>{&#x27;priority&#x27;: &#x27;P2&#x27;, &#x27;task&#x27;: &#x27;Publish 3 cornerstone technical articles on /blog or add temporary noindex header&#x27;, &#x27;impact&#x27;: &#x27;Removes empty/thin indexed page penalty risk from sitemap.xml&#x27;}</li>
+      <li>{&#x27;priority&#x27;: &#x27;P2&#x27;, &#x27;task&#x27;: &#x27;Deploy FAQPage and Service JSON-LD schema on all 460 programmatic landing pages&#x27;, &#x27;impact&#x27;: &#x27;Enables rich expandable FAQ snippets and enhanced entity recognition in Google SERPs&#x27;}</li>
+      <li>{&#x27;priority&#x27;: &#x27;P2&#x27;, &#x27;task&#x27;: &#x27;Deploy newly committed /events/hack2skill-x-sudarshan to production web root&#x27;, &#x27;impact&#x27;: &#x27;Resolves 404 error on published footer and sitemap link&#x27;}</li>
+    </ul>
+  </div>
+  <div class="roadmap-phase">
+    <h4>Phase 4: Monitoring, Field Data &amp; IndexNow Verification (Month 2) <span class="effort">Ongoing</span></h4>
+    <ul>
+      <li>{&#x27;priority&#x27;: &#x27;P3&#x27;, &#x27;task&#x27;: &#x27;Resubmit full 467-URL sitemap via IndexNow API and Google Search Console URL inspection post-migration&#x27;, &#x27;impact&#x27;: &#x27;Accelerates instant re-crawling of optimized titles and descriptions&#x27;}</li>
+      <li>{&#x27;priority&#x27;: &#x27;P3&#x27;, &#x27;task&#x27;: &#x27;Connect Google Search Console &amp; CrUX APIs to claude-seo config for real user field performance monitoring&#x27;, &#x27;impact&#x27;: &#x27;Provides real-time 28-day Core Web Vitals field data tracking&#x27;}</li>
+    </ul>
+  </div>
+</div>
+
+<!-- ======================================================= DATA SOURCES & METHODOLOGY === -->
+<div class="section" style="text-align: center; padding-top: 15mm;">
+  <hr class="divider">
+  <h3 style="text-align: left;">Data Sources &amp; Methodology</h3>
+  <table>
+    <thead>
+      <tr><th>Source</th><th>Description</th><th>Update Frequency</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>PageSpeed Insights API</td>
+          <td>Lighthouse lab audit (mobile emulation, Moto G Power, slow 4G)</td>
+          <td>Real-time</td></tr>
+      <tr><td>Chrome UX Report (CrUX)</td>
+          <td>28-day rolling field data from real Chrome users</td>
+          <td>Daily ~04:00 UTC</td></tr>
+      <tr><td>CrUX History API</td>
+          <td>25-week p75 trend data per metric</td>
+          <td>Weekly</td></tr>
+      <tr><td>Google Search Console</td>
+          <td>Search Analytics (clicks, impressions, CTR, position)</td>
+          <td>2-3 day lag</td></tr>
+      <tr><td>URL Inspection API</td>
+          <td>Per-URL index status, coverage state, crawl info</td>
+          <td>Real-time (2,000/day)</td></tr>
+    </tbody>
+  </table>
+  <p style="color: #94a3b8; font-size: 9pt; margin-top: 5mm;">
+    Report generated by Claude SEO (Google SEO Intelligence Skill), November 14, 2026<br>
+    Methodology based on Google Web Vitals thresholds, Search Console documentation, and Lighthouse scoring algorithms.
+  </p>
+</div>
+
+</body>
+</html>

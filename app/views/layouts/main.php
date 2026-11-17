@@ -323,6 +323,39 @@
             ],
             "description" => $page['meta_description'] ?? ''
         ];
+
+        $svcName = $page['service_name'] ?? 'IT Services';
+        $locName = $page['location'] ?? 'Lucknow';
+        $schemaGraph[] = [
+            "@type" => "FAQPage",
+            "@id" => $resolvedCanonicalUrl . "#faq",
+            "mainEntity" => [
+                [
+                    "@type" => "Question",
+                    "name" => "What is the turnaround time for {$svcName} in {$locName}?",
+                    "acceptedAnswer" => [
+                        "@type" => "Answer",
+                        "text" => "Project timelines vary by scope. Typical custom web platforms and mobile apps are delivered in 2 to 6 weeks with agile milestone reviews and transparent communication."
+                    ]
+                ],
+                [
+                    "@type" => "Question",
+                    "name" => "How much does {$svcName} cost for businesses in {$locName}?",
+                    "acceptedAnswer" => [
+                        "@type" => "Answer",
+                        "text" => "Ecotech Services provides fixed-price milestone agreements tailored to your requirements, ensuring transparent pricing without unexpected overages."
+                    ]
+                ],
+                [
+                    "@type" => "Question",
+                    "name" => "Do you provide post-launch maintenance and security support?",
+                    "acceptedAnswer" => [
+                        "@type" => "Answer",
+                        "text" => "Yes. Every build includes dedicated post-launch support, security patch management, performance monitoring, and ongoing maintenance."
+                    ]
+                ]
+            ]
+        ];
     }
   ?>
   <script type="application/ld+json">
@@ -599,6 +632,7 @@
             <li><a href="<?= url('projects') ?>">Work</a></li>
             <li><a href="<?= url('blog') ?>">Journal</a></li>
             <li><a href="<?= url('internships') ?>">Internships</a></li>
+            <li><a href="<?= url('events/hack2skill-x-sudarshan') ?>">Events</a></li>
             <li><a href="<?= url('search') ?>">Search</a></li>
           </ul>
         </div>

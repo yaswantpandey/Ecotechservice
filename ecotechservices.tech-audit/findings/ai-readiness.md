@@ -1,24 +1,79 @@
-# AI Search Readiness & Agentic SEO (GEO) — ecotechservices.tech (2026-11-01 re-audit)
+# AI Search Readiness & Generative Engine Optimization (GEO) — ecotechservices.tech
+**Audit Date:** 2026-11-14 (Re-audit)  
+**Category Score:** **28 / 100** (Weight: 10%)
 
-## Score: 35/100 (weight 10%) — down from 76 in the previous audit
+---
 
-## Why the score collapsed
-The previous audit (2026-10-26) scored this category on llms.txt missing (now fixed) and robots.txt rules (now added). Both fixes are live and high quality. What changed is that this re-audit **probed with real AI-crawler user agents** and found the hosting block makes every welcome sign unusable in practice:
+## 1. Executive Summary
 
-| Bot | robots.txt says | Live probe result |
-|---|---|---|
-| GPTBot | Allow | JS challenge on 100% of tested paths incl. /llms.txt, /sitemap.xml, static text |
-| PerplexityBot (implied same app-layer) | Allow | challenge behavior via same challenge layer |
-| DuckDuckBot | (generic allow) | JS challenge |
-| Applebot / Applebot-Extended | explicit Allow | JS challenge |
-| YandexBot | (generic allow) | **HTTP 403** |
+While `robots.txt` explicitly welcomes AI crawlers and a well-structured `llms.txt` exists in the local source tree, **zero AI search engines can currently access, crawl, or cite the live website**.
 
-## What works
-- /llms.txt published and excellent: company identity + 6 functions + 4 verified portfolio links + stack + internships, 2.8KB (~900 tokens)
-- robots.txt explicitly allows the four major AI crawlers
-- IndexNow key file live; content is server-rendered (no JS needed to read)
-- llms.txt and robots.txt exist verbatim on the live origin
+Empirical testing reveals that InfinityFree's OpenResty web application firewall forcibly rejects OpenAI `GPTBot`, Anthropic `ClaudeBot`, and `PerplexityBot` with **HTTP 403 Forbidden**, while serving an 847-byte JavaScript stub to `Applebot-Extended`. Furthermore, requests to `https://ecotechservices.tech/llms.txt` return **HTTP 404 Not Found** due to an unrouted front controller rewrite rule.
 
-## Findings
-1. **CRITICAL — allow rules are dead letters.** Citing AI engines (ChatGPT Search, Perplexity, Claude, Apple Intelligence) request pages as first-time cookie-less clients; they do not execute the challenge JS, so they never receive content — and never cite the site. This is an application-layer block (InfinityFree), not a configuration error on the robots/llms side. *Fix: hosting migration. Then re-probe `/` and `/llms.txt` with GPTBot/PerplexityBot/ClaudeBot UAs and confirm 200 + real content on both.*
-2. **INFO — after migration, llms.txt should be resubmitted alongside the sitemap via IndexNow** so AI indexers pick it up fresh; the 473-URL grid is already worth an IndexNow resubmit once the block lifts.
+---
+
+## 2. Empirical Bot Probe Verification (Live Origin)
+
+| AI Bot / Engine | Declared Policy in `robots.txt` | Live Origin Probe (2026-11-14) | Resulting Crawler Experience | Citability Impact |
+| :--- | :---: | :---: | :---: | :---: |
+| **GPTBot 1.2 (OpenAI / ChatGPT Search)** | `Allow: /` | **HTTP 403 Forbidden** | TCP connection rejected / denied | 🔴 Cannot index or cite |
+| **ClaudeBot 1.0 (Anthropic / Claude)** | `Allow: /` | **HTTP 403 Forbidden** | TCP connection rejected / denied | 🔴 Cannot index or cite |
+| **PerplexityBot 1.0 (Perplexity AI)** | `Allow: /` | **HTTP 403 Forbidden** | TCP connection rejected / denied | 🔴 Cannot index or cite |
+| **Applebot-Extended (Apple Intelligence)** | `Allow: /` | **HTTP 200 (847 bytes)** | Trapped in `aes.js` challenge stub | 🔴 Cannot evaluate JS |
+| **DuckDuckBot 1.1** | `Allow: /` | **HTTP 200 (847 bytes)** | Trapped in `aes.js` challenge stub | 🔴 Cannot evaluate JS |
+
+---
+
+## 3. `/llms.txt` Deployment Defect
+
+### The Issue:
+Testing `https://ecotechservices.tech/llms.txt` returns:
+```http
+HTTP/1.1 404 Not Found
+Server: openresty
+Content-Type: text/html; charset=UTF-8
+```
+A complete 404 HTML template is returned instead of the machine-readable Markdown file.
+
+### Root Cause:
+In `public/.htaccess`:
+```apache
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteCond %{REQUEST_URI} !\.(css|js|jpe?g|png|gif|svg|woff2?|ttf|eot|ico|webp)$ [NC]
+RewriteRule ^(.*)$ index.php [QSA,L]
+```
+The file extension `.txt` is not excluded in the rewrite regex. On shared hosting environments where `!-f` fails to resolve due to virtual host aliasing, the request is routed to `index.php`. Since `public/index.php` contains no route matching `llms.txt`, the application triggers a 404 error response.
+
+### Fix:
+1. Update `public/.htaccess`:
+   ```apache
+   RewriteCond %{REQUEST_URI} !\.(css|js|jpe?g|png|gif|svg|woff2?|ttf|eot|ico|webp|txt)$ [NC]
+   ```
+2. Or register an explicit route in `public/index.php`:
+   ```php
+   'llms.txt' => function() {
+       header('Content-Type: text/plain; charset=UTF-8');
+       readfile(ROOT_PATH . '/public/llms.txt');
+       exit;
+   },
+   ```
+
+---
+
+## 4. Agentic Browsing & Machine Citability Deficiencies
+
+1. **Missing Discovery Endpoints:**
+   - `/.well-known/ai-catalog.json`: Not implemented.
+   - `/.well-known/agent-card.json`: Not implemented.
+2. **Missing Markdown Negotiation:**
+   - Server does not negotiate `Accept: text/markdown` or supply an `index.md` sibling.
+3. **TLS Verification Failure for Agents:**
+   - Automated agent runtimes (Python, LangChain, AutoGen, CrewAI) fail TLS verification when fetching `https://ecotechservices.tech` due to the missing Let's Encrypt `YR2` intermediate certificate.
+
+---
+
+## 5. Strategic Remediation Roadmap
+1. **Immediate:** Migrate to clean hosting (e.g. Hostinger, Hetzner) or place Cloudflare in front with WAF rules configured to allow verified AI bots.
+2. **Immediate:** Implement the `.htaccess` / `index.php` route fix to serve `public/llms.txt`.
+3. **Post-Migration:** Resubmit `llms.txt` and `sitemap.xml` via IndexNow and monitor bot crawler access in server logs.

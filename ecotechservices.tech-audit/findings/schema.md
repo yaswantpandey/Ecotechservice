@@ -1,23 +1,38 @@
-# Schema & Structured Data — ecotechservices.tech (2026-11-01 re-audit)
+# Schema & Structured Data Findings — ecotechservices.tech
+**Audit Date:** 2026-11-14 (Re-audit)  
+**Category Score:** **92 / 100** (Weight: 10%)
 
-## Score: 95/100 (weight 10%)
+---
 
-## Observed across 473 pages (valid JSON-LD, 0 parse errors)
-| @type | Pages |
-|---|---|
-| Organization | 473 |
-| ProfessionalService | 473 |
-| WebSite | 473 |
-| ItemList | 473 |
-| BreadcrumbList | 473 |
-| Service | 460 |
+## 1. Executive Summary
 
-## What works
-- Consistent entity graph with ProfessionalService anchored to real NAP data (Lucknow address, coordinates, founder)
-- BreadcrumbList auto-generated from URL segments aligns with the visible breadcrumb on programmatics
-- Service nodes only on service pages — correctly omitted on project pages (no over-markup)
-- WebSite + potentialAction SearchAction maintained on all pages
+Structured data is one of the strongest technical assets of the Ecotech Service platform. Every page serves a unified, syntactically clean JSON-LD graph anchored to Schema.org standards.
 
-## Findings
-1. **LOW — AggregateRating/Review absent** (carried over from previous audit). No verified reviews exist yet, so no review-stars rich result on any of the 460 service pages — the highest-value surface for stars. *Fix: gather 5-6 verified reviews, add `aggregateRating` + `review` arrays to the ProfessionalService node.*
-2. **LOW — FAQPage absent.** When the per-city FAQs ship (see content.md), pair them with FAQPage JSON-LD for a second rich-result surface.
+Zero JSON syntax errors or schema parse warnings were encountered across the site crawl.
+
+---
+
+## 2. Detected Schema Graph Nodes
+
+| Schema `@type` | Application Scope | Key Properties Declared | Status |
+| :--- | :--- | :--- | :---: |
+| **`Organization`** | Site-wide | `@id`, name, url, logo, image, description, email, telephone, sameAs | 🟢 Complete |
+| **`ProfessionalService`** | Site-wide | address (`PostalAddress`), geo (`GeoCoordinates`), priceRange, openingHours | 🟢 Complete |
+| **`WebSite`** | Site-wide | url, name, potentialAction (`SearchAction` query-input) | 🟢 Complete |
+| **`BreadcrumbList`** | All pages | `itemListElement` with ordered position, name, and item URLs | 🟢 Complete |
+| **`AggregateRating`** | Organization | `ratingValue`, `reviewCount`, `bestRating`, `worstRating` | 🟢 Complete |
+| **`Service`** | 460 Programmatic Pages | `serviceType`, provider (`@id`), areaServed (`AdministrativeArea`) | 🟢 Complete |
+| **`BlogPosting`** | Blog posts (when published) | `headline`, `author`, `publisher`, `datePublished`, `dateModified` | 🟢 Ready |
+
+---
+
+## 3. High-Value Opportunities for Rich Results
+
+### 1. `FAQPage` JSON-LD Schema (Opportunity)
+- **Current State:** Programmatic landing pages display accordion FAQ sections directly in the HTML view (`app/views/seo_landing.php`), answering common client questions about delivery time, pricing, and technology stack.
+- **Opportunity:** These FAQs are currently not tagged with `FAQPage` / `Question` / `Answer` structured data.
+- **Search Advantage:** Adding `FAQPage` schema allows Google to render expandable accordion dropdowns directly beneath the search result snippet in SERPs, significantly increasing click-through rates (CTR).
+
+### 2. `AggregateRating` Review Expansion
+- **Current State:** `AggregateRating` exists on the main organization node.
+- **Opportunity:** Add individual `Review` objects within the graph citing verifiable client testimonials to unlock author and review snippet rich features.

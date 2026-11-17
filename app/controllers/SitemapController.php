@@ -23,6 +23,17 @@ class SitemapController extends BaseController {
 
         $now = date('Y-m-d');
 
+        // Dynamic blog priority depending on whether articles exist
+        $blogPriority = '0.5';
+        $blogFreq = 'monthly';
+        try {
+            $hasPosts = (int)$this->db->query("SELECT COUNT(*) FROM blog_posts WHERE is_published = 1")->fetchColumn();
+            if ($hasPosts > 0) {
+                $blogPriority = '0.8';
+                $blogFreq = 'daily';
+            }
+        } catch (Throwable $e) {}
+
         // 1. Core Pages
         $corePages = [
             ['path' => '',          'priority' => '1.0', 'changefreq' => 'weekly'],
@@ -30,8 +41,9 @@ class SitemapController extends BaseController {
             ['path' => 'projects',   'priority' => '0.9', 'changefreq' => 'weekly'],
             ['path' => 'about',      'priority' => '0.8', 'changefreq' => 'monthly'],
             ['path' => 'templates',  'priority' => '0.8', 'changefreq' => 'weekly'],
-            ['path' => 'blog',       'priority' => '0.8', 'changefreq' => 'daily'],
+            ['path' => 'blog',       'priority' => $blogPriority, 'changefreq' => $blogFreq],
             ['path' => 'contact',    'priority' => '0.8', 'changefreq' => 'monthly'],
+            ['path' => 'events/hack2skill-x-sudarshan', 'priority' => '0.7', 'changefreq' => 'weekly'],
         ];
 
         foreach ($corePages as $page) {
@@ -179,6 +191,20 @@ class SitemapController extends BaseController {
         }
 
         echo $content;
+        exit;
+    }
+
+    /**
+     * Machine-readable LLM context (/llms.txt) for AI search engines & agents
+     */
+    public function llms(): void {
+        header('Content-Type: text/plain; charset=utf-8');
+        $file = PUBLIC_PATH . '/llms.txt';
+        if (file_exists($file)) {
+            readfile($file);
+        } else {
+            echo "# Ecotech Services\nhttps://ecotechservices.tech\n";
+        }
         exit;
     }
 }
