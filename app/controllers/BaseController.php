@@ -5,10 +5,14 @@
 
 abstract class BaseController {
 
-    protected PDO $db;
+    protected ?PDO $db = null;
 
     public function __construct() {
-        $this->db = Database::getInstance();
+        try {
+            $this->db = Database::getInstance();
+        } catch (Throwable $e) {
+            $this->db = null;
+        }
     }
 
     /**

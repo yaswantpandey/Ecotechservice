@@ -88,6 +88,7 @@ $routes = [
     'blog/post'         => ['BlogController',         'post'],
     'search'            => ['SearchController',       'index'],
     // Events
+    'events'                        => ['EventController', 'index'],
     'events/hack2skill-x-sudarshan' => ['EventController', 'hack2skillXSudarshan'],
     'privacy'           => ['LegalController',        'privacy'],
     'terms'             => ['LegalController',        'terms'],

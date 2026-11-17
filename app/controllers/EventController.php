@@ -8,6 +8,14 @@ require_once ROOT_PATH . '/app/controllers/BaseController.php';
 class EventController extends BaseController {
 
     /**
+     * Events index / directory.
+     */
+    public function index(): void
+    {
+        redirect(url('events/hack2skill-x-sudarshan'));
+    }
+
+    /**
      * Hack2Skill × Sudarshan hackathon.
      *
      * Every fact shown on the page is read from $event, $tracks, $timeline,

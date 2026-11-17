@@ -102,7 +102,7 @@ function assetUrl(string $path): string {
 function setting(string $key, string $default = ''): string {
     static $cache = [];
     if (!isset($cache[$key])) {
-        $db   = Database::getInstance();
+        try { $db = Database::getInstance(); } catch (Throwable $e) { $cache[$key] = $default; return $default; }
         $stmt = $db->prepare("SELECT `value` FROM `site_settings` WHERE `key` = ?");
         $stmt->execute([$key]);
         $row = $stmt->fetch();
@@ -308,7 +308,7 @@ function aggregateRating(): ?array {
         return $cache;
     }
     try {
-        $db   = Database::getInstance();
+        try { $db = Database::getInstance(); } catch (Throwable $e) { $cache[$key] = $default; return $default; }
         $stmt = $db->prepare(
             "SELECT COUNT(*) AS cnt, COALESCE(AVG(rating), 0) AS avg
              FROM testimonials
