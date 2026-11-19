@@ -13,99 +13,271 @@ class EventController extends BaseController {
     public function index(): void
     {
         $this->view('events/index', [
-            'pageTitle'       => 'Tech Events, Hackathons & Builder Sprints | ' . APP_NAME,
-            'metaDescription' => 'Explore upcoming hackathons, architecture clinics, and engineering workshops hosted or mentored by Ecotech Service. Free participation for student and professional builders.',
-            'metaKeywords'    => 'tech events, hackathons india 2027, hack2skill sudarshan, developer sprints, architecture clinics, engineering workshops, ecotech service',
+            'pageTitle'       => 'PromptWars & Tech Hackathons | ' . APP_NAME,
+            'metaDescription' => 'Explore PromptWars × Sudarshan and developer build sprints co-hosted and mentored by Ecotech Services. Free participation, ₹20,000 prize pool, $400 AI credits.',
+            'metaKeywords'    => 'promptwars, sudarshan hackathon, hack2skill prompt wars, ecotech services events, ai hackathon 2026, vibe coding, prompt engineering india',
             'canonicalPath'   => 'events',
-            'ogImage'         => url('assets/img/logo.png'),
+            'ogImage'         => 'https://h2svision.github.io/publicAssets/vision/community-prompt-wars/promptwars-banner-image.webp',
         ]);
     }
 
     /**
-     * Hack2Skill × Sudarshan hackathon.
-     *
-     * Every fact shown on the page is read from $event, $tracks, $timeline,
-     * $rewards and $judging below, so the copy can be corrected from one
-     * place. Values tagged CONFIRM are placeholders — replace them with the
-     * official numbers from the Hack2Skill event listing before publishing.
+     * Backward-compatible handler for /events/hack2skill-x-sudarshan
      */
     public function hack2skillXSudarshan(): void
     {
+        $this->promptwarsXSudarshan();
+    }
+
+    /**
+     * Official PromptWars × Sudarshan Hackathon (/events/promptwars-x-sudarshan)
+     * Data synchronized from official Hack2Skill event listing:
+     * https://hack2skill.com/event/promptwars-x-sudarshan
+     */
+    public function promptwarsXSudarshan(): void
+    {
         $event = [
-            'slug'        => 'hack2skill-x-sudarshan',
-            'name'        => 'Hack2Skill × Sudarshan Hackathon',
+            'slug'        => 'promptwars-x-sudarshan',
+            'alias_slug'  => 'hack2skill-x-sudarshan',
+            'name'        => 'PromptWars × Sudarshan',
             'partner'     => 'Hack2Skill',
-            'host'        => 'Sudarshan',
-            'tagline'     => 'A 36-hour build sprint for teams solving real problems in manufacturing, materials and the supply chain that feeds them.',
-            'summary'     => 'Ecotech Service is on the mentor panel. We will be in the room for the full build window — reviewing architecture, unblocking deployments and helping teams ship something that actually runs.',
-            'starts'      => '2027-01-09T09:00:00+05:30', // CONFIRM
-            'ends'        => '2027-01-10T21:00:00+05:30', // CONFIRM
-            'mode'        => 'Hybrid — online shortlisting, in-person finale', // CONFIRM
-            'venue'       => 'Pune, Maharashtra (venue shared with shortlisted teams)', // CONFIRM
-            'team_size'   => '2 to 4 members',
-            'eligibility' => 'Students, recent graduates and working professionals in India, 18 and above', // CONFIRM
-            'fee'         => 'Free to enter',
-            'register_url'      => 'https://hack2skill.com/hackathons-listing', // CONFIRM — link to the event page
-            'registration_note' => 'Registration closes 18 December 2026, 23:59 IST', // CONFIRM
-            'mentor_note' => 'Ecotech Service reviews architecture and deployment questions during the build window.',
-            'email'       => 'ecotech.servic@gmail.com',
+            'host'        => 'Sudarshana',
+            'co_host'     => 'Ecotech Services',
+            'tagline'     => 'The Ultimate Vibe-Coding & Rapid Prototyping Hackathon',
+            'summary'     => 'Welcome to PromptWars × Sudarshan — an ultimate high-energy vibe-coding and rapid prototyping hackathon where innovation meets pure execution. Brought to you in collaboration with Ecotech Services, Google for Developers, and Hack2Skill, this nationwide initiative challenges developers, AI practitioners, and student innovators across India to build functional AI solutions under real-world constraints.',
+            'starts'      => '2026-11-19T08:00:00+05:30',
+            'ends'        => '2026-11-23T18:00:00+05:30',
+            'mode'        => '100% Online — Remote Pan-India Hackathon',
+            'venue'       => 'Online / Remote (Hack2Skill Platform & WhatsApp Community)',
+            'team_size'   => 'Solo / 1 Member (Individual Participation)',
+            'eligibility' => 'Students, developers, and AI enthusiasts across India (Age 16+)',
+            'fee'         => 'Free to enter (Zero registration fee)',
+            'register_url'      => 'https://hack2skill.com/event/promptwars-x-sudarshan',
+            'registration_cta'  => 'https://hack2skill.com/event/promptwars-x-sudarshan/registration',
+            'whatsapp_url'      => 'https://chat.whatsapp.com/Kvfa52JBqCM25KGW5qNk2G?s=cl&p=a&mlu=4&ilr=4&iam=2',
+            'registration_note' => 'Registration closes 19 November 2026, 23:59 IST',
+            'submission_note'   => 'Submission window: 19 Nov 2026, 08:00 AM IST – 21 Nov 2026, 12:00 PM IST',
+            'mentor_note'       => 'Ecotech Services leadership sits on the jury and mentor panel — providing live architecture reviews, prompt guidance, and offering internship tracks to standout builders.',
+            'email'             => 'contact@yaswant.co.in',
+            'alt_email'         => 'ecotech.servic@gmail.com',
+            'phone'             => '+91 7398301184',
+            'prize_pool'        => '₹20,000 INR + $400 AI Credits',
+            'banner_image'      => 'https://h2svision.github.io/publicAssets/vision/community-prompt-wars/promptwars-banner-image.webp',
+            'logo_image'        => 'https://h2svision.github.io/publicAssets/vision/community-prompt-wars/pwc_logo.webp',
+            'sudarshan_logo'    => 'https://storage.googleapis.com/vision-hack2skill-production/innovator/USER01806912/1794994610931-Sudarshan.webp',
         ];
 
         $tracks = [
             [
-                'name'  => 'Plant-floor intelligence',
-                'brief' => 'Turn machine, sensor or log data into something an operator can act on inside a shift — anomaly detection, downtime prediction, quality drift.',
+                'id'       => 'ps1',
+                'name'     => 'AI Multi-Agent Crisis Command Centre',
+                'category' => 'Disaster & Public Safety',
+                'image'    => 'https://storage.googleapis.com/vision-hack2skill-production/innovator/USER02324450/1794532934045-ps1crisiscommandcentre.webp',
+                'context'  => 'During floods, fires, and accidents, critical information is fragmented across social media, local news, emergency helplines, and weather sensors.',
+                'brief'    => 'Build a multi-agent system that aggregates live crisis feeds into a unified command dashboard, filters out noise, duplicates, and fabricated reports, prioritizes emergencies by severity, and generates clear action plans for first responders.',
+                'tags'     => ['Multi-Agent Systems', 'Crisis Intelligence', 'Live Deduplication', 'Emergency Dispatch'],
             ],
             [
-                'name'  => 'Materials and formulation',
-                'brief' => 'Tools that shorten the loop between a formulation request and a validated result: experiment tracking, property prediction, specification search.',
+                'id'       => 'ps2',
+                'name'     => 'Adaptive AI Tutor',
+                'category' => 'Education & Skill Building',
+                'image'    => 'https://storage.googleapis.com/vision-hack2skill-production/innovator/USER02324450/1794533079078-ps2adaptiveaitutor.webp',
+                'context'  => 'Traditional instruction treats every student uniformly, failing to address unique cognitive roadblocks or language barriers.',
+                'brief'    => 'Build an intelligent tutoring agent that analyzes student responses to diagnose conceptual gaps, explains difficult topics in three distinct modalities (bilingual in Hindi or English, real-world analogies, and step-by-step logic), and generates personalized adaptive assessments.',
+                'tags'     => ['Adaptive Learning', 'Bilingual AI (Hindi/English)', 'Misconception Analysis', 'Personalized STEM'],
             ],
             [
-                'name'  => 'Supply chain visibility',
-                'brief' => 'Traceability from raw material to dispatch, with honest answers about delays, batch status and inventory held across partners.',
+                'id'       => 'ps3',
+                'name'     => 'Fake News & Deepfake Verifier',
+                'category' => 'Misinformation & Digital Trust',
+                'image'    => 'https://storage.googleapis.com/vision-hack2skill-production/innovator/USER02324450/1794533168861-ps3fakenewsverifier.webp',
+                'context'  => 'Viral misinformation, doctored claims, and synthetic media spread unchecked through messaging apps and social channels.',
+                'brief'    => 'Build an automated verification pipeline where users submit text, images, or media URLs. The tool deconstructs the claim, cross-references credible journalistic records and knowledge bases, and delivers an evidence-backed verdict (True, False, or Unverified) with transparent reasoning.',
+                'tags'     => ['Digital Forensics', 'Claim Verification', 'Multimodal Fact Checking', 'Deepfake Detection'],
             ],
             [
-                'name'  => 'Sustainability reporting',
-                'brief' => 'Measure and report emissions, water use or waste against a real audit standard without a spreadsheet holding the whole thing together.',
+                'id'       => 'ps4',
+                'name'     => 'Open Innovation with Essential AI',
+                'category' => 'Open Innovation',
+                'image'    => 'https://storage.googleapis.com/vision-hack2skill-production/innovator/USER02324450/1794533304685-ps8openinnovation.webp',
+                'context'  => 'Tackle a real-world problem where generative AI and prompt intelligence perform the core heavy lifting rather than acting as a thin API wrapper.',
+                'brief'    => 'Identify an authentic problem in healthcare, commerce, developer tools, or public governance and build an end-to-end, functional solution. Judges reward originality, technical depth, prompt architecture, and practical production viability.',
+                'tags'     => ['Vibe Coding', 'Autonomous Workflows', 'Generative Prototyping', 'Production Systems'],
             ],
         ];
 
         $timeline = [
-            ['date' => '2026-11-16', 'label' => 'Registrations open',            'detail' => 'Team registration and problem statement release on Hack2Skill.'],
-            ['date' => '2026-12-18', 'label' => 'Registration closes',           'detail' => 'Final date to register a team and submit the idea abstract.'],
-            ['date' => '2026-12-22', 'label' => 'Shortlist announced',           'detail' => 'Selected teams are published and invited to the finale.'],
-            ['date' => '2027-01-09', 'label' => 'Build window opens',            'detail' => 'Opening briefing, track walkthrough, then the clock starts.'],
-            ['date' => '2027-01-10', 'label' => 'Submissions and final pitch',   'detail' => 'Code freeze, five-minute pitches, judging and results.'],
+            [
+                'date'   => '2026-11-04',
+                'time'   => '12:00 AM IST',
+                'label'  => 'Registrations Open',
+                'detail' => 'Official registration goes live on Hack2Skill. Problem statements and challenge tracks published.',
+            ],
+            [
+                'date'   => '2026-11-19',
+                'time'   => '11:59 PM IST',
+                'label'  => 'Registration Closes',
+                'detail' => 'Final deadline to register on the Hack2Skill portal and join the builder WhatsApp group.',
+            ],
+            [
+                'date'   => '2026-11-19',
+                'time'   => '08:00 AM IST',
+                'label'  => 'Submission Window Opens',
+                'detail' => 'Project submission portal opens. Participants submit project descriptions, working demo links, and GitHub repositories.',
+            ],
+            [
+                'date'   => '2026-11-21',
+                'time'   => '12:00 PM IST',
+                'label'  => 'Code Freeze & Submissions Close',
+                'detail' => 'Final cutoff for project submissions. Repositories, demo videos, and architecture overviews must be locked.',
+            ],
+            [
+                'date'   => '2026-11-22',
+                'time'   => '05:00 PM IST',
+                'label'  => 'Grand Finale & Live Evaluation',
+                'detail' => 'Finalists demonstrate their working solutions to the evaluation panel. Live QA and scoring.',
+            ],
+            [
+                'date'   => '2026-11-23',
+                'time'   => '06:00 PM IST',
+                'label'  => 'Results & Awards Announcement',
+                'detail' => 'Announcement of winners, distribution of ₹20,000 cash prizes, $400 AI credits, and internship offers.',
+            ],
         ];
 
         $rewards = [
-            ['place' => 'Winner',        'value' => '₹50,000', 'note' => 'Cash prize, Hack2Skill certificate and a fast-track interview with the Sudarshan technology team.'],
-            ['place' => 'First runner-up',  'value' => '₹25,000', 'note' => 'Cash prize and certificate.'],
-            ['place' => 'Second runner-up', 'value' => '₹15,000', 'note' => 'Cash prize and certificate.'],
-            ['place' => 'Track winners',    'value' => '₹5,000 each', 'note' => 'One award per track, judged separately from the overall podium.'],
+            [
+                'place' => 'Cash Prize Pool',
+                'value' => '₹20,000 INR',
+                'note'  => 'Direct monetary cash rewards distributed to winning projects across the challenge tracks.',
+            ],
+            [
+                'place' => 'AI Cloud Credits',
+                'value' => '$400 USD',
+                'note'  => 'Generative AI platform and cloud infrastructure credits to scale and deploy winning solutions.',
+            ],
+            [
+                'place' => 'Ecotech Internships',
+                'value' => 'Exclusive Offers',
+                'note'  => 'Top performers receive direct interview slots and engineering internship opportunities with Ecotech Services.',
+            ],
+            [
+                'place' => 'Digital Credentials',
+                'value' => 'Hack2Skill Verified',
+                'note'  => 'Official digital badges and verified certificates of completion awarded through the Hack2Skill platform.',
+            ],
         ];
 
         $judging = [
-            ['Problem fit',        '25%', 'Does the build address the track it entered, or a nearby problem that was easier to demo?'],
-            ['Working software',   '30%', 'A deployed, clickable product scores over slides describing one.'],
-            ['Technical depth',    '20%', 'Data handling, architecture choices and how the team defends them under questioning.'],
-            ['Usability',          '15%', 'Can the intended user finish the core task without a walkthrough?'],
-            ['Path to production', '10%', 'What it would take to run this for a real plant or partner, including cost and risk.'],
+            ['Working Software & Execution', '30%', 'Does the build actually run? Interactive, functional AI prototypes score significantly higher than conceptual slide decks.'],
+            ['Problem Fit & Depth',         '25%', 'Does the project genuinely solve the core track problem, or is it a generic chatbot wrapper? Depth of real-world fit.'],
+            ['Technical Depth & Prompting',  '20%', 'Sophistication of prompt engineering, model orchestration, system architecture, error recovery, and data flow.'],
+            ['Usability & UX Experience',   '15%', 'How easily can a judge or end-user test the solution? Intuitive interface, clear visual feedback, and low friction.'],
+            ['Production Feasibility',       '10%', 'Feasibility of scaling, latency management, API cost-efficiency, and resilience in a real deployment.'],
+        ];
+
+        $jury = [
+            [
+                'name'         => 'Yaswant Pandey',
+                'role'         => 'Founder, Ecotech Services',
+                'organization' => 'Ecotech Services',
+                'image'        => 'https://storage.googleapis.com/vision-hack2skill-production/innovator/USER01806912/1793780990125-favicon.ico',
+                'linkedin'     => 'https://www.linkedin.com/in/yaswantpandey',
+                'github'       => 'https://github.com/yaswantpandey',
+            ],
+            [
+                'name'         => 'Anjanee Kumar Yadav',
+                'role'         => 'Technical Coordinator',
+                'organization' => 'AIMT Lucknow',
+                'image'        => '',
+                'linkedin'     => '',
+                'github'       => '',
+            ],
+            [
+                'name'         => 'Abhay Trivedi',
+                'role'         => 'Agentic AI Specialist',
+                'organization' => 'AI Practitioner',
+                'image'        => 'https://storage.googleapis.com/vision-hack2skill-production/innovator/USER01806912/1794996853685-abhay.webp',
+                'linkedin'     => 'https://www.linkedin.com/in/abhay-trivedi-a280213aa/',
+                'instagram'    => 'https://www.instagram.com/agenticabhay.ai',
+            ],
+        ];
+
+        $mentors = [
+            [
+                'name'         => 'Rupesh Kumar',
+                'role'         => 'Co-Founder, Ecotech Services',
+                'organization' => 'Ecotech Services',
+                'image'        => 'https://storage.googleapis.com/vision-hack2skill-production/innovator/USER01806912/1793780990125-favicon.ico',
+                'linkedin'     => 'https://www.linkedin.com/in/rupesh-kumar-2b7756369?utm_source=share_via&utm_content=profile&utm_medium=member_android',
+                'github'       => 'https://github.com/Lucifer330',
+            ],
+            [
+                'name'         => 'Anand Kumar',
+                'role'         => 'Founder, Techverse India',
+                'organization' => 'Techverse India',
+                'image'        => '',
+                'linkedin'     => '',
+                'github'       => '',
+            ],
+        ];
+
+        $partners = [
+            [
+                'name'  => 'Ecotech Services',
+                'role'  => 'Technical & Mentorship Partner',
+                'url'   => 'https://ecotechservices.tech',
+                'image' => 'https://storage.googleapis.com/vision-hack2skill-production/innovator/USER01806912/1793781552253-Screenshot20261104140846.webp',
+            ],
+            [
+                'name'  => 'Hack2Skill',
+                'role'  => 'Platform Partner',
+                'url'   => 'https://hack2skill.com',
+                'image' => 'https://h2svision.github.io/publicAssets/vision/community-prompt-wars/pwc_partners_1.webp',
+            ],
+            [
+                'name'  => 'Google for Developers',
+                'role'  => 'Ecosystem Partner',
+                'url'   => 'https://developers.google.com',
+                'image' => 'https://h2svision.github.io/publicAssets/vision/community-prompt-wars/pwc_partner_2.webp',
+            ],
+            [
+                'name'  => 'Major League Hacking (MLH)',
+                'role'  => 'Community Partner',
+                'url'   => 'https://www.mlh.com/',
+                'image' => 'https://storage.googleapis.com/vision-hack2skill-production/innovator/USER01806912/1794816025837-Screenshot20261116132943.webp',
+            ],
         ];
 
         $faqs = [
-            ['Who can take part?',
-             'Teams of two to four, aged 18 or above, studying or working in India. Solo entries are not accepted, but we run a team-formation thread on the Hack2Skill community before registration closes.'],
-            ['Is there a registration fee?',
-             'No. Entry is free for every selected team, and meals are provided at the in-person finale. Travel is not reimbursed.'],
-            ['What can we build with?',
-             'Any stack. There is no mandated platform. If you want a starting point, our internship tracks use PHP, MySQL, React and Postgres — but a well-built product in another language is judged the same way.'],
-            ['Do we need a finished product at registration?',
-             'No. Registration needs a team and a short abstract describing the problem and your intended approach. The build happens on site.'],
-            ['Will Ecotech Service review our code?',
-             'Yes. Our engineers are available through the build window for architecture and deployment reviews. Ask for a slot at the mentor desk — we do not touch your repository directly.'],
-            ['Who owns the intellectual property?',
-             'The team keeps ownership of what it builds. Sudarshan and Hack2Skill receive a non-exclusive licence to showcase the project for judging and promotion. Full terms are in the Hack2Skill event listing.'],
+            [
+                'Is this an online or offline hackathon?',
+                'This is a completely online hackathon. Participants can take part remotely from anywhere in India without needing to travel.',
+            ],
+            [
+                'What is PromptWars × Sudarshan?',
+                'PromptWars × Sudarshan is an online hackathon focused on Generative AI, Prompt Engineering, Vibe Coding, and rapid prototyping, organized by Sudarshana in collaboration with EcoTech Services, Google for Developers, and Hack2Skill.',
+            ],
+            [
+                'What are the prizes and rewards?',
+                'Participants compete for a total prize pool of ₹20,000 INR cash, $400 USD in AI credits, verified Hack2Skill achievement badges, and exclusive engineering internship opportunities with Ecotech Services for top performers.',
+            ],
+            [
+                'Who can participate and what is the team size?',
+                'This challenge is open to solo builders, developers, and AI enthusiasts across India (1 member per registration, ages 16+).',
+            ],
+            [
+                'What should a final submission include?',
+                'Submissions should include a clear project summary, selected problem statement, architectural approach, prompt/model details, and a working demo or public GitHub repository link.',
+            ],
+            [
+                'Do I need a GitHub or LinkedIn account?',
+                'Having a GitHub account is recommended for submitting your project code and deployment links. LinkedIn is useful for networking and showcasing verified achievement badges.',
+            ],
+            [
+                'Where can I get help or clarification during the event?',
+                'You can reach the organizing team via our official WhatsApp community group, or email us at contact@yaswant.co.in or ecotech.servic@gmail.com.',
+            ],
         ];
 
         $this->view('events/hack2skill_x_sudarshan', [
@@ -114,13 +286,16 @@ class EventController extends BaseController {
             'timeline' => $timeline,
             'rewards'  => $rewards,
             'judging'  => $judging,
+            'jury'     => $jury,
+            'mentors'  => $mentors,
+            'partners' => $partners,
             'faqs'     => $faqs,
 
-            'pageTitle'       => 'Hack2Skill × Sudarshan Hackathon — dates, tracks and prizes | ' . APP_NAME,
-            'metaDescription' => 'Hack2Skill and Sudarshan are running a 36-hour hybrid hackathon for manufacturing, materials and supply chain teams. Dates, tracks, prizes, judging criteria and how to register.',
-            'metaKeywords'    => 'hack2skill sudarshan hackathon, hackathon 2027, manufacturing hackathon India, materials innovation challenge, hybrid hackathon Pune, ecotech service events',
+            'pageTitle'       => 'PromptWars × Sudarshan Hackathon — Tracks, Timeline & Prizes | ' . APP_NAME,
+            'metaDescription' => 'PromptWars × Sudarshan is an online AI hackathon co-hosted by Ecotech Services, Hack2Skill, and Sudarshana. ₹20,000 prize pool, $400 AI credits, 4 tracks, and internship tracks.',
+            'metaKeywords'    => 'promptwars x sudarshan, hack2skill hackathon, vibe coding hackathon, ecotech services event, ai prompt hackathon 2026, google for developers india, online hackathon',
             'canonicalPath'   => 'events/' . $event['slug'],
-            'ogImage'         => url('assets/img/logo.png'),
+            'ogImage'         => $event['banner_image'],
         ]);
     }
 }

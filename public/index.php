@@ -89,6 +89,7 @@ $routes = [
     'search'            => ['SearchController',       'index'],
     // Events
     'events'                        => ['EventController', 'index'],
+    'events/promptwars-x-sudarshan' => ['EventController', 'promptwarsXSudarshan'],
     'events/hack2skill-x-sudarshan' => ['EventController', 'hack2skillXSudarshan'],
     'privacy'           => ['LegalController',        'privacy'],
     'terms'             => ['LegalController',        'terms'],

@@ -42,16 +42,16 @@
         <span>Active hackathon sprint</span>
       </div>
       <div class="s-fig">
-        <b>₹1.1L+</b>
-        <span>Cash prize &amp; reward pool</span>
+        <b>₹20,000</b>
+        <span>Cash prize pool + $400 credits</span>
       </div>
       <div class="s-fig">
-        <b>36h</b>
-        <span>Hands-on build window</span>
+        <b>100% Online</b>
+        <span>Remote Pan-India challenge</span>
       </div>
       <div class="s-fig">
-        <b>100% Free</b>
-        <span>Zero entry fee for teams</span>
+        <b>Free Entry</b>
+        <span>Zero registration fee for builders</span>
       </div>
     </div>
   </div>
@@ -62,12 +62,12 @@
   <div class="s-shell">
     <div class="s-grid mb-10">
       <div style="grid-column:span 6" data-reveal>
-        <p class="s-eyebrow">Featured Hackathon</p>
+        <p class="s-eyebrow">Featured Hackathon &middot; Live Challenge</p>
         <h2 class="s-h2 mt-3">Upcoming flagship sprint</h2>
       </div>
       <div style="grid-column:span 6" class="flex items-end justify-start lg:justify-end" data-reveal>
-        <span class="s-tag" style="background:rgba(110,231,183,0.15);color:#6ee7b7;border-color:rgba(110,231,183,0.3);font-size:0.875rem;padding:0.4rem 0.9rem">
-          ● Registration Open &middot; Closes 18 Dec 2026
+        <span class="s-tag" style="background:rgba(239,68,68,0.15);color:#ef4444;border-color:rgba(239,68,68,0.3);font-size:0.875rem;padding:0.4rem 0.9rem">
+          ● Registration Closes 19 Nov 2026, 23:59 IST
         </span>
       </div>
     </div>
@@ -77,43 +77,46 @@
       <div class="s-grid">
         <div style="grid-column:span 8">
           <div class="flex items-center gap-3 flex-wrap">
-            <span class="s-mono s-mute" style="font-size:0.85rem">09 – 10 JAN 2027</span>
+            <span class="s-mono s-mute" style="font-size:0.85rem">19 – 23 NOV 2026</span>
             <span class="s-mute">&middot;</span>
-            <span class="s-mono s-mute" style="font-size:0.85rem">PUNE, MAHARASHTRA &amp; ONLINE</span>
+            <span class="s-mono s-mute" style="font-size:0.85rem">100% ONLINE / REMOTE (PAN-INDIA)</span>
             <span class="s-mute">&middot;</span>
-            <span class="s-mono s-mute" style="font-size:0.85rem">HYBRID FORMAT</span>
+            <span class="s-mono s-mute" style="font-size:0.85rem">VIBE CODING &amp; AI SPRINT</span>
           </div>
 
           <h3 class="s-h1 mt-4">
-            <a href="<?= url('events/hack2skill-x-sudarshan') ?>" style="text-decoration:none">
-              Hack2Skill &times; Sudarshan Hackathon
+            <a href="<?= url('events/promptwars-x-sudarshan') ?>" style="text-decoration:none">
+              PromptWars &times; Sudarshan
             </a>
           </h3>
 
           <p class="s-lede mt-4" style="color:var(--band-mute)">
-            A 36-hour build sprint for engineers solving real-world challenges in chemical manufacturing, formulation science, and resilient industrial supply chains.
+            The Ultimate Vibe-Coding &amp; Rapid Prototyping Hackathon. Organized by Sudarshana in collaboration with Ecotech Services, Google for Developers, and Hack2Skill.
           </p>
 
           <p class="s-prose mt-4" style="max-width:65ch">
-            Ecotech Service sits on the official mentor panel. We will be on site for the entire build window &mdash; unblocking architectures, advising on API resilience, and helping teams deliver deployed, functioning systems.
+            Ecotech Services leadership sits on the official jury and mentor panel. Solo builders solve real-world challenges with generative AI models and multi-agent systems to compete for ₹20,000 cash, $400 AI credits, and exclusive fast-track internship offers.
           </p>
 
           <div class="mt-8">
             <p class="s-eyebrow" style="margin-bottom:0.75rem">Challenge tracks</p>
             <div class="s-tags">
-              <span class="s-tag">Plant-floor intelligence</span>
-              <span class="s-tag">Materials &amp; formulation</span>
-              <span class="s-tag">Supply chain visibility</span>
-              <span class="s-tag">Sustainability reporting</span>
+              <span class="s-tag">AI Multi-Agent Crisis Command Centre</span>
+              <span class="s-tag">Adaptive AI Tutor</span>
+              <span class="s-tag">Fake News &amp; Deepfake Verifier</span>
+              <span class="s-tag">Open Innovation</span>
             </div>
           </div>
 
           <div class="s-actions mt-10">
-            <a href="<?= url('events/hack2skill-x-sudarshan') ?>" class="s-btn">
-              View event brief, prizes &amp; criteria &rarr;
+            <a href="<?= url('events/promptwars-x-sudarshan') ?>" class="s-btn">
+              View event brief, tracks &amp; jury &rarr;
             </a>
-            <a href="https://hack2skill.com/hackathons-listing" target="_blank" rel="noopener noreferrer" class="s-btn--line">
+            <a href="https://hack2skill.com/event/promptwars-x-sudarshan/registration" target="_blank" rel="noopener noreferrer" class="s-btn--line">
               Register on Hack2Skill
+            </a>
+            <a href="https://chat.whatsapp.com/Kvfa52JBqCM25KGW5qNk2G?s=cl&p=a&mlu=4&ilr=4&iam=2" target="_blank" rel="noopener noreferrer" class="s-btn--line" style="border-color:#25D366;color:#25D366">
+              💬 WhatsApp Group
             </a>
           </div>
         </div>
@@ -122,32 +125,36 @@
           <p class="s-eyebrow">Quick specs</p>
           <dl class="s-kv mt-4">
             <div>
-              <dt>Hosts</dt>
-              <dd>Sudarshan &amp; Hack2Skill</dd>
+              <dt>Hosts &amp; Partners</dt>
+              <dd>Sudarshana, Ecotech &amp; Hack2Skill</dd>
             </div>
             <div>
-              <dt>Mentors</dt>
-              <dd>Ecotech Service Engineering</dd>
+              <dt>Jury Panel</dt>
+              <dd>Ecotech Leadership &amp; AIMT</dd>
             </div>
             <div>
               <dt>Total rewards</dt>
-              <dd><strong>₹1,10,000+</strong></dd>
+              <dd><strong>₹20,000 INR + $400 Credits</strong></dd>
             </div>
             <div>
-              <dt>Top prize</dt>
-              <dd>₹50,000 + Interview slot</dd>
+              <dt>Career Track</dt>
+              <dd>Ecotech Engineering Internships</dd>
+            </div>
+            <div>
+              <dt>Format</dt>
+              <dd>100% Online (Remote)</dd>
             </div>
             <div>
               <dt>Team size</dt>
-              <dd>2 to 4 members</dd>
+              <dd>Solo (1 Member)</dd>
             </div>
             <div>
               <dt>Eligibility</dt>
-              <dd>Students &amp; professionals (India)</dd>
+              <dd>Builders across India (16+)</dd>
             </div>
             <div>
               <dt>Registration</dt>
-              <dd>Free &middot; Closes 18 Dec 2026</dd>
+              <dd>Free &middot; Closes 19 Nov 2026</dd>
             </div>
           </dl>
         </aside>
@@ -250,8 +257,8 @@
             [
                 '@type' => 'ListItem',
                 'position' => 1,
-                'name' => 'Hack2Skill × Sudarshan Hackathon',
-                'url' => url('events/hack2skill-x-sudarshan')
+                'name' => 'PromptWars × Sudarshan Hackathon',
+                'url' => url('events/promptwars-x-sudarshan')
             ],
             [
                 '@type' => 'ListItem',

@@ -44,6 +44,7 @@ class SitemapController extends BaseController {
             ['path' => 'blog',       'priority' => $blogPriority, 'changefreq' => $blogFreq],
             ['path' => 'contact',    'priority' => '0.8', 'changefreq' => 'monthly'],
             ['path' => 'events',     'priority' => '0.8', 'changefreq' => 'weekly'],
+            ['path' => 'events/promptwars-x-sudarshan', 'priority' => '0.9', 'changefreq' => 'weekly'],
             ['path' => 'events/hack2skill-x-sudarshan', 'priority' => '0.8', 'changefreq' => 'weekly'],
         ];
 
