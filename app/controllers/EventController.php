@@ -8,11 +8,17 @@ require_once ROOT_PATH . '/app/controllers/BaseController.php';
 class EventController extends BaseController {
 
     /**
-     * Events index / directory.
+     * Events & Builder Sprints Hub (/events).
      */
     public function index(): void
     {
-        redirect(url('events/hack2skill-x-sudarshan'));
+        $this->view('events/index', [
+            'pageTitle'       => 'Tech Events, Hackathons & Builder Sprints | ' . APP_NAME,
+            'metaDescription' => 'Explore upcoming hackathons, architecture clinics, and engineering workshops hosted or mentored by Ecotech Service. Free participation for student and professional builders.',
+            'metaKeywords'    => 'tech events, hackathons india 2027, hack2skill sudarshan, developer sprints, architecture clinics, engineering workshops, ecotech service',
+            'canonicalPath'   => 'events',
+            'ogImage'         => url('assets/img/logo.png'),
+        ]);
     }
 
     /**

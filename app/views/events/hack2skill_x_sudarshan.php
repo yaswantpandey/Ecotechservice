@@ -13,7 +13,8 @@ $dateRange  = date('j', strtotime($event['starts'])) . ' – ' . $endLabel;
   <div class="s-shell">
     <nav class="s-crumbs" aria-label="Breadcrumb">
       <a href="<?= url('') ?>">Home</a><span>/</span>
-      <a href="<?= url('events/' . $event['slug']) ?>" aria-current="page">Events</a>
+      <a href="<?= url('events') ?>">Events</a><span>/</span>
+      <span aria-current="page"><?= Security::e($event['name']) ?></span>
     </nav>
 
     <div class="s-grid mt-8">

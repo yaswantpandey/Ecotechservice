@@ -43,7 +43,8 @@ class SitemapController extends BaseController {
             ['path' => 'templates',  'priority' => '0.8', 'changefreq' => 'weekly'],
             ['path' => 'blog',       'priority' => $blogPriority, 'changefreq' => $blogFreq],
             ['path' => 'contact',    'priority' => '0.8', 'changefreq' => 'monthly'],
-            ['path' => 'events/hack2skill-x-sudarshan', 'priority' => '0.7', 'changefreq' => 'weekly'],
+            ['path' => 'events',     'priority' => '0.8', 'changefreq' => 'weekly'],
+            ['path' => 'events/hack2skill-x-sudarshan', 'priority' => '0.8', 'changefreq' => 'weekly'],
         ];
 
         foreach ($corePages as $page) {
@@ -199,12 +200,60 @@ class SitemapController extends BaseController {
      */
     public function llms(): void {
         header('Content-Type: text/plain; charset=utf-8');
-        $file = PUBLIC_PATH . '/llms.txt';
-        if (file_exists($file)) {
-            readfile($file);
-        } else {
-            echo "# Ecotech Services\nhttps://ecotechservices.tech\n";
+
+        $candidates = [
+            PUBLIC_PATH . '/llms.txt',
+            ROOT_PATH . '/public/llms.txt',
+            ROOT_PATH . '/llms.txt',
+            __DIR__ . '/../../public/llms.txt',
+            __DIR__ . '/../../../public/llms.txt',
+        ];
+
+        foreach ($candidates as $candidate) {
+            if (file_exists($candidate)) {
+                readfile($candidate);
+                exit;
+            }
         }
+
+        // Complete embedded fallback
+        echo <<<EOT
+# Ecotech Services
+
+> Software that stays fast. Ecotech Services provides full-stack web application development, cross-platform mobile apps, cloud architecture, cybersecurity auditing, and managed digital solutions for startups and enterprises worldwide.
+
+## Company Information
+- **Company Name:** Ecotech Services
+- **Headquarters:** Lucknow, Uttar Pradesh, India - 226001
+- **Technical Director:** Yaswant Kumar
+- **Contact Email:** ecotech.servic@gmail.com
+- **Phone / WhatsApp:** +91 7398301184
+- **Official Website:** https://ecotechservices.tech
+
+## Core Services
+- [Custom Web App Development](https://ecotechservices.tech/services#web-development): Scalable enterprise platforms, client portals, and internal dashboards built on modern stacks (PHP 8, React, Node.js, Python).
+- [Web Security & Penetration Testing](https://ecotechservices.tech/services#web-security-penetration-testing): OWASP code reviews, ethical vulnerability assessments, and penetration testing for web and mobile systems.
+- [Mobile App Development](https://ecotechservices.tech/services#mobile-app-development): Unified cross-platform builds for iOS and Android using React Native and Flutter.
+- [Cloud & DevOps Engineering](https://ecotechservices.tech/services#cloud-devops): CI/CD pipeline automation, Docker container orchestration, AWS/GCP deployments, and 24x7 monitoring.
+- [UI/UX Design Systems](https://ecotechservices.tech/services#ui-ux-design): Accessible, high-contrast, modern UI/UX design systems and interactive wireframes.
+- [Digital Marketing & SEO](https://ecotechservices.tech/services#digital-marketing): Data-driven technical SEO, Generative Engine Optimization (GEO), and conversion rate optimization.
+
+## Work & Delivered Portfolio
+- [Pandey Reality](https://pandeyreality.com): Real estate portal featuring luxury property listings in Mumbai with MahaRERA verification.
+- [Apna Cleaning](https://apnacleanig.in): High-speed booking application for residential and commercial cleaning services.
+- [Kranti Furnitures & Electronics](https://krantifurniture.in): Modern e-commerce showroom for home appliances and furniture in Prayagraj.
+- [Yaswant.co.in](https://yaswant.co.in): Developer ecosystem and portfolio with 26+ browser-based utilities.
+
+## Technology Stack
+- **Backend:** PHP 8+, Python, Node.js, REST APIs, MySQL, PostgreSQL
+- **Frontend:** Vanilla CSS, Tailwind CSS, Modern JavaScript, React
+- **DevOps & Security:** Linux, Apache, Nginx, Docker, Git CI/CD, OWASP Security Standards
+
+## Career & Internship Tracks
+Ecotech Services runs structured, mentor-reviewed internship programs across 11 disciplines: Full Stack, Frontend, Backend, Python, Java, Mobile Apps, UI/UX, Cybersecurity, IoT, AI/ML, and Data Science.
+- [Apply for Internships](https://ecotechservices.tech/internships)
+
+EOT;
         exit;
     }
 }

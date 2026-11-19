@@ -12,6 +12,7 @@ live_pages/*
 # Editor & third-party tooling
 .vscode/
 .agents/
+.freebuff/
 
 # Candidate resumes are personal data — never commit them.
 # Keep the directory (and its deny rules) but not its contents.

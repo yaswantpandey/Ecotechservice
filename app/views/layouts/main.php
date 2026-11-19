@@ -632,7 +632,7 @@
             <li><a href="<?= url('projects') ?>">Work</a></li>
             <li><a href="<?= url('blog') ?>">Journal</a></li>
             <li><a href="<?= url('internships') ?>">Internships</a></li>
-            <li><a href="<?= url('events/hack2skill-x-sudarshan') ?>">Events</a></li>
+            <li><a href="<?= url('events') ?>">Events</a></li>
             <li><a href="<?= url('search') ?>">Search</a></li>
           </ul>
         </div>
