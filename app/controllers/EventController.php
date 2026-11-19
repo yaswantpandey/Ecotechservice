@@ -65,6 +65,7 @@ class EventController extends BaseController {
             'banner_image'      => 'https://h2svision.github.io/publicAssets/vision/community-prompt-wars/promptwars-banner-image.webp',
             'logo_image'        => 'https://h2svision.github.io/publicAssets/vision/community-prompt-wars/pwc_logo.webp',
             'sudarshan_logo'    => 'https://storage.googleapis.com/vision-hack2skill-production/innovator/USER01806912/1794994610931-Sudarshan.webp',
+            'thumbnail_image'   => 'https://storage.googleapis.com/vision-hack2skill-production/innovator/USER01806912/1794997653836-Sudarshan.webp',
         ];
 
         $tracks = [
@@ -224,28 +225,49 @@ class EventController extends BaseController {
 
         $partners = [
             [
-                'name'  => 'Ecotech Services',
-                'role'  => 'Technical & Mentorship Partner',
-                'url'   => 'https://ecotechservices.tech',
-                'image' => 'https://storage.googleapis.com/vision-hack2skill-production/innovator/USER01806912/1793781552253-Screenshot20261104140846.webp',
+                'name'        => 'Google for Developers',
+                'tier'        => 'Ecosystem & Technology Partner',
+                'badge'       => 'Global Partner',
+                'role'        => 'AI Tooling & Cloud Ecosystem',
+                'url'         => 'https://developers.google.com',
+                'image'       => 'https://h2svision.github.io/publicAssets/vision/community-prompt-wars/pwc_partner_2.webp',
+                'description' => 'Providing developer tools, AI ecosystem enablement, and global hackathon resources powering PromptWars initiatives nationwide.',
             ],
             [
-                'name'  => 'Hack2Skill',
-                'role'  => 'Platform Partner',
-                'url'   => 'https://hack2skill.com',
-                'image' => 'https://h2svision.github.io/publicAssets/vision/community-prompt-wars/pwc_partners_1.webp',
+                'name'        => 'Ecotech Services',
+                'tier'        => 'Co-Host & Technical Mentorship Partner',
+                'badge'       => 'Co-Host',
+                'role'        => 'Technical Jury & Architecture Mentorship',
+                'url'         => 'https://ecotechservices.tech',
+                'image'       => 'https://storage.googleapis.com/vision-hack2skill-production/innovator/USER01806912/1793781552253-Screenshot20261104140846.webp',
+                'description' => 'Technical co-host evaluating system designs, leading the grand jury panel, providing live engineering mentorship, and awarding fast-track internship tracks to top builders.',
             ],
             [
-                'name'  => 'Google for Developers',
-                'role'  => 'Ecosystem Partner',
-                'url'   => 'https://developers.google.com',
-                'image' => 'https://h2svision.github.io/publicAssets/vision/community-prompt-wars/pwc_partner_2.webp',
+                'name'        => 'Hack2Skill',
+                'tier'        => 'Platform & Operations Partner',
+                'badge'       => 'Platform',
+                'role'        => 'Hackathon Portal & Digital Credentialing',
+                'url'         => 'https://hack2skill.com',
+                'image'       => 'https://h2svision.github.io/publicAssets/vision/community-prompt-wars/pwc_partners_1.webp',
+                'description' => 'Empowering the complete hackathon lifecycle — from participant registration and submission pipelines to rubric-based evaluation and verified digital credential badges.',
             ],
             [
-                'name'  => 'Major League Hacking (MLH)',
-                'role'  => 'Community Partner',
-                'url'   => 'https://www.mlh.com/',
-                'image' => 'https://storage.googleapis.com/vision-hack2skill-production/innovator/USER01806912/1794816025837-Screenshot20261116132943.webp',
+                'name'        => 'Major League Hacking (MLH)',
+                'tier'        => 'Global Community Partner',
+                'badge'       => 'Community',
+                'role'        => 'Global Hacker Ecosystem & Culture',
+                'url'         => 'https://www.mlh.com/',
+                'image'       => 'https://storage.googleapis.com/vision-hack2skill-production/innovator/USER01806912/1794816025837-Screenshot20261116132943.webp',
+                'description' => 'Supporting hacker communities worldwide, fostering competitive coding spirit, and connecting participants with international developer opportunities.',
+            ],
+            [
+                'name'        => 'Sudarshana',
+                'tier'        => 'Host & Organizing Community',
+                'badge'       => 'Title Host',
+                'role'        => 'Community Leadership & Curation',
+                'url'         => 'https://hack2skill.com/event/promptwars-x-sudarshan',
+                'image'       => 'https://storage.googleapis.com/vision-hack2skill-production/innovator/USER01806912/1794994610931-Sudarshan.webp',
+                'description' => 'The visionary community organizing PromptWars × Sudarshan to cultivate top developer talent in generative AI, prompt crafting, and vibe-coding.',
             ],
         ];
 

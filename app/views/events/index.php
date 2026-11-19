@@ -84,7 +84,19 @@
             <span class="s-mono s-mute" style="font-size:0.85rem">VIBE CODING &amp; AI SPRINT</span>
           </div>
 
-          <h3 class="s-h1 mt-4">
+          <!-- Event Brand Logos Badge -->
+          <div class="flex items-center gap-3 mt-4 mb-3 flex-wrap">
+            <div class="flex items-center gap-2.5 p-2 px-3 rounded-lg" style="background:rgba(255,255,255,0.05);border:1px solid var(--line);display:inline-flex">
+              <img src="https://h2svision.github.io/publicAssets/vision/community-prompt-wars/pwc_logo.webp" alt="PromptWars Logo" style="height:32px;width:auto;object-fit:contain" loading="lazy">
+              <span class="s-mono s-mute" style="font-size:1.1rem">&times;</span>
+              <img src="https://storage.googleapis.com/vision-hack2skill-production/innovator/USER01806912/1794994610931-Sudarshan.webp" alt="Sudarshan Logo" style="height:32px;width:auto;object-fit:contain;border-radius:3px" loading="lazy">
+            </div>
+            <span class="s-tag" style="background:rgba(110,231,183,0.1);color:#6ee7b7;font-size:0.75rem">
+              National Edition
+            </span>
+          </div>
+
+          <h3 class="s-h1 mt-2">
             <a href="<?= url('events/promptwars-x-sudarshan') ?>" style="text-decoration:none">
               PromptWars &times; Sudarshan
             </a>
@@ -105,6 +117,29 @@
               <span class="s-tag">Adaptive AI Tutor</span>
               <span class="s-tag">Fake News &amp; Deepfake Verifier</span>
               <span class="s-tag">Open Innovation</span>
+            </div>
+          </div>
+
+          <!-- Sponsors / Ecosystem Badges -->
+          <div class="mt-8">
+            <p class="s-eyebrow" style="margin-bottom:0.75rem">Ecosystem Partners &amp; Sponsors</p>
+            <div class="flex items-center gap-6 flex-wrap">
+              <a href="https://developers.google.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2" style="text-decoration:none;opacity:0.85" title="Google for Developers">
+                <img src="https://h2svision.github.io/publicAssets/vision/community-prompt-wars/pwc_partner_2.webp" alt="Google for Developers" style="height:26px;width:auto;object-fit:contain" loading="lazy">
+                <span class="s-mono s-mute" style="font-size:0.8rem">Google for Devs</span>
+              </a>
+              <a href="<?= url('') ?>" class="flex items-center gap-2" style="text-decoration:none;opacity:0.85" title="Ecotech Services">
+                <img src="https://storage.googleapis.com/vision-hack2skill-production/innovator/USER01806912/1793781552253-Screenshot20261104140846.webp" alt="Ecotech Services" style="height:26px;width:auto;object-fit:contain;border-radius:3px" loading="lazy">
+                <span class="s-mono s-mute" style="font-size:0.8rem">Ecotech</span>
+              </a>
+              <a href="https://hack2skill.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2" style="text-decoration:none;opacity:0.85" title="Hack2Skill">
+                <img src="https://h2svision.github.io/publicAssets/vision/community-prompt-wars/pwc_partners_1.webp" alt="Hack2Skill" style="height:26px;width:auto;object-fit:contain" loading="lazy">
+                <span class="s-mono s-mute" style="font-size:0.8rem">Hack2Skill</span>
+              </a>
+              <a href="https://www.mlh.com/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-2" style="text-decoration:none;opacity:0.85" title="Major League Hacking">
+                <img src="https://storage.googleapis.com/vision-hack2skill-production/innovator/USER01806912/1794816025837-Screenshot20261116132943.webp" alt="Major League Hacking" style="height:26px;width:auto;object-fit:contain;border-radius:3px" loading="lazy">
+                <span class="s-mono s-mute" style="font-size:0.8rem">MLH</span>
+              </a>
             </div>
           </div>
 

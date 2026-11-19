@@ -19,6 +19,18 @@ $dateRange  = date('j', strtotime($event['starts'])) . ' – ' . $endLabel;
 
     <div class="s-grid mt-8">
       <div style="grid-column:span 8" data-reveal>
+        <!-- Event Brand Logos Badge -->
+        <div class="flex items-center gap-4 mb-6 flex-wrap">
+          <div class="flex items-center gap-3 p-2 px-3.5 rounded-xl" style="background:rgba(255,255,255,0.05);border:1px solid var(--line);backdrop-filter:blur(8px)">
+            <img src="<?= Security::e($event['logo_image']) ?>" alt="PromptWars Official Logo" style="height:38px;width:auto;object-fit:contain" loading="eager">
+            <span class="s-mono s-mute" style="font-size:1.15rem">&times;</span>
+            <img src="<?= Security::e($event['sudarshan_logo']) ?>" alt="Sudarshan Community Logo" style="height:38px;width:auto;object-fit:contain;border-radius:4px" loading="eager">
+          </div>
+          <span class="s-tag" style="background:rgba(110,231,183,0.12);color:#6ee7b7;border-color:rgba(110,231,183,0.3);font-size:0.85rem">
+            ● Official Hack2Skill Community Edition
+          </span>
+        </div>
+
         <p class="s-eyebrow">National AI Hackathon &middot; <?= Security::e($dateRange) ?></p>
         <h1 class="s-display mt-4"><?= Security::e($event['name']) ?></h1>
         <p class="s-lede mt-6"><?= Security::e($event['tagline']) ?></p>
@@ -33,6 +45,7 @@ $dateRange  = date('j', strtotime($event['starts'])) . ' – ' . $endLabel;
           </a>
           <?php endif; ?>
           <a href="#tracks" class="s-btn--line">Explore Challenges</a>
+          <a href="#sponsors" class="s-btn--line">Sponsors &amp; Partners</a>
         </div>
         
         <div class="flex items-center gap-3 flex-wrap mt-5">
@@ -50,6 +63,12 @@ $dateRange  = date('j', strtotime($event['starts'])) . ' – ' . $endLabel;
 
       <aside style="grid-column:span 4" class="mt-8 lg:mt-0" data-reveal>
         <div class="s-panel s-panel--deep">
+          <?php if (!empty($event['banner_image'])): ?>
+          <div class="mb-5 overflow-hidden rounded-lg" style="border:1px solid var(--line);background:#000">
+            <img src="<?= Security::e($event['banner_image']) ?>" alt="<?= Security::e($event['name']) ?> Official Banner" style="width:100%;height:auto;display:block" loading="eager">
+          </div>
+          <?php endif; ?>
+
           <p class="s-eyebrow">Event Specifications</p>
           <dl class="s-kv mt-4">
             <div>
@@ -106,22 +125,58 @@ $dateRange  = date('j', strtotime($event['starts'])) . ' – ' . $endLabel;
   </div>
 </section>
 
-<!-- ── PARTNERS & ECOSYSTEM ─────────────────────────────────── -->
+<!-- ── SPONSORS & ECOSYSTEM PARTNERS ───────────────────────── -->
 <?php if (!empty($partners)): ?>
-<section class="s-sec" style="padding-top:2rem;padding-bottom:2rem;border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
+<section class="s-sec" id="sponsors" style="background:rgba(255,255,255,0.015);border-top:1px solid var(--line);border-bottom:1px solid var(--line)">
   <div class="s-shell">
-    <p class="s-eyebrow text-center mb-6">Organizers, Ecosystem &amp; Platform Partners</p>
-    <div class="flex items-center justify-center gap-8 lg:gap-14 flex-wrap">
+    <div class="s-grid mb-10">
+      <div style="grid-column:span 6" data-reveal>
+        <p class="s-eyebrow">Ecosystem, Sponsors &amp; Partners</p>
+        <h2 class="s-h2 mt-3">Powered by leading AI &amp; developer ecosystems</h2>
+      </div>
+      <div style="grid-column:span 6" class="flex items-end justify-start lg:justify-end" data-reveal>
+        <p class="s-mute" style="max-width:48ch">
+          PromptWars &times; Sudarshan unites global tech giants, technical mentors, competitive hacker platforms, and community innovators to power India's premier prompt engineering challenge.
+        </p>
+      </div>
+    </div>
+
+    <!-- Sponsor Cards Grid -->
+    <div class="s-grid lg:grid-cols-3 gap-6" data-reveal>
       <?php foreach ($partners as $partner): ?>
-      <a href="<?= Security::e($partner['url']) ?>" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3" style="text-decoration:none;opacity:0.85;transition:opacity 0.2s" onmouseover="this.style.opacity='1'" onmouseout="this.style.opacity='0.85'">
-        <?php if (!empty($partner['image'])): ?>
-        <img src="<?= Security::e($partner['image']) ?>" alt="<?= Security::e($partner['name']) ?>" style="height:36px;width:auto;object-fit:contain;border-radius:4px" loading="lazy">
-        <?php endif; ?>
+      <article class="s-panel s-panel--deep flex flex-col justify-between" style="padding:2rem">
         <div>
-          <span style="font-weight:600;font-size:0.95rem;color:var(--fg);display:block"><?= Security::e($partner['name']) ?></span>
-          <span class="s-mono s-mute" style="font-size:0.75rem"><?= Security::e($partner['role']) ?></span>
+          <!-- Logo & Tier Badge -->
+          <div class="flex items-center justify-between gap-4 mb-5 pb-4" style="border-bottom:1px solid var(--line)">
+            <div class="flex items-center justify-center p-2 rounded-lg" style="background:rgba(255,255,255,0.06);min-width:64px;min-height:48px;border:1px solid var(--line)">
+              <?php if (!empty($partner['image'])): ?>
+              <img src="<?= Security::e($partner['image']) ?>" alt="<?= Security::e($partner['name']) ?> Logo" style="max-height:36px;max-width:110px;object-fit:contain" loading="lazy">
+              <?php else: ?>
+              <span class="s-num" style="font-size:0.9rem"><?= Security::e(substr($partner['name'], 0, 2)) ?></span>
+              <?php endif; ?>
+            </div>
+            <span class="s-tag" style="background:rgba(110,231,183,0.1);color:#6ee7b7;border-color:rgba(110,231,183,0.25);font-size:0.75rem">
+              <?= Security::e($partner['badge'] ?? 'Partner') ?>
+            </span>
+          </div>
+
+          <h3 class="s-h3" style="font-size:1.15rem"><?= Security::e($partner['name']) ?></h3>
+          <p class="s-mono s-mute mt-1" style="font-size:0.8rem"><?= Security::e($partner['tier']) ?></p>
+
+          <p class="mt-4" style="font-size:0.925rem;line-height:1.6;color:var(--mute)">
+            <?= Security::e($partner['description']) ?>
+          </p>
         </div>
-      </a>
+
+        <div class="mt-6 pt-4 flex items-center justify-between" style="border-top:1px solid var(--line)">
+          <span class="s-mono s-mute" style="font-size:0.75rem"><?= Security::e($partner['role']) ?></span>
+          <?php if (!empty($partner['url'])): ?>
+          <a href="<?= Security::e($partner['url']) ?>" target="_blank" rel="noopener noreferrer" class="s-link" style="font-size:0.85rem">
+            Official Site &rarr;
+          </a>
+          <?php endif; ?>
+        </div>
+      </article>
       <?php endforeach; ?>
     </div>
   </div>
